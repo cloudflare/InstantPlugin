@@ -1,0 +1,5 @@
+default:
+  root: "site-deploy"
+
+production:
+  bucket: "instantplugin.com"
