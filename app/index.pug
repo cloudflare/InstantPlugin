@@ -1,0 +1,29 @@
+doctype html
+html(lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml")
+  head
+    title= htmlWebpackPlugin.options.title
+
+    link(rel="shortcut icon" href=require("./assets/favicon.png") type="image/x-icon")
+
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, user-scalable=no")
+    meta(property="og:title" content=htmlWebpackPlugin.options.title)
+    meta(property="og:type" content="website")
+    meta(property="og:url" content="http://instantwordpress.com")
+    meta(property="og:description" content=htmlWebpackPlugin.options.description)
+    meta(name="description" content=htmlWebpackPlugin.options.description)
+
+  body
+    main(data-flow="column")
+      noscript.slide.no-js-info
+        p This website requires JavaScript to retrieve content.
+        p: a(href="http://enable-javascript.com", target="_blank") How to enable JavaScript.
+
+      #app.slide.full
+
+
+      .slide.made-by
+        .label Made by
+
+        a.logo-link.without-underline(href="https://eager.io")
+          != require("./assets/eager-logo.svg")

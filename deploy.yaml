@@ -2,4 +2,4 @@ default:
   root: "site-deploy"
 
 production:
-  bucket: "instantplugin.com"
+  bucket: "instantwordpress.com"
