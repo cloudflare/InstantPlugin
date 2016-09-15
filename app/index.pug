@@ -14,13 +14,12 @@ html(lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/20
     meta(name="description" content=htmlWebpackPlugin.options.description)
 
   body
-    main(data-flow="column")
+    div(data-flow="column")
       noscript.slide.no-js-info
         p This website requires JavaScript to retrieve content.
         p: a(href="http://enable-javascript.com", target="_blank") How to enable JavaScript.
 
       #app.slide.full
-
 
       .slide.made-by
         .label Made by
