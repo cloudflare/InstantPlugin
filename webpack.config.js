@@ -12,7 +12,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const marked = require("marked")
 const autoprefixer = require("autoprefixer")
 
-const API_BASE = `${api.protocol}://${api.hostname}${api.PORT_POSTFIX}`
+const API_BASE = `${api.protocol}://${api.hostname}${api.port ? ":" + api.port : ""}`
 const exclude = /node_modules/
 
 const renderer = new marked.Renderer()
