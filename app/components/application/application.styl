@@ -1,5 +1,6 @@
 @import "./styl/colors"
 @import "./styl/fonts"
+@import "./styl/font-smoothing"
 
 [data-component="application"]
   width 100%
@@ -24,13 +25,15 @@
       height 100%
 
   h1
-    color #fd6e22
+    color brandOrange
+    margin .4em 0 1.25em
 
   @media mobileMaxWidthQuery
     padding-top 4em
     padding-bottom @padding-top
 
   .embed-code-input, .attribute-picker
+    antialiasedFonts()
     display block
     font-family monospaceFonts
     color inherit
@@ -39,7 +42,8 @@
     padding .8em 1em
     border-radius .75em
     resize none
-    min-height 20em
+    min-height 18.75em
+    line-height 1.6
     width 100%
     box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
 
@@ -47,7 +51,7 @@
       outline none
 
   .steps
-    width 32em
+    width 37em
     min-height 20em
     position relative
 
@@ -62,7 +66,9 @@
 
       p
         text-align center
-        font-size 1.125em
+        font-size 1.25em
+        font-weight 300
+        margin 0 0 1em
 
     .step-buttons
       display block
@@ -91,18 +97,21 @@
     word-wrap break-word
 
     [data-entity-id]
-      background-color lightGrayRGBA
+      background lightGrayRGBA
       border 1px solid lightGray
       border-radius 1em
       cursor pointer
-      line-height 1.8
       padding 0 .5em
 
       &:hover
         border-color darkGray
 
       &.tracked
-        background-color #e6db74
+        background brandOrange
+        background #fff
+
+        &, &:hover
+          border-color brandOrange
 
   .made-by
     display block
