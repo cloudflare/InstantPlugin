@@ -1,3 +1,4 @@
+@import "styl/colors"
 @import "styl/fonts"
 @import "styl/font-smoothing"
 @import "styl/media-query-variables"
@@ -32,13 +33,6 @@
   &:hover
     text-decoration none
 
-  &[disabled]
-    opacity .7
-    cursor default
-
-    &, &:hover, &:focus, &:focus:hover
-      box-shadow none !important
-
   &, &:hover
     box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
 
@@ -57,18 +51,28 @@
       right 2px
       bottom 2px
       left 2px
-      border-radius .25em
-      box-shadow inset 0 0 0 1px #888
+      border-radius .125em
+      box-shadow inset 0 0 0 1px currentColor
       pointer-events none
+      opacity .5
       transition opacity .3s ease-in-out
 
     &:active::before
       opacity 0
 
-  &.primary
+  &.secondary
     background #fff
     color currentColor
 
-    &[disabled]
-      background #ccc
-      color #888
+  &.primary
+    background brandOrange
+    color #fff
+
+  &[disabled]
+    background #ccc
+    color #888
+    opacity .7
+    cursor default
+
+    &, &:hover, &:focus, &:focus:hover
+      box-shadow none !important
