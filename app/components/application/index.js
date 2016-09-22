@@ -37,7 +37,7 @@ export default class Application extends BaseComponent {
   m.parentNode.insertBefore(a, m);
   })();
 </script>`
-    embedCodeInput.value = ""
+    // embedCodeInput.value = ""
     this.parseInput()
 
     createPluginButton.addEventListener("click", this.createPlugin)
