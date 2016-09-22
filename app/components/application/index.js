@@ -8,6 +8,7 @@ import uniqueID from "lib/unique-id"
 import {postJson} from "simple-fetch"
 
 const ENTITY_ID = "data-entity-id"
+const TYPE_PATTERN = /hljs-([\S]*)/
 
 export default class Application extends BaseComponent {
   static template = template;
@@ -53,10 +54,16 @@ export default class Application extends BaseComponent {
   createPlugin() {
     const trackedIDs = this.getTrackedEntitiesIDs()
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
+    const schemaOptions = {}
 
-    trackedIDs.forEach(id => {
+    trackedIDs.forEach((id, order) => {
+      schemaOptions[id] = {
+        order,
+        type: this.entities[id].type
+      }
+
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
-      const schemaFiller = document.createTextNode(`OPTIONS["${id}"]`)
+      const schemaFiller = document.createTextNode(`INSTALL_OPTIONS["${id}"]`)
 
       current.parentNode.insertBefore(schemaFiller, current)
       current.parentNode.removeChild(current)
@@ -65,9 +72,10 @@ export default class Application extends BaseComponent {
     const embedCode = embedCodeDOM.textContent
 
     console.log(embedCode)
+    console.log(schemaOptions)
 
     // TODO: flesh out
-    postJson(`${API_BASE}/instant-plugin`, {embedCode})
+    postJson(`${API_BASE}/instant-plugin`, {embedCode, schemaOptions})
       .then(response => console.log(response))
       .catch(error => console.error(error))
   }
@@ -91,8 +99,9 @@ export default class Application extends BaseComponent {
       .from(attributePicker.querySelectorAll(".hljs-string, .hljs-number"))
       .forEach((element, order) => {
         const id = uniqueID()
+        const [, type] = element.className.match(TYPE_PATTERN)
 
-        this.entities[id] = {order, tracked: false}
+        this.entities[id] = {order, tracked: false, type}
 
         element.setAttribute(ENTITY_ID, id)
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
