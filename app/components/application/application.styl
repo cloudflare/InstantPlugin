@@ -2,6 +2,13 @@
 @import "./styl/fonts"
 @import "./styl/font-smoothing"
 
+@keyframes highlight-borders
+  0%, 100%
+    border-color lightGray
+
+  25%, 50%, 75%
+    border-color brandOrange
+
 [data-component="application"]
   width 100%
   position relative
@@ -91,12 +98,17 @@
       opacity 0
 
   .attribute-picker
+    cursor default
     overflow-wrap break-word
+    user-select none
     white-space pre-wrap
     word-break break-word
     word-wrap break-word
 
     [data-entity-id]
+      animation highlight-borders 2s ease-in-out
+      animation-delay 1.8s
+      animation-fill-mode forwards
       background lightGrayRGBA
       border 1px solid lightGray
       border-radius 1em
@@ -107,7 +119,7 @@
         border-color darkGray
 
       &.tracked
-        background brandOrange
+        animation none
         background #fff
 
         &, &:hover
