@@ -1,2 +1,14 @@
-main(data-component="application")
-  p Hello world!
+main(data-component="application" data-flow="column")
+  h1 Instant Plugin
+  p Paste your embed code below
+
+  textarea.embed-code-input(data-ref="embedCodeInput")
+
+  .attribute-picker(data-ref="attributePicker")
+
+  .attribute-list(data-ref="attributeList")
+
+  footer
+    button.button.primary(data-ref="createPluginButton") Create Plugin
+
+

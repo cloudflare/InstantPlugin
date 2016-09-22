@@ -1,4 +1,7 @@
 @import "~normalize.css/normalize.css"
+@import "~highlight.js/styles/vs.css"
+@import "./styl/buttons"
+@import "./styl/fonts"
 @import "./styl/font-smoothing"
 
 *, *::after, *::before
@@ -11,10 +14,15 @@ html, body
   height 100%
 
 body
+  font-family sansSerifFonts
   font-size baseFontSize
 
 div, footer, header, main, section
   display flex
+
+[contenteditable]
+  div, footer, header, section
+    display block
 
 [data-flow="column"]
   flex-flow column nowrap

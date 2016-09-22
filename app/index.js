@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const application = new Application(document.getElementById("app"))
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV !== "production") {
     window.application = application
   }
 })

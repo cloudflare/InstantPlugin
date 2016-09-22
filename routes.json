@@ -1,0 +1,26 @@
+{
+  "views": {
+    "development": {
+      "hostname": "0.0.0.0",
+      "port": 9003,
+      "protocol": "http"
+    },
+    "production": {
+      "hostname": "instantwordpressplugin.com",
+      "port": "",
+      "protocol": "http"
+    }
+  },
+  "api": {
+    "development": {
+      "hostname": "0.0.0.0",
+      "port": 9003,
+      "protocol": "http"
+    },
+    "production": {
+      "hostname": "api.eager.io",
+      "port": "",
+      "protocol": "https"
+    }
+  }
+}

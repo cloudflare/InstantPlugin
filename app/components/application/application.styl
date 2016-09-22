@@ -1,0 +1,35 @@
+@import "./styl/colors"
+@import "./styl/fonts"
+
+[data-component="application"]
+  align-items center
+  height 100%
+  width 100%
+
+  .embed-code-input, .attribute-picker
+    display block
+    font-family monospaceFonts
+    border 1px solid black
+    min-height 10em
+    width 32em
+
+
+  .attribute-picker
+    overflow-wrap break-word
+    white-space pre-wrap
+    word-break break-word
+    word-wrap break-word
+
+    [data-entity-id]
+      background-color lightGrayRGBA
+      border 1px solid lightGray
+      border-radius 1em
+      cursor pointer
+      line-height 1.8
+      padding 0 .5em
+
+      &:hover
+        border-color darkGray
+
+      &.tracked
+        background-color #e6db74

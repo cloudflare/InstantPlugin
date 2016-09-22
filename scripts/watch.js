@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-const {hostname, port, protocol} = require("../package.json").routes.development
+const {hostname, port, protocol} = require("../routes.json").views.development
 const webpack = require("webpack")
 const WebpackDevServer = require("webpack-dev-server")
 const config = require("../webpack.config.js")

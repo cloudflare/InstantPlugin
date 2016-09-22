@@ -3,13 +3,16 @@
 
 const ENVIRONMENT = process.env.NODE_ENV || "development"
 const {resolve} = require("path")
-const {description, routes, version} = require("./package.json")
-const {port} = routes[ENVIRONMENT]
+const {description, version} = require("./package.json")
+const routes = require("./routes.json")
+const api = routes.api[ENVIRONMENT]
+const views = routes.views[ENVIRONMENT]
 const webpack = require("webpack")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const marked = require("marked")
 const autoprefixer = require("autoprefixer")
 
+const API_BASE = `${api.protocol}://${api.hostname}${api.PORT_POSTFIX}`
 const exclude = /node_modules/
 
 const renderer = new marked.Renderer()
@@ -34,6 +37,7 @@ $.output = {
 $.plugins = [
   new webpack.NoErrorsPlugin(),
   new webpack.DefinePlugin({
+    API_BASE: JSON.stringify(API_BASE),
     VERSION: JSON.stringify(version),
     "process.env.NODE_ENV": JSON.stringify(ENVIRONMENT)
   }),
@@ -73,7 +77,7 @@ if (ENVIRONMENT === "development") {
     test: /\.js$/
   }]
 
-  const devServerClient = `webpack-dev-server/client?http://0.0.0.0:${port}`
+  const devServerClient = `webpack-dev-server/client?http://0.0.0.0:${views.port}`
 
   if (Array.isArray($.entry)) {
     $.entry.unshift(devServerClient)

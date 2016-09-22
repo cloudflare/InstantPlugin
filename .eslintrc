@@ -6,6 +6,7 @@
   "extends": "eslint:recommended",
   "ecmaVersion": 7,
   "globals": {
+    "API_BASE": "null",
     "process": null,
     "VERSION": null
   },
