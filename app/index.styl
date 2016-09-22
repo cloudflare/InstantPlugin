@@ -9,7 +9,17 @@
 
 baseFontSize = 16px
 
+html
+  antialiasedFonts()
+  background #eee
+  color #444
+
 html, body
+  width 100%
+  min-height 100vh
+
+svg
+  display block
   width 100%
   height 100%
 
@@ -26,52 +36,3 @@ div, footer, header, main, section
 
 [data-flow="column"]
   flex-flow column nowrap
-
-.slide
-  align-items center
-  flex-flow column nowrap
-  justify-content center
-  padding-top 8em
-  padding-bottom @padding-top
-  position relative
-  line-height 1.5
-  background #fff
-
-  @media mobileMaxWidthQuery
-    padding-top 4em
-    padding-bottom @padding-top
-
-  &.full
-    min-height 100vh
-
-  &.padded
-    padding-left 3em
-    padding-right @padding-left
-
-.slide.made-by
-  antialiasedFonts()
-  background siteDocsBackgroundColor
-  color siteDocsColor
-  padding-top 0 !important
-
-  .label
-    font-size .9em
-    font-weight 100
-    text-transform uppercase
-    letter-spacing .1em
-    text-indent @letter-spacing
-    margin-bottom 1em
-    opacity .5
-
-  .logo-link
-    display block
-    width 9em
-    height 4em
-    color siteDocsLinkColor
-
-    > svg
-      height 100%
-      width 100%
-
-      path
-        fill currentColor

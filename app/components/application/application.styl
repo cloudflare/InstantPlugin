@@ -2,17 +2,87 @@
 @import "./styl/fonts"
 
 [data-component="application"]
-  align-items center
-  height 100%
   width 100%
+  position relative
+  z-index 2
+  align-items center
+  flex-flow column nowrap
+  justify-content center
+  padding-top 3em
+  padding-bottom @padding-top
+  position relative
+  line-height 1.5
+  min-height 100vh
+
+  .logo-link
+    width 60px
+    max-width 100%
+
+    > svg
+      display block
+      width 100%
+      height 100%
+
+  h1
+    color #fd6e22
+
+  @media mobileMaxWidthQuery
+    padding-top 4em
+    padding-bottom @padding-top
 
   .embed-code-input, .attribute-picker
     display block
     font-family monospaceFonts
-    border 1px solid black
-    min-height 10em
-    width 32em
+    color inherit
+    background #fff
+    border 0
+    padding .8em 1em
+    border-radius .75em
+    resize none
+    min-height 20em
+    width 100%
+    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
 
+    &:focus
+      outline none
+
+  .steps
+    width 32em
+    min-height 20em
+    position relative
+
+    .step
+      position relative
+      display block
+      width 100%
+      margin auto
+      transition transform .3s ease, opacity .3s ease
+      transform translate3d(0, 0, 0)
+      opacity 1
+
+      p
+        text-align center
+        font-size 1.125em
+
+    .step-buttons
+      display block
+      margin-top 2em
+      text-align center
+
+      button + button
+        margin-left 1em
+
+    &[data-active-step="embed-code"] .attribute-step
+      pointer-events none
+      position absolute
+      transform translate3d(5em, 0, 0)
+      opacity 0
+
+    &[data-active-step="attribute"] .embed-code-step
+      pointer-events none
+      position absolute
+      transform translate3d(-5em, 0, 0)
+      opacity 0
 
   .attribute-picker
     overflow-wrap break-word
@@ -33,3 +103,33 @@
 
       &.tracked
         background-color #e6db74
+
+  .made-by
+    display block
+    text-align center
+    margin 4em auto 0
+    width 20em
+    max-width 100%
+
+    .label
+      display block
+      font-size .7em
+      font-weight 100
+      text-transform uppercase
+      letter-spacing .1em
+      text-indent @letter-spacing
+      margin-bottom 1em
+      opacity .3
+
+    .logo-link
+      color inherit
+      display block
+      width 6em
+      height 3em
+      margin auto
+
+      &:not(:hover)
+        opacity .3
+
+      path
+        fill currentColor

@@ -21,7 +21,7 @@ export default class Application extends BaseComponent {
     })
 
     const element = this.compileTemplate()
-    const {embedCodeInput, createPluginButton} = this.refs
+    const {stepsContainer, embedCodeInput, createPluginButton, nextButton, backButton} = this.refs
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     mountPoint.appendChild(element)
@@ -37,9 +37,16 @@ export default class Application extends BaseComponent {
   m.parentNode.insertBefore(a, m);
   })();
 </script>`
+    embedCodeInput.value = ""
     this.parseInput()
 
     createPluginButton.addEventListener("click", this.createPlugin)
+    nextButton.addEventListener("click", () => stepsContainer.setAttribute("data-active-step", "attribute"))
+    backButton.addEventListener("click", () => {
+      stepsContainer.setAttribute("data-active-step", "embed-code")
+      embedCodeInput.select()
+      embedCodeInput.focus()
+    })
   }
 
   @autobind
@@ -110,8 +117,9 @@ export default class Application extends BaseComponent {
   }
 
   syncButtonState() {
-    const {createPluginButton} = this.refs
+    const {embedCodeInput, createPluginButton, nextButton} = this.refs
 
+    nextButton.disabled = embedCodeInput.value.length === 0
     createPluginButton.disabled = this.getTrackedEntitiesIDs().length === 0
   }
 

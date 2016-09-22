@@ -1,14 +1,30 @@
 main(data-component="application" data-flow="column")
+  a.logo-link
+    != require("../../assets/logo.svg")
+
   h1 Instant Plugin
-  p Paste your embed code below
 
-  textarea.embed-code-input(data-ref="embedCodeInput")
+  .steps(data-active-step="embed-code" data-ref="stepsContainer")
+    .step.embed-code-step
+      p Paste your embed code below:
 
-  .attribute-picker(data-ref="attributePicker")
+      textarea.embed-code-input(data-ref="embedCodeInput")
 
-  .attribute-list(data-ref="attributeList")
+      .step-buttons
+        button.button.primary.next(data-ref="nextButton") Next
 
-  footer
-    button.button.primary(data-ref="createPluginButton") Create Plugin
+    .step.attribute-step
+      p Select the parts of the embed code to make dynamic:
 
+      .attribute-picker(data-ref="attributePicker")
+      .attribute-list(data-ref="attributeList")
 
+      .step-buttons
+        button.button.primary.transparent(data-ref="backButton") Back
+        button.button.primary(data-ref="createPluginButton") Create Plugin
+
+  .made-by
+    .label Made by
+
+    a.logo-link(href="https://eager.io")
+      != require("../../assets/eager-logo.svg")
