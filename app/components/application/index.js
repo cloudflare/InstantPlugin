@@ -21,7 +21,7 @@ export default class Application extends BaseComponent {
     })
 
     const element = this.compileTemplate()
-    const {stepsContainer, embedCodeInput, createPluginButton, nextButton, backButton} = this.refs
+    const {stepsContainer, embedCodeInput, createPluginButton, nextButton, previousButton} = this.refs
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     mountPoint.appendChild(element)
@@ -42,7 +42,7 @@ export default class Application extends BaseComponent {
 
     createPluginButton.addEventListener("click", this.createPlugin)
     nextButton.addEventListener("click", () => stepsContainer.setAttribute("data-active-step", "attribute"))
-    backButton.addEventListener("click", () => {
+    previousButton.addEventListener("click", () => {
       stepsContainer.setAttribute("data-active-step", "embed-code")
       embedCodeInput.select()
       embedCodeInput.focus()

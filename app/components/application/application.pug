@@ -8,7 +8,9 @@ main(data-component="application" data-flow="column")
     .step.embed-code-step
       p Paste your embed code below:
 
-      textarea.embed-code-input(data-ref="embedCodeInput")
+      textarea.embed-code-input(
+        data-ref="embedCodeInput"
+        placeholder="<script>\n...\n</script>")
 
       .step-buttons
         button.button.secondary.next(data-ref="nextButton") Next
@@ -20,7 +22,7 @@ main(data-component="application" data-flow="column")
       .attribute-list(data-ref="attributeList")
 
       .step-buttons
-        button.button.secondary.transparent(data-ref="backButton") Back
+        button.button.secondary.transparent(data-ref="previousButton") Back
         button.button.primary(data-ref="createPluginButton") Create Plugin
 
   .made-by
