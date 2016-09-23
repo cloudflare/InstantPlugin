@@ -8,6 +8,7 @@ import uniqueID from "lib/unique-id"
 import {postJson} from "simple-fetch"
 
 const ENTITY_ID = "data-entity-id"
+const ENTITY_ORDER = "data-entity-order"
 const TYPE_PATTERN = /hljs-([\S]*)/
 
 export default class Application extends BaseComponent {
@@ -103,6 +104,7 @@ export default class Application extends BaseComponent {
         this.entities[id] = {order, tracked: false, type}
 
         element.setAttribute(ENTITY_ID, id)
+        element.setAttribute(ENTITY_ORDER, order)
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
       })
 
