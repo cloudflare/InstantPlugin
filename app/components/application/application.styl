@@ -2,13 +2,6 @@
 @import "./styl/fonts"
 @import "./styl/font-smoothing"
 
-@keyframes highlight-borders
-  0%, 100%
-    border-color lightGray
-
-  25%, 50%, 75%
-    border-color brandOrange
-
 [data-component="application"]
   width 100%
   position relative
@@ -42,23 +35,31 @@
     antialiasedFonts()
     display block
     font-family monospaceFonts
-    color inherit
-    background #fff
     border 0
-    padding .8em 1em
+    padding .8em 1.125em
     border-radius .75em
     resize none
-    min-height 18.75em
+    min-height 17.3em
     line-height 1.6
     width 100%
+    background #fff
     box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+
+  .embed-code-input
+    color inherit
 
     &:focus
       outline none
 
+  .attribute-picker
+    color mutedTextColor
+
+    .hljs-string, .hljs-number
+      color textColor
+
   .steps
-    width 37em
-    min-height 20em
+    width 40em
+    max-width calc(100vw - 2em)
     position relative
 
     .step
@@ -84,17 +85,35 @@
       button + button
         margin-left 1em
 
-    &[data-active-step="embed-code"] .attribute-step
+    &[data-active-step="embed-code"] .attribute-step, &[data-active-step="attribute"] .embed-code-step
       pointer-events none
       position absolute
-      transform translate3d(5em, 0, 0)
       opacity 0
 
+    &[data-active-step="embed-code"] .attribute-step
+      transform translate3d(5em, 0, 0)
+
     &[data-active-step="attribute"] .embed-code-step
-      pointer-events none
-      position absolute
       transform translate3d(-5em, 0, 0)
-      opacity 0
+
+    &[data-active-step="attribute"] [data-entity-id]
+
+      &::after
+        content ""
+        display block
+        position absolute
+        border-radius 2em
+        top 0
+        right 0
+        bottom 0
+        left 0
+        pointer-events none
+
+      for i in (0..20)
+        &[data-entity-order={'"' + i + '"'}]::after
+          animation highlight-entity 1s ease-in-out
+          animation-fill-mode forwards
+          animation-delay .15s * i
 
   .attribute-picker
     cursor default
@@ -105,24 +124,19 @@
     word-wrap break-word
 
     [data-entity-id]
-      animation highlight-borders 2s ease-in-out
-      animation-delay 1.8s
-      animation-fill-mode forwards
-      background lightGrayRGBA
-      border 1px solid lightGray
-      border-radius 1em
+      position relative
+      border-radius 2em
+      padding .0625em .5em
       cursor pointer
-      padding 0 .5em
+      box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
+      background #eee
 
-      &:hover
-        border-color darkGray
+      &:not(.tracked):hover
+        box-shadow 0 0 0 1px rgba(textColor, .8)
 
       &.tracked
-        animation none
         background #fff
-
-        &, &:hover
-          border-color brandOrange
+        box-shadow 0 0 0 2px brandOrange
 
   .made-by
     display block
@@ -153,3 +167,16 @@
 
       path
         fill currentColor
+
+@keyframes highlight-entity
+  0%
+    box-shadow 0 0 0 1px rgba(brandOrange, 0)
+    animation-timing-function ease-in
+
+  50%
+    box-shadow 0 0 0 3px rgba(brandOrange, .5)
+    animation-timing-function ease-out
+
+  100%
+    box-shadow 0 0 0 5px rgba(brandOrange, 0)
+    animation-timing-function ease-out
