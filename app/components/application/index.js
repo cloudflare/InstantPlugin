@@ -45,7 +45,6 @@ export default class Application extends BaseComponent {
     nextButton.addEventListener("click", () => stepsContainer.setAttribute("data-active-step", "attribute"))
     previousButton.addEventListener("click", () => {
       stepsContainer.setAttribute("data-active-step", "embed-code")
-      embedCodeInput.select()
       embedCodeInput.focus()
     })
   }
