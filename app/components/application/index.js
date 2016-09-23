@@ -4,7 +4,8 @@ import template from "./application.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import {highlight} from "highlight.js"
-import uniqueID from "lib/unique-id"
+// import uniqueID from "lib/unique-id"
+import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 
 const ENTITY_ID = "data-entity-id"
@@ -54,12 +55,15 @@ export default class Application extends BaseComponent {
   createPlugin() {
     const trackedIDs = this.getTrackedEntitiesIDs()
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
-    const schemaOptions = {}
+    const properties = {}
 
     trackedIDs.forEach((id, order) => {
-      schemaOptions[id] = {
+      const entity = this.entities[id]
+
+      properties[id] = {
+        title: entity.title,
         order,
-        type: this.entities[id].type
+        type: entity.type
       }
 
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
@@ -69,15 +73,22 @@ export default class Application extends BaseComponent {
       current.parentNode.removeChild(current)
     })
 
-    const embedCode = embedCodeDOM.textContent
+    const appSchema = createEagerSchema({
+      embedCode: embedCodeDOM.textContent,
+      properties
+    })
 
-    console.log(embedCode)
-    console.log(schemaOptions)
+    console.log(appSchema.resources.body[0].contents)
+
+    // TODO: Remove after testing.
+    eval(appSchema.resources.body[0].contents) // eslint-disable-line no-eval
 
     // TODO: flesh out
-    postJson(`${API_BASE}/instant-plugin`, {embedCode, schemaOptions})
-      .then(response => console.log(response))
-      .catch(error => console.error(error))
+    if (!document) {
+      postJson(`${API_BASE}/instant-plugin`, {appSchema})
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
+    }
   }
 
   getTrackedEntitiesIDs() {
@@ -98,10 +109,11 @@ export default class Application extends BaseComponent {
     Array
       .from(attributePicker.querySelectorAll(".hljs-string, .hljs-number"))
       .forEach((element, order) => {
-        const id = uniqueID()
+        const id = `option_${order + 1}`
+        const title = `Option ${order + 1}`
         const [, type] = element.className.match(TYPE_PATTERN)
 
-        this.entities[id] = {order, tracked: false, type}
+        this.entities[id] = {order, title, tracked: false, type}
 
         element.setAttribute(ENTITY_ID, id)
         element.setAttribute(ENTITY_ORDER, order)

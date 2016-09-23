@@ -2,6 +2,9 @@ import "./index.styl"
 
 import Application from "components/application"
 
+// TODO: remove me after testing
+window.INSTALL_OPTIONS = {option_1: "eagerio"}
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("hello world")
 
