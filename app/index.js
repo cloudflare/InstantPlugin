@@ -7,8 +7,6 @@ document.cookie = "sentry-close-timestamp=; path=/; expires=Thu, 01 Jan 1970 00:
 window.INSTALL_OPTIONS = {option_1: "@NectarNinjaDemo"}
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("hello world")
-
   const application = new Application(document.getElementById("app"))
 
   if (process.env.NODE_ENV !== "production") {
