@@ -4,7 +4,6 @@ import template from "./application.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import {highlight} from "highlight.js"
-// import uniqueID from "lib/unique-id"
 import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 
@@ -66,11 +65,11 @@ export default class Application extends BaseComponent {
         type: entity.type
       }
 
-      const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
-      const schemaFiller = document.createTextNode(`INSTALL_OPTIONS["${id}"]`)
 
-      current.parentNode.insertBefore(schemaFiller, current)
-      current.parentNode.removeChild(current)
+      const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
+      const entityDelimiter = entity.type === "string" ? current.textContent[0] : ""
+
+      current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })
 
     const appSchema = createEagerSchema({

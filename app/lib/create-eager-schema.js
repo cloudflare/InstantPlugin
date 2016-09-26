@@ -1,26 +1,26 @@
+const INJECTION_PATTERN = "\"{{EMBED_CODE_INJECTION}}\""
+
 export default function createEagerSchema({embedCode, properties}) {
-  embedCode = embedCode
-    .replace(/\n/g, ";") // Newlines
-    .replace(/"/g, "\\\"") // Inner quotes
+  embedCode = JSON
+    .stringify(embedCode)
+    .replace("</script>", '</scr" + "ipt>" + "') // eslint-disable-line quotes
 
   const initializeApp = function initializeApp() {
     if (!window.addEventListener) return // Check for IE9+
 
-    const OPTIONS_PATTERN = /INSTALL_OPTIONS\["(\S+)"\]/g
+    const TRACKED_ENTITY_PATTERN = /TRACKED_ENTITY\[(\S+)\]/g
     const options = INSTALL_OPTIONS
 
-    const insertOption = (match, key) => {
-      const option = options[key]
-
-      return typeof option === "string" ? `"${option}"` : option
-    }
+    const insertOption = (match, key) => options[key]
 
     function insertEmbedCode() {
-      let inlineEmbedCode = "{{EMBED_CODE}}"
+      let embedCodeInjection = "{{EMBED_CODE_INJECTION}}"
 
-      inlineEmbedCode = inlineEmbedCode.replace(OPTIONS_PATTERN, insertOption)
+      embedCodeInjection = embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
 
-      document.head.innerHTML += inlineEmbedCode
+      document.head.innerHTML += embedCodeInjection
+
+      eval(document.head.lastChild.textContent) // eslint-disable-line no-eval
     }
 
     if (document.readyState === "loading") {
@@ -29,7 +29,7 @@ export default function createEagerSchema({embedCode, properties}) {
     else {
       insertEmbedCode()
     }
-  }.toString().replace(/{{EMBED_CODE}}/, embedCode)
+  }.toString().replace(INJECTION_PATTERN, embedCode)
 
   return {
     resources: {
