@@ -18,15 +18,16 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
+      schema: null,
       entities: null,
       parsedEmbedCode: null
     })
 
     const element = this.compileTemplate()
-    const {stepsContainer, embedCodeInput, createPluginButton, nextButton, previousButton} = this.refs
+    const {embedCodeInput, downloadButton, navigationButtons} = this.refs
 
     embedCodeInput.addEventListener("input", this.handleEntry)
-    mountPoint.appendChild(element)
+    downloadButton.addEventListener("click", this.startDownload)
 
     // TODO: Remove after testing is done.
     embedCodeInput.value = `<script>
@@ -39,19 +40,69 @@ export default class Application extends BaseComponent {
   m.parentNode.insertBefore(a, m);
   })();
 </script>`
-    // embedCodeInput.value = ""
     this.parseInput()
 
-    createPluginButton.addEventListener("click", this.createPlugin)
-    nextButton.addEventListener("click", () => stepsContainer.setAttribute("data-active-step", "attribute"))
-    previousButton.addEventListener("click", () => {
-      stepsContainer.setAttribute("data-active-step", "embed-code")
-      embedCodeInput.focus()
+    const stepHandlers = {
+      "embed-code": this.navigateToEmbedCode,
+      attributes: this.navigateToAttributes,
+      preview: this.navigateToPreview
+    }
+
+    navigationButtons.forEach(buttonEl => {
+      const step = buttonEl.getAttribute("data-step")
+
+      buttonEl.addEventListener("click", stepHandlers[step])
     })
+
+    // this.navigateToEmbedCode()
+    this.navigateToAttributes()
+    mountPoint.appendChild(element)
+  }
+
+  getTrackedEntitiesIDs() {
+    const $ = this.entities
+
+    return Object.keys($)
+      .filter(key => $[key].tracked)
+      .sort((keyA, keyB) => $[keyA].order - $[keyB].order)
+  }
+
+  get route() {
+    return this.refs.stepsContainer.getAttribute("data-active-step")
+  }
+
+  set route(value) {
+    const {steps, stepsContainer} = this.refs
+
+    stepsContainer.setAttribute("data-active-step", value)
+
+    steps.forEach(stepEl => {
+      const method = stepEl.getAttribute("data-step") === value ? "add" : "remove"
+
+      stepEl.classList[method]("active")
+    })
+
+    // TODO: autofocus
+
+    return value
   }
 
   @autobind
-  createPlugin() {
+  navigateToEmbedCode() {
+    this.route = "embed-code"
+  }
+
+  @autobind
+  navigateToAttributes() {
+    this.route = "attributes"
+  }
+
+  @autobind
+  navigateToPreview() {
+    const {previewContainer} = this.refs
+
+    previewContainer.innerHTML = ""
+
     const trackedIDs = this.getTrackedEntitiesIDs()
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
     const properties = {}
@@ -65,37 +116,47 @@ export default class Application extends BaseComponent {
         type: entity.type
       }
 
-
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
       const entityDelimiter = entity.type === "string" ? current.textContent[0] : ""
 
       current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })
 
-    const appSchema = createEagerSchema({
+    const schema = this.schema = createEagerSchema({
       embedCode: embedCodeDOM.textContent,
       properties
     })
 
-    console.log(appSchema.resources.body[0].contents)
+    const preview = Object.assign(document.createElement("iframe"), {
+      src: `${APP_BASE}/developer/app-tester?schema=true`
+    })
 
-    // TODO: Remove after testing.
-    eval(appSchema.resources.body[0].contents) // eslint-disable-line no-eval
-
-    // TODO: flesh out
-    if (!document) {
-      postJson(`${API_BASE}/instant-plugin`, {appSchema})
-        .then(response => console.log(response))
-        .catch(error => console.error(error))
+    preview.onload = () => {
+      preview.contentWindow.postMessage("foo")
+      console.log("loaded")
     }
+
+    previewContainer.appendChild(preview)
+
+    // console.log(encodeURI(`${APP_BASE}/developer/app-tester?schema=${JSON.stringify(schema)}`))
+
+
+    this.route = "preview"
   }
 
-  getTrackedEntitiesIDs() {
-    const $ = this.entities
+  @autobind
+  startDownload() {
+    function onComplete({downloadURL}) {
+      const downloadIframe = document.createElement("iframe")
 
-    return Object.keys($)
-      .filter(key => $[key].tracked)
-      .sort((keyA, keyB) => $[keyA].order - $[keyB].order)
+      downloadIframe.className = "download-iframe"
+      downloadIframe.src = downloadURL
+      document.body.appendChild(downloadIframe)
+    }
+
+    postJson(`${API_BASE}/instant-plugin`, {schema: this.schema})
+      .then(onComplete)
+      .catch(error => console.error(error))
   }
 
   parseInput() {
@@ -138,10 +199,14 @@ export default class Application extends BaseComponent {
   }
 
   syncButtonState() {
-    const {embedCodeInput, createPluginButton, nextButton} = this.refs
+    const {embedCodeInput, stepsContainer} = this.refs
+    const embedCodeStep = stepsContainer.querySelector(".step[data-step='embed-code']")
+    const attributesStep = stepsContainer.querySelector(".step[data-step='attributes']")
+    const navigateToAttributesButton = embedCodeStep.querySelector("button[data-step='attributes']")
+    const navigateToPreviewButton = attributesStep.querySelector("button[data-step='preview']")
 
-    nextButton.disabled = embedCodeInput.value.length === 0
-    createPluginButton.disabled = this.getTrackedEntitiesIDs().length === 0
+    navigateToAttributesButton.disabled = embedCodeInput.value.length === 0
+    navigateToPreviewButton.disabled = this.getTrackedEntitiesIDs().length === 0
   }
 
   @autobind

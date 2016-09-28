@@ -8,6 +8,7 @@
   "globals": {
     "INSTALL_OPTIONS": "null",
     "API_BASE": "null",
+    "APP_BASE": "null",
     "process": null,
     "VERSION": null
   },

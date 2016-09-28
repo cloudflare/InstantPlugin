@@ -5,7 +5,7 @@ main(data-component="application" data-flow="column")
   h1 Instant Plugin
 
   .steps(data-active-step="embed-code" data-ref="stepsContainer")
-    .step.embed-code-step
+    .step(data-ref="steps[]" data-step="embed-code")
       p Paste your embed code below:
 
       textarea.embed-code-input(
@@ -13,17 +13,24 @@ main(data-component="application" data-flow="column")
         placeholder="<script>\n  \\\\...\n</script>")
 
       .step-buttons
-        button.button.primary.next(data-ref="nextButton") Next
+        button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
 
-    .step.attribute-step
+    .step(data-ref="steps[]" data-step="attributes")
       p Click parts of the embed code to make them dynamic:
 
       .attribute-picker(data-ref="attributePicker")
       .attribute-list(data-ref="attributeList")
 
       .step-buttons
-        button.button.secondary.transparent(data-ref="previousButton") Back
-        button.button.primary(data-ref="createPluginButton") Create Plugin
+        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="embed-code") Back
+        button.button.primary(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
+
+    .step(data-ref="steps[]" data-step="preview")
+      .preview-container(data-ref="previewContainer")
+
+      .step-buttons
+        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
+        button.button.primary.next(data-ref="downloadButton") Download Plugin
 
   .made-by
     .label Made by

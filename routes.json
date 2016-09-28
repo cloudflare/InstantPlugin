@@ -22,5 +22,17 @@
       "port": "",
       "protocol": "https"
     }
+  },
+  "app": {
+    "development": {
+      "hostname": "local.eager.io",
+      "port": 9000,
+      "protocol": "http"
+    },
+    "production": {
+      "hostname": "eager.io",
+      "port": "",
+      "protocol": "https"
+    }
   }
 }

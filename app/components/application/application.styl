@@ -58,14 +58,15 @@
       color textColor
 
   .steps
-    width 40em
+    width 80em
     max-width calc(100vw - 2em)
     position relative
 
     .step
       position relative
       display block
-      width 100%
+      min-width 40em // TODO: needs improvement on small screens.
+      width 50%
       margin auto
       transition transform .3s ease, opacity .3s ease
       transform translate3d(0, 0, 0)
@@ -77,6 +78,9 @@
         font-weight 300
         margin 0 0 1em
 
+      &[data-step="preview"]
+        width 100%
+
     .step-buttons
       display block
       margin-top 2em
@@ -85,18 +89,21 @@
       button + button
         margin-left 1em
 
-    &[data-active-step="embed-code"] .attribute-step, &[data-active-step="attribute"] .embed-code-step
+    .step:not(.active)
       pointer-events none
       position absolute
       opacity 0
 
-    &[data-active-step="embed-code"] .attribute-step
+    &[data-active-step="embed-code"] .step[data-step="attributes"]
       transform translate3d(5em, 0, 0)
 
-    &[data-active-step="attribute"] .embed-code-step
+    &[data-active-step="attributes"] .step[data-step="embed-code"]
       transform translate3d(-5em, 0, 0)
 
-    &[data-active-step="attribute"] [data-entity-id]
+    &[data-active-step="preview"] .step[data-step="attributes"]
+      transform translate3d(-5em, 0, 0)
+
+    &[data-active-step="attributes"] [data-entity-id]
 
       &::after
         content ""
@@ -138,35 +145,12 @@
         background #fff
         box-shadow 0 0 0 2px brandOrange
 
-  .made-by
-    display block
-    text-align center
-    margin 4em auto 0
-    width 20em
-    max-width 100%
-
-    .label
-      display block
-      font-size .7em
-      font-weight 100
-      text-transform uppercase
-      letter-spacing .1em
-      text-indent @letter-spacing
-      margin-bottom 1em
-      opacity .3
-
-    .logo-link
-      color inherit
-      display block
-      width 6em
-      height 3em
-      margin auto
-
-      &:not(:hover)
-        opacity .3
-
-      path
-        fill currentColor
+.preview-container > iframe
+  background white
+  border none
+  box-shadow 0 1px lightLineGrayRGBA
+  min-height 28em
+  width 100%
 
 @keyframes highlight-entity
   0%

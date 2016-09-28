@@ -33,3 +33,41 @@ div, footer, header, main, section
 
 [data-flow="column"]
   flex-flow column nowrap
+
+.download-iframe
+  position fixed
+  z-index -99999
+  visibility hidden
+  width 1px
+  height 1px
+
+.made-by
+  display block
+  text-align center
+  margin 4em auto 0
+  width 20em
+  max-width 100%
+
+  .label
+    display block
+    font-size .7em
+    font-weight 100
+    text-transform uppercase
+    letter-spacing .1em
+    text-indent @letter-spacing
+    margin-bottom 1em
+    opacity .3
+
+  .logo-link
+    color inherit
+    display block
+    width 6em
+    height 3em
+    margin auto
+
+    &:not(:hover)
+      opacity .3
+
+    path
+      fill currentColor
+
