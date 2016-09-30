@@ -122,10 +122,30 @@ export default class Application extends BaseComponent {
       current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })
 
-    const schema = this.schema = createEagerSchema({
-      embedCode: embedCodeDOM.textContent,
-      properties
-    })
+    // const schema = this.schema = createEagerSchema({
+    //   embedCode: embedCodeDOM.textContent,
+    //   properties
+    // })
+    //
+    const schema = {
+      resources: {
+        body: [
+          {
+            type: "script",
+            contents: "alert('hello')"
+          }
+        ]
+      },
+
+      options: {
+        properties: {
+          option_1: {
+            order: 1,
+            type: "string"
+          }
+        }
+      }
+    }
 
     const preview = Object.assign(document.createElement("iframe"), {
       // src: `${APP_BASE}/developer/app-tester?schema=true&embed=true`
