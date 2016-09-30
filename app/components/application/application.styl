@@ -31,19 +31,48 @@
     padding-top 4em
     padding-bottom @padding-top
 
+  .embed-code-input, .attribute-picker, .preview-container-wrapper
+    display block
+    border-radius .75em
+    background #fff
+    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+
   .embed-code-input, .attribute-picker
     antialiasedFonts()
-    display block
     font-family monospaceFonts
     border 0
     padding .8em 1.125em
-    border-radius .75em
     resize none
     min-height 17.3em
     line-height 1.6
     width 100%
-    background #fff
-    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+
+  .preview-container-wrapper
+    padding 1.5em
+
+  .preview-container
+    position relative
+    transform translate3d(0, 0, 0)
+    overflow hidden
+
+    &:after
+      content ""
+      display block
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+      border 1px solid rgba(#000, .21)
+      box-shadow 0 0 0 .25em #fff
+      border-radius .3125em
+
+    > iframe
+      display block
+      border none
+      min-height 28em
+      width 100%
 
   .embed-code-input
     color inherit
@@ -71,6 +100,7 @@
       margin auto
       transition transform .3s ease, opacity .3s ease
       transform translate3d(0, 0, 0)
+      will-change transform
       opacity 1
 
       p
@@ -100,6 +130,9 @@
 
     &[data-active-step="attributes"] .step[data-step="embed-code"]
       transform translate3d(-5em, 0, 0)
+
+    &[data-active-step="attributes"] .step[data-step="preview"]
+      transform translate3d(5em, 0, 0)
 
     &[data-active-step="preview"] .step[data-step="attributes"]
       transform translate3d(-5em, 0, 0)
@@ -145,13 +178,6 @@
       &.tracked
         background #fff
         box-shadow 0 0 0 2px brandOrange
-
-.preview-container > iframe
-  background white
-  border none
-  box-shadow 0 1px lightLineGrayRGBA
-  min-height 28em
-  width 100%
 
 @keyframes highlight-entity
   0%

@@ -128,7 +128,7 @@ export default class Application extends BaseComponent {
     })
 
     const preview = Object.assign(document.createElement("iframe"), {
-      src: `${APP_BASE}/developer/app-tester?schema=true`
+      src: `${APP_BASE}/developer/app-tester?schema=true&embed=true`
     })
 
     preview.onload = () => {

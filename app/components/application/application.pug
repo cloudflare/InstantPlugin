@@ -26,7 +26,8 @@ main(data-component="application" data-flow="column")
         button.button.primary(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
 
     .step(data-ref="steps[]" data-step="preview")
-      .preview-container(data-ref="previewContainer")
+      .preview-container-wrapper
+        .preview-container(data-ref="previewContainer")
 
       .step-buttons
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
