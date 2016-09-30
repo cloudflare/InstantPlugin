@@ -36,7 +36,8 @@ export default function createEagerSchema({embedCode, properties}) {
       body: [
         {
           type: "script",
-          contents: `(${initializeApp}())`
+          contents: "alert('hello')"
+          // contents: `(${initializeApp}())`
         }
       ]
     },

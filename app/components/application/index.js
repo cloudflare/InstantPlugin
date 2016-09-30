@@ -128,18 +128,26 @@ export default class Application extends BaseComponent {
     })
 
     const preview = Object.assign(document.createElement("iframe"), {
-      src: `${APP_BASE}/developer/app-tester?schema=true&embed=true`
+      // src: `${APP_BASE}/developer/app-tester?schema=true&embed=true`
+      // src: `${APP_BASE}/developer/app-tester?version=2cgno43jfxw-1465583283291`
+      // src: `${APP_BASE}/developer/app-tester?embed=true&remoteInstall=true&cmsName=wordpress`
+      src: `${APP_BASE}/developer/app-tester?&remoteInstall=true`
     })
 
-    preview.onload = () => {
-      preview.contentWindow.postMessage("foo")
-      console.log("loaded")
+    window.removeEventListener("message", this.messageHandler)
+
+    this.messageHandler = ({data}) => {
+      if (data.type !== "child-listening") return
+
+      preview.contentWindow.postMessage({
+        type: "eager:app-tester:upload-app",
+        schema
+      }, "*")
     }
 
+    window.addEventListener("message", this.messageHandler)
+
     previewContainer.appendChild(preview)
-
-    // console.log(encodeURI(`${APP_BASE}/developer/app-tester?schema=${JSON.stringify(schema)}`))
-
 
     this.route = "preview"
   }
