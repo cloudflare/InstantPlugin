@@ -20,8 +20,6 @@ const exclude = /node_modules/
 const renderer = new marked.Renderer()
 const $ = {}
 
-$.buildDirectory = "site-deploy"
-
 $.devtool = "source-map"
 
 $.entry = {
@@ -32,6 +30,7 @@ $.entry = {
 $.markdownLoader = {renderer}
 
 $.output = {
+  path: __dirname + "/site-deploy",
   filename: "[name].js",
   sourceMapFilename: "[name].map"
 }
