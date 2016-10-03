@@ -31,7 +31,10 @@
     padding-top 4em
     padding-bottom @padding-top
 
-  .embed-code-input, .attribute-picker, .preview-container-wrapper
+  .embed-code-input,
+  .attribute-picker,
+  .preview-container-wrapper,
+  .attribute-list .entity
     display block
     border-radius .75em
     background #fff
@@ -178,6 +181,15 @@
       &.tracked
         background #fff
         box-shadow 0 0 0 2px brandOrange
+
+  .attribute-list
+    margin 1em 0
+
+    .entity
+      padding .6em
+
+    .entity + .entity
+      margin-top .5em
 
 @keyframes highlight-entity
   0%

@@ -4,6 +4,7 @@ import template from "./application.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import {highlight} from "highlight.js"
+import createElement from "lib/create-element"
 import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 
@@ -60,7 +61,7 @@ export default class Application extends BaseComponent {
     mountPoint.appendChild(element)
   }
 
-  getTrackedEntitiesIDs() {
+  getTrackedEntityIDs() {
     const $ = this.entities
 
     return Object.keys($)
@@ -104,11 +105,11 @@ export default class Application extends BaseComponent {
 
     previewContainer.innerHTML = ""
 
-    const trackedIDs = this.getTrackedEntitiesIDs()
+    const IDs = this.getTrackedEntityIDs()
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
     const properties = {}
 
-    trackedIDs.forEach((id, order) => {
+    IDs.forEach((id, order) => {
       const entity = this.entities[id]
 
       properties[id] = {
@@ -128,8 +129,8 @@ export default class Application extends BaseComponent {
       properties
     })
 
-    const preview = Object.assign(document.createElement("iframe"), {
-      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=instantPlugin`
+    const preview = createElement("iframe", {
+      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=instantPlugin&initialUrl=example.com`
     })
 
     window.removeEventListener("message", this.messageHandler)
@@ -153,10 +154,11 @@ export default class Application extends BaseComponent {
   @autobind
   startDownload() {
     function onComplete({downloadURL}) {
-      const downloadIframe = document.createElement("iframe")
+      const downloadIframe = createElement("iframe", {
+        className: "download-iframe",
+        src: downloadURL
+      })
 
-      downloadIframe.className = "download-iframe"
-      downloadIframe.src = downloadURL
       document.body.appendChild(downloadIframe)
     }
 
@@ -182,14 +184,34 @@ export default class Application extends BaseComponent {
         const title = `Option ${order + 1}`
         const [, type] = element.className.match(TYPE_PATTERN)
 
-        this.entities[id] = {order, title, tracked: false, type}
+        this.entities[id] = {order, original: element.textContent, title, tracked: false, type}
 
         element.setAttribute(ENTITY_ID, id)
         element.setAttribute(ENTITY_ORDER, order)
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
       })
-
     this.syncButtonState()
+  }
+
+  renderTrackedEntities() {
+    const {attributeList} = this.refs
+    const IDs = this.getTrackedEntityIDs()
+
+    attributeList.innerHTML = ""
+
+    IDs.forEach(id => {
+      const entity = this.entities[id]
+      const element = createElement("input", {
+        className: "entity",
+        placeholder: `Option label for ${entity.original}`,
+        type: "text",
+        value: `${entity.title}`
+      })
+
+      element.addEventListener("input", this.setEntityTitle.bind(this, id))
+
+      attributeList.appendChild(element)
+    }, "")
   }
 
   toggleEntityTracking(element) {
@@ -204,7 +226,12 @@ export default class Application extends BaseComponent {
       element.classList.add("tracked")
     }
 
+    this.renderTrackedEntities()
     this.syncButtonState()
+  }
+
+  setEntityTitle(id, {target: {value}}) {
+    this.entities[id].title = value
   }
 
   syncButtonState() {
@@ -215,7 +242,7 @@ export default class Application extends BaseComponent {
     const navigateToPreviewButton = attributesStep.querySelector("button[data-step='preview']")
 
     navigateToAttributesButton.disabled = embedCodeInput.value.length === 0
-    navigateToPreviewButton.disabled = this.getTrackedEntitiesIDs().length === 0
+    navigateToPreviewButton.disabled = this.getTrackedEntityIDs().length === 0
   }
 
   @autobind
