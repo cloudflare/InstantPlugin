@@ -18,8 +18,9 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
-      schema: null,
+      emails: "foo@bar.baz",
       entities: null,
+      schema: null,
       parsedEmbedCode: null
     })
 
@@ -159,7 +160,10 @@ export default class Application extends BaseComponent {
       document.body.appendChild(downloadIframe)
     }
 
-    postJson(`${API_BASE}/instant-plugin`, {schema: this.schema})
+    postJson(`${API_BASE}/create/instant`, {
+      ...this.payload,
+      email: this.email
+    })
       .then(onComplete)
       .catch(error => console.error(error))
   }

@@ -13,12 +13,12 @@
   },
   "api": {
     "development": {
-      "hostname": "0.0.0.0",
-      "port": 9003,
-      "protocol": "http"
+      "hostname": "manager.eager.io",
+      "port": "",
+      "protocol": "https"
     },
     "production": {
-      "hostname": "api.eager.io",
+      "hostname": "manager.eager.io",
       "port": "",
       "protocol": "https"
     }
