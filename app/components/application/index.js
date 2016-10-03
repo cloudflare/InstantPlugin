@@ -122,46 +122,23 @@ export default class Application extends BaseComponent {
       current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })
 
-    // const schema = this.schema = createEagerSchema({
-    //   embedCode: embedCodeDOM.textContent,
-    //   properties
-    // })
-    //
-    const schema = {
-      resources: {
-        body: [
-          {
-            type: "script",
-            contents: "alert('hello')"
-          }
-        ]
-      },
-
-      options: {
-        properties: {
-          option_1: {
-            order: 1,
-            type: "string"
-          }
-        }
-      }
-    }
+    this.payload = createEagerSchema({
+      embedCode: embedCodeDOM.textContent,
+      properties
+    })
 
     const preview = Object.assign(document.createElement("iframe"), {
-      // src: `${APP_BASE}/developer/app-tester?schema=true&embed=true`
-      // src: `${APP_BASE}/developer/app-tester?version=2cgno43jfxw-1465583283291`
-      // src: `${APP_BASE}/developer/app-tester?embed=true&remoteInstall=true&cmsName=wordpress`
-      src: `${APP_BASE}/developer/app-tester?&remoteInstall=true`
+      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=instantPlugin`
     })
 
     window.removeEventListener("message", this.messageHandler)
 
     this.messageHandler = ({data}) => {
-      if (data.type !== "child-listening") return
+      if (data.type !== "eager:app-tester:upload-listener-ready") return
 
       preview.contentWindow.postMessage({
-        type: "eager:app-tester:upload-app",
-        schema
+        ...this.payload,
+        type: "eager:app-tester:upload-app"
       }, "*")
     }
 

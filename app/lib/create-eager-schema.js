@@ -31,17 +31,20 @@ export default function createEagerSchema({embedCode, properties}) {
     }
   }.toString().replace(INJECTION_PATTERN, embedCode)
 
-  return {
+  const app = `(${initializeApp}())`
+
+  const installJSON = {
     resources: {
       body: [
         {
           type: "script",
-          contents: "alert('hello')"
-          // contents: `(${initializeApp}())`
+          src: "./app.js"
         }
       ]
     },
 
     options: {properties}
   }
+
+  return {installJSON, app}
 }
