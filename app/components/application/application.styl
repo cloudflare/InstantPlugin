@@ -133,19 +133,15 @@
       position absolute
       opacity 0
 
-    &[data-active-step="embed-code"] .step[data-step="attributes"]
+    &[data-active-step="embed-code"] .step[data-step="attributes"],
+    &[data-active-step="attributes"] .step[data-step="preview"],
+    &[data-active-step="preview"] .step[data-step="download"]
       transform translate3d(5em, 0, 0)
 
-    &[data-active-step="attributes"] .step[data-step="embed-code"]
+    &[data-active-step="attributes"] .step[data-step="embed-code"],
+    &[data-active-step="preview"] .step[data-step="attributes"],
+    &[data-active-step="download"] .step[data-step="preview"]
       transform translate3d(-5em, 0, 0)
-
-    &[data-active-step="attributes"] .step[data-step="preview"]
-      transform translate3d(5em, 0, 0)
-
-    &[data-active-step="preview"] .step[data-step="attributes"]
-      transform translate3d(-5em, 0, 0)
-
-    &[data-active-step="attributes"] [data-entity-id]
 
       &::after
         content ""
