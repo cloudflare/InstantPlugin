@@ -11,6 +11,7 @@ import {postJson} from "simple-fetch"
 
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
+const ENTITY_QUERY = ".hljs-string, .hljs-number"
 const TYPE_PATTERN = /hljs-([\S]*)/
 
 export default class Application extends BaseComponent {
@@ -160,6 +161,45 @@ export default class Application extends BaseComponent {
     this.route = "preview"
   }
 
+  parseInput() {
+    this.entities = {}
+
+    const {attributePicker, embedCodeInput} = this.refs
+    const serializer = createElement("div", {
+      innerHTML: highlight("html", embedCodeInput.value).value
+    })
+
+    if (!serializer.querySelector(ENTITY_QUERY)) {
+      attributePicker.classList.add("empty")
+      attributePicker.innerHTML = `
+        <p class="details">
+          We couldn't find any JavaScript strings or numbers in that embed code.
+        </p>
+      `
+
+      this.syncButtonState()
+      return
+    }
+
+    attributePicker.classList.remove("empty")
+    attributePicker.innerHTML = serializer.innerHTML
+
+    Array
+      .from(attributePicker.querySelectorAll(ENTITY_QUERY))
+      .forEach((element, order) => {
+        const id = `option_${order + 1}`
+        const [, type] = element.className.match(TYPE_PATTERN)
+
+        this.entities[id] = {order, original: element.textContent, tracked: false, type}
+
+        element.setAttribute(ENTITY_ID, id)
+        element.setAttribute(ENTITY_ORDER, order)
+        element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
+      })
+
+    this.syncButtonState()
+  }
+
   @autobind
   startDownload() {
     function onComplete({downloadURL}) {
@@ -177,28 +217,6 @@ export default class Application extends BaseComponent {
     })
       .then(onComplete)
       .catch(error => console.error(error))
-  }
-
-  parseInput() {
-    const {attributePicker, embedCodeInput} = this.refs
-
-    this.entities = {}
-
-    attributePicker.innerHTML = highlight("html", embedCodeInput.value).value
-
-    Array
-      .from(attributePicker.querySelectorAll(".hljs-string, .hljs-number"))
-      .forEach((element, order) => {
-        const id = `option_${order + 1}`
-        const [, type] = element.className.match(TYPE_PATTERN)
-
-        this.entities[id] = {order, original: element.textContent, tracked: false, type}
-
-        element.setAttribute(ENTITY_ID, id)
-        element.setAttribute(ENTITY_ORDER, order)
-        element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
-      })
-    this.syncButtonState()
   }
 
   toggleEntityTracking(element) {
