@@ -168,7 +168,11 @@ export default class Application extends BaseComponent {
       attributePicker.classList.add("empty")
       attributePicker.innerHTML = `
         <p class="details">
-          We couldn't find any JavaScript strings or numbers in that embed code.
+          We couldn't find any configurable strings or numbers in that embed code.
+        </p>
+
+        <p class="details">
+          Press “Back” edit the embed code, or “Next” to continue.
         </p>
       `
 
@@ -246,9 +250,10 @@ export default class Application extends BaseComponent {
     const attributesStep = stepsContainer.querySelector(".step[data-step='attributes']")
     const navigateToAttributesButton = embedCodeStep.querySelector("button[data-step='attributes']")
     const navigateToPreviewButton = attributesStep.querySelector("button[data-step='preview']")
+    const IDs = this.getTrackedEntityIDs()
 
     navigateToAttributesButton.disabled = embedCodeInput.value.length === 0
-    navigateToPreviewButton.disabled = this.getTrackedEntityIDs().length === 0
+    navigateToPreviewButton.disabled = IDs.length === 0 && Object.keys(this.entities).length !== 0
   }
 
   @autobind
