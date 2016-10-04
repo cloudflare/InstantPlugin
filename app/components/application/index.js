@@ -8,6 +8,7 @@ import {highlight} from "highlight.js"
 import createElement from "lib/create-element"
 import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
+import autosize from "autosize"
 
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
@@ -27,6 +28,8 @@ export default class Application extends BaseComponent {
 
     const element = this.compileTemplate()
     const {attributeListMount, embedCodeInput, downloadButton, navigationButtons} = this.refs
+
+    autosize(embedCodeInput)
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     downloadButton.addEventListener("click", this.startDownload)
