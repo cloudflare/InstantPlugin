@@ -21,9 +21,7 @@ export default class Application extends BaseComponent {
 
     Object.assign(this, {
       email: "foo@bar.baz",
-      entities: null,
-      schema: null,
-      parsedEmbedCode: null
+      entities: null
     })
 
     const element = this.compileTemplate()
@@ -58,7 +56,7 @@ export default class Application extends BaseComponent {
     })
 
     this.attributeList = new AttributeList({
-      entities: this.entities,
+      getEntities: () => this.entities,
       getTrackedEntityIDs: this.getTrackedEntityIDs,
       setEntityTitle: this.setEntityTitle
     })
@@ -107,6 +105,7 @@ export default class Application extends BaseComponent {
   @autobind
   navigateToAttributes() {
     this.route = "attributes"
+    this.attributeList.render()
   }
 
   @autobind

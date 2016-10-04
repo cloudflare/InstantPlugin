@@ -16,11 +16,12 @@ export default class AttributeList extends BaseComponent {
 
   render() {
     const IDs = this.getTrackedEntityIDs()
+    const entities = this.getEntities()
 
     this.element.innerHTML = ""
 
     IDs.forEach((id, order) => {
-      const entity = this.entities[id]
+      const entity = entities[id]
       const element = createElement("div", {
         className: "entity"
       })
