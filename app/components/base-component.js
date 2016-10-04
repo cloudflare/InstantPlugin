@@ -88,7 +88,9 @@ export default class BaseComponent {
     current.parentNode.insertBefore(next, current)
     current.parentNode.removeChild(current)
 
-    next.tabIndex = current.tabIndex
+    if (current.getAttribute("tabindex")) {
+      next.tabIndex = current.tabIndex
+    }
 
     this.updateRefs()
   }

@@ -3,6 +3,7 @@ import template from "./application.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
+import AttributeList from "components/attribute-list"
 import {highlight} from "highlight.js"
 import createElement from "lib/create-element"
 import createEagerSchema from "lib/create-eager-schema"
@@ -19,14 +20,14 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
-      emails: "foo@bar.baz",
+      email: "foo@bar.baz",
       entities: null,
       schema: null,
       parsedEmbedCode: null
     })
 
     const element = this.compileTemplate()
-    const {embedCodeInput, downloadButton, navigationButtons} = this.refs
+    const {attributeListMount, embedCodeInput, downloadButton, navigationButtons} = this.refs
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     downloadButton.addEventListener("click", this.startDownload)
@@ -56,11 +57,20 @@ export default class Application extends BaseComponent {
       buttonEl.addEventListener("click", stepHandlers[step])
     })
 
+    this.attributeList = new AttributeList({
+      entities: this.entities,
+      getTrackedEntityIDs: this.getTrackedEntityIDs,
+      setEntityTitle: this.setEntityTitle
+    })
+
+    this.replaceElement(attributeListMount, this.attributeList.render())
+
     // this.navigateToEmbedCode()
     this.navigateToAttributes()
     mountPoint.appendChild(element)
   }
 
+  @autobind
   getTrackedEntityIDs() {
     const $ = this.entities
 
@@ -113,7 +123,7 @@ export default class Application extends BaseComponent {
       const entity = this.entities[id]
 
       properties[id] = {
-        title: entity.title,
+        title: entity.title || `Option ${order + 1}`,
         order,
         type: entity.type
       }
@@ -181,37 +191,15 @@ export default class Application extends BaseComponent {
       .from(attributePicker.querySelectorAll(".hljs-string, .hljs-number"))
       .forEach((element, order) => {
         const id = `option_${order + 1}`
-        const title = `Option ${order + 1}`
         const [, type] = element.className.match(TYPE_PATTERN)
 
-        this.entities[id] = {order, original: element.textContent, title, tracked: false, type}
+        this.entities[id] = {order, original: element.textContent, tracked: false, type}
 
         element.setAttribute(ENTITY_ID, id)
         element.setAttribute(ENTITY_ORDER, order)
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
       })
     this.syncButtonState()
-  }
-
-  renderTrackedEntities() {
-    const {attributeList} = this.refs
-    const IDs = this.getTrackedEntityIDs()
-
-    attributeList.innerHTML = ""
-
-    IDs.forEach(id => {
-      const entity = this.entities[id]
-      const element = createElement("input", {
-        className: "entity",
-        placeholder: `Option label for ${entity.original}`,
-        type: "text",
-        value: `${entity.title}`
-      })
-
-      element.addEventListener("input", this.setEntityTitle.bind(this, id))
-
-      attributeList.appendChild(element)
-    }, "")
   }
 
   toggleEntityTracking(element) {
@@ -226,10 +214,11 @@ export default class Application extends BaseComponent {
       element.classList.add("tracked")
     }
 
-    this.renderTrackedEntities()
+    this.attributeList.render()
     this.syncButtonState()
   }
 
+  @autobind
   setEntityTitle(id, {target: {value}}) {
     this.entities[id].title = value
   }
