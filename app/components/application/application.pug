@@ -31,6 +31,49 @@ main(data-component="application" data-flow="column")
 
       .step-buttons
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
+        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="download") Next
+
+    .step(data-ref="steps[]" data-step="download")
+      form.form(data-ref="pluginDetailsForm")
+        .input
+          label Email
+          input.standard(name="email" placeholder="Email" required type="email")
+
+        .input
+          label Title
+          input.standard(name="app[title]" placeholder="Title" required type="text")
+
+        .input
+          label Short Description
+            .help-text
+              | A short description of the app.
+
+          input.standard(maxlength="150" name="app[description]" placeholder="Description" required type="text")
+
+        .input
+          label Full Description
+            .help-text
+              | A long description for the WordPress Plugin page.
+              | No length limit.
+
+          textarea.standard(name="app[metadata][description]" placeholder="Full description")
+
+        .input
+          label Instructions
+            .help-text
+              | Installation instructions for the WordPress installer.
+
+          textarea.standard(name="app[metadata][instructions]" placeholder="Instructions")
+
+        .input
+          label FAQ
+            .help-text
+              | Frequently asked questions about the app.
+
+          textarea.standard(name="app[metadata][targets][wordpress][faq]" placeholder="FAQ")
+
+      .step-buttons
+        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="preview") Back
         button.button.primary.next(data-ref="downloadButton") Download Plugin
 
   .made-by

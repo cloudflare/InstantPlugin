@@ -31,7 +31,7 @@ export default class AttributeList extends BaseComponent {
           <div class="label-content">Label for ${entity.original}</div>
 
           <div class="entity-name">
-            <input type="text" placeholder="Option ${order + 1}"/>
+            <input class="standard" type="text" placeholder="Option ${order + 1}"/>
           </div>
         </label>
       `

@@ -9,6 +9,7 @@ import createElement from "lib/create-element"
 import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 import autosize from "autosize"
+import formSerialize from "form-serialize"
 
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
@@ -22,7 +23,6 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
-      email: "foo@bar.baz",
       entities: null
     })
 
@@ -50,7 +50,8 @@ export default class Application extends BaseComponent {
     const stepHandlers = {
       "embed-code": this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
-      preview: this.navigateToPreview
+      preview: this.navigateToPreview,
+      download: this.navigateToDownload
     }
 
     navigationButtons.forEach(buttonEl => {
@@ -164,6 +165,11 @@ export default class Application extends BaseComponent {
     this.route = "preview"
   }
 
+  @autobind
+  navigateToDownload() {
+    this.route = "download"
+  }
+
   parseInput() {
     this.entities = {}
 
@@ -214,9 +220,14 @@ export default class Application extends BaseComponent {
       document.body.appendChild(downloadIframe)
     }
 
+    const {pluginDetailsForm} = this.refs
+    const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
+
+    console.log(pluginDetails)
+
     postJson(`${API_BASE}/create/instant`, {
       ...this.payload,
-      email: this.email
+      ...pluginDetails
     })
       .then(onComplete)
       .catch(error => console.error(error))

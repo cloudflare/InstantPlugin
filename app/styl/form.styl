@@ -1,0 +1,609 @@
+@import "styl/sizes"
+@import "styl/colors"
+@import "styl/media-query-variables"
+
+.form
+
+  label .help-text
+    display block
+    color subtleText
+
+  h3
+    font-weight normal
+    margin 0 0 1em
+
+  .input
+    display block
+    margin-bottom 1em
+
+    > label
+      font-size .9em
+      margin-bottom .3em
+      display inline-block
+      vertical-align top
+
+  ul.radio-or-checkbox-list
+    list-style none
+    padding 0
+    margin 0
+
+    li
+      margin-bottom .25em
+
+      > label
+        cursor pointer
+        display inline-block
+
+        > input[type="radio"], > input[type="checkbox"]
+          position relative
+          top -.0625em
+          margin-right .5em
+
+      &:last-child
+        margin-bottom 0
+
+      &.checkbox-with-spinner
+        position relative
+
+        input[type="checkbox"]
+          transform translateZ(0)
+          transition transform .3s, opacity .3s
+
+        .checkbox-list-checkbox-spinner
+          position absolute
+          top .125em
+          left .0625em
+          transform scale(0) translateZ(0)
+          opacity 0
+          pointer-events none
+          transition transform .3s, opacity .3s
+
+        &.is-saving
+
+          input[type="checkbox"]
+            transform scale(0) translateZ(0)
+            opacity 0
+            pointer-events none
+
+          .checkbox-list-checkbox-spinner
+            transform scale(1) translateZ(0)
+            opacity 1
+
+  .field-group
+    clearfix()
+    clear both
+    margin-bottom 2em
+    background lightGray
+    padding 1.25em
+    border-radius .3125em
+
+    > *:first-child
+      margin-top 0
+
+    > label
+      float left
+      width 16em
+      font-size .9em
+
+      @media mobileMaxWidthQuery
+        margin-bottom 1em
+
+    > .input:last-child
+      margin-bottom 0
+
+    > .inputs
+      width 100%
+      padding-left 16em
+
+      @media mobileMaxWidthQuery
+        padding-left 0
+
+      > .input:last-child
+        margin-bottom 0
+
+  .actions
+    clearfix()
+
+    .actions-buttons
+      float left
+      margin-right 2em
+
+      @media iPhoneMaxWidthQuery
+        float none
+        margin-right 0
+        margin-bottom 1em
+
+    .actions-messages
+      float left
+
+      @media iPhoneMaxWidthQuery
+        float none
+
+      .message
+        background transparent
+        padding-left 0
+        padding-right 0
+
+  .actions-wrapper.fixed-footer
+    @media largerThanIphoneMinWidthQuery
+      height 5em
+
+      .actions
+        box-shadow 0 -.0625em lightLineGrayRGBA
+        position fixed
+        z-index 4
+        bottom 0
+        left 0
+        right 0
+        padding 1em 0
+        background #fff
+
+        .actions-inner
+          width centeredPageWidth
+          padding-left 1em
+          padding-right 1em
+          margin-left auto
+          margin-right auto
+
+    @media pageWithAppNavigationMinWidthQuery
+      .actions
+        left auto
+        right auto
+
+        .actions-inner
+          width centeredPageWidth - 2em
+          padding-left 0
+          padding-right 0
+
+  > *:first-child
+    margin-top 0
+
+  > *:last-child
+    margin-bottom 0
+
+  &.schema-form
+
+    textarea.standard.code
+      min-height 4em
+
+    h3
+      -webkit-margin-after-collapse separate
+
+    .help-block
+      display block
+      font-size .9em
+      padding .125em 0
+      color subtleText
+
+      &:empty
+        display none
+
+    show-if
+      display block
+      margin-bottom 1em
+
+      &:last-child
+        margin-bottom 0
+
+      &.field-hidden
+        overflow hidden
+        height 0
+        opacity 0
+        pointer-events none
+        margin 0
+
+        // TODO - remove hack
+        &:last-child
+          margin-top -1em
+
+      &:last-child
+        margin-bottom 0
+
+      > div:last-child
+        margin-bottom 0
+
+    .form-group
+      -webkit-margin-after-collapse separate
+
+      > label
+        font-size .9em
+        margin-bottom .3em
+        display inline-block
+        vertical-align top
+
+    select.standard
+      width 100%
+
+    .control-label-before-color-input-group
+      position relative
+      z-index 1
+
+    .color-input-group
+      clearfix()
+
+      input[type="color"]
+        display none
+        width 5em
+        float left
+
+        @media firefoxOnlyQuery
+          display block
+
+        @media chromeOnlyQuery
+          display block
+
+      input[type="text"]
+        width 8em
+        float left
+        position relative
+        z-index 1
+
+    .select-button-input-group
+      position relative
+      padding-right 7.4375em
+
+      select
+        display inline-block
+
+      button
+        position absolute
+        width 7em
+        top 0
+        bottom 0
+        right 0
+        padding-left 0
+        padding-right 0
+
+    input[type=range]::-moz-focus-outer
+      border: 0
+
+    input[type="checkbox"], input[type="radio"]
+      margin-right .125em
+      position relative
+      top -.0625em
+
+    .form-group-selectinline
+      position relative
+      padding-left 8.5em
+
+      > label
+        position absolute
+        left 0
+        height 100%
+        width 8.5em
+        text-align right
+        font-size 1em
+        border-top 1px solid transparent
+        border-bottom 1px solid transparent
+        padding .6em 0
+        padding-right .75em
+        overflow ellipsis
+
+      @media iPhoneMaxWidthQuery
+        padding-left 6.25em
+
+        > label
+          width auto
+          padding-right 0
+          text-align left
+
+        select
+          padding-left .25em
+
+    .form-group-array-list
+      list-style none
+      margin 0
+      padding 0
+
+      &:not(:empty)
+        margin-bottom 1em
+
+      > li.form-group-array-list-item
+        position relative
+        border .0625em solid lightLineGray
+        background #fff
+        padding 1.25em
+        border-radius .1875em
+        transition transform .3s ease-in-out
+        cursor move
+
+        > show-if > .fieldset-input
+          margin -1.25em
+
+          > label
+            display none
+
+          > .fieldset
+            border 0
+
+        > *
+          cursor initial
+
+        &:before
+          content ""
+          display block
+          position absolute
+          top .25em
+          left 0
+          right 10rem
+          margin auto
+          height .0625em
+          width 3em
+          max-width 50%
+          box-shadow 0 .1875em lightLineGrayRGBA, 0 .375em lightLineGrayRGBA, 0 .5625em lightLineGrayRGBA
+          transition opacity .3s ease-in-out, transform .3s ease-in-out
+          transform scaleX(0) translateZ(0)
+          opacity 0
+
+        &:hover:before
+          transform scaleX(1) translateZ(0)
+          opacity 1
+
+        &.form-group-array-list-item-empty
+          cursor default
+
+          &:before
+            display none
+
+        &:first-child
+          border-radius .1875em .1875em 0 0
+
+          &:last-child
+            border-radius .1875em
+
+        + li.form-group-array-list-item
+          border-top-width 0
+          border-top-left-radius 0
+          border-top-right-radius 0
+
+        &:not(:first-child):not(:last-child)
+          border-radius 0
+
+        &.ui-sortable-helper
+          opacity .9
+          transform rotateZ(3deg)
+          box-shadow 0 0 1em rgba(#000, .1)
+          z-index 3 !important
+
+          &, *
+            cursor move !important
+
+        &.ui-sortable-helper, &.ui-sortable-placeholder
+          border-radius .1875em !important
+          border-width 1px !important
+
+          + li.form-group-array-list-item
+            border-top-width 1px
+            border-top-left-radius .1875em
+            border-top-right-radius .1875em
+
+        .button-close
+          position absolute
+          top -1px
+          right -1px
+          width 5rem
+          border-top-left-radius 0
+          border-bottom-right-radius 0
+
+        .button-move-up, .button-move-down
+          position absolute
+          top -1px
+          padding 0
+          width 2.25rem
+          height 1.25em
+          border-top-left-radius 0
+          border-top-right-radius 0
+
+          &:hover
+            z-index 1
+
+          &[disabled]
+
+            &, &:hover
+              opacity .5
+              background gray
+              color #fff
+              box-shadow none
+
+          .icon
+            position absolute
+            left 0
+            right 0
+            margin-left auto
+            margin-right auto
+            font-size .8125em
+
+            &.down-arrow-icon
+              top .5em
+              top 6px // Rounding issues
+
+            &.up-arrow-icon
+              top 0
+
+        .button-move-label:before
+          position absolute
+          display block
+          pointer-events none
+          top .125rem
+          right 5rem + 1.5rem + 2.25rem + (2.25rem - .0625rem) + .25rem
+          color darkGray
+          white-space nowrap
+          text-transform uppercase
+          letter-spacing .1em
+          font-size .625em
+          height 1em
+          line-height 1.5em
+          transition opacity .3s ease-in-out
+          opacity 0
+
+        .button-move-down
+          right 5rem + 1.5rem + 2.25rem - .0625rem
+          border-bottom-right-radius 0
+
+          &:hover ~ .button-move-label:before
+            content "Move down"
+            opacity 1
+
+        .button-move-up
+          right 5rem + 1.5rem
+          border-bottom-left-radius 0
+
+          &:hover ~ .button-move-label:before
+            content "Move up"
+            opacity 1
+
+    .choose-selector-input-wrapper
+      position relative
+
+      input[type="text"]
+        display block
+        position relative
+        z-index 2
+        padding-left 9.25em
+
+      button
+        position absolute
+        z-index 3
+        left .27em
+        top .27em
+        bottom .27em
+        width 9.25em
+        line-height .9em
+        padding-left 0
+        padding-right 0
+        background secondaryButtonColor
+
+      input[type="text"]:focus ~ button
+        background primaryButtonColor
+
+      .message
+        position absolute
+        z-index 1
+        top 0
+        left 0
+        right 0
+        opacity 0
+        transition opacity .3s ease-in-out, top .3s ease-in-out
+        pointer-events none
+        margin-top -.1875em
+        border-top-left-radius 0
+        border-top-right-radius 0
+
+      &:hover .message
+        opacity 1
+        top 100%
+        pointer-events all
+
+    div.time-input-radios
+      margin-top .25em
+
+      .time-input-radios-content
+        position relative
+        color subtleText
+        display inline-block
+        background rgba(#000, .05)
+        padding .5em 4em .5em .5em
+        border-radius .1875em
+
+        a.time-input-radios-help-link
+          position absolute
+          display block
+          height 1.5em
+          width 1.5em
+          line-height 1.5
+          text-align center
+          top .5em
+          right .5em
+          border-radius .1875em
+          background rgba(#000, .1)
+          color #fff
+
+          &:hover
+            background rgba(#000, .3)
+
+      div.radio strong
+        font-weight normal
+        color darkestGray
+
+    div.checkbox, div.radio
+      margin-bottom .1em
+
+      > label
+        cursor pointer
+
+        .help-text
+          display block
+          margin .0625em 0 .625em 1.5625em
+
+      &:last-child > label .help-text
+        margin-bottom 0
+
+    .fieldset-input .fieldset
+
+      label.control-label.ng-hide
+
+        ~ div.radio, ~ div.checkbox
+
+          // Space out radio lists with `notitle` inside a fieldset (e.g. https://git.io/vK4sP)
+          &:not(:last-child)
+            margin-bottom .4em
+
+    .legend
+      font-size .9em
+
+    .fieldset
+      border .0625em solid lightLineGray
+      background #fff
+      border-radius .1875em
+      padding 1.25em
+
+    > show-if > .fieldset-input > .fieldset
+      border .0625em solid lightLineGray
+      background #fff
+      border-radius .1875em
+      padding 1.25em
+
+      > show-if > .input
+        position relative
+
+        > .fieldset
+          background transparent
+          border 0
+          border-top .0625em solid lightLineGray
+          border-radius 0
+          padding .5em 0 0 0
+
+          > show-if
+            display block
+            margin-bottom .5em
+
+            &:last-child
+              margin-bottom 0
+
+            &.field-hidden
+              margin-bottom 0
+
+              // TODO - remove hack
+              &:last-child
+                margin-top -.5em
+
+          @media desktopMinWidthQuery
+            background transparent
+            padding-top 0
+            border-top 0
+            margin-left 8.5em
+
+            &:last-child
+              padding-bottom 0
+
+          &:last-child
+            margin-bottom 0
+
+        > .legend
+
+          @media desktopMinWidthQuery
+            font-size 1em
+            position absolute
+            height 1.25em
+            width 8.5em
+            overflow ellipsis
