@@ -23,7 +23,7 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
-      entities: null
+      entities: {}
     })
 
     const element = this.compileTemplate()
@@ -33,19 +33,6 @@ export default class Application extends BaseComponent {
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     downloadButton.addEventListener("click", this.startDownload)
-
-    // TODO: Remove after testing is done.
-    embedCodeInput.value = `<script>
-  (function(){
-  var handle = '@placeholder';
-  var a = document.createElement('script');
-  var m = document.getElementsByTagName('script')[0];
-  a.async = 1;
-  a.src = 'https://nectar.ninja/api/v1/' + handle.slice(1);
-  m.parentNode.insertBefore(a, m);
-  })();
-</script>`
-    this.parseInput()
 
     const stepHandlers = {
       "embed-code": this.navigateToEmbedCode,
@@ -68,8 +55,7 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(attributeListMount, this.attributeList.render())
 
-    // this.navigateToEmbedCode()
-    this.navigateToAttributes()
+    this.navigateToEmbedCode()
     mountPoint.appendChild(element)
   }
 
