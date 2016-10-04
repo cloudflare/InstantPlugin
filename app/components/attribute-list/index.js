@@ -18,7 +18,11 @@ export default class AttributeList extends BaseComponent {
     const IDs = this.getTrackedEntityIDs()
     const entities = this.getEntities()
 
-    this.element.innerHTML = ""
+    this.element.innerHTML = "<div class=\"attribute-list-content box\"></div>"
+
+    if (IDs.length) {
+      this.element.innerHTML = "<p>Add labels for these dynamic options:</p>" + this.element.innerHTML
+    }
 
     IDs.forEach((id, order) => {
       const entity = entities[id]
@@ -27,9 +31,11 @@ export default class AttributeList extends BaseComponent {
       })
 
       element.innerHTML = escapeTemplate`
+        <div class="original-entity">
+          <code>${entity.original}</code>
+        </div>
         <label class="entity-label">
-          <div class="label-content">Label for ${entity.original}</div>
-
+          <div class="label-content">Label for this dynamic option</div>
           <div class="entity-name">
             <input class="standard" type="text" placeholder="Option ${order + 1}"/>
           </div>
@@ -39,7 +45,7 @@ export default class AttributeList extends BaseComponent {
         .querySelector(".entity-name > input")
         .addEventListener("input", event => this.setEntityTitle(id, event))
 
-      this.element.appendChild(element)
+      this.element.querySelector(".attribute-list-content").appendChild(element)
     })
 
     return this.element

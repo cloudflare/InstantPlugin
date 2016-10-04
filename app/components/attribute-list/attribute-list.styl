@@ -1,8 +1,39 @@
+@import "./styl/colors"
+@import "./styl/fonts"
+@import "./styl/font-smoothing"
+
 [data-component="attribute-list"]
-  margin 1em 0
+
+  > p:first-child
+    padding-top 2em
 
   .entity
-    padding .6em
+    padding 1.25em
 
-  .entity + .entity
-    margin-top .5em
+    + .entity
+      border-top 1px solid #eee
+
+  .original-entity
+    width 27%
+    margin-right 5%
+
+    code
+      antialiasedFonts()
+      font-family monospaceFonts
+      line-height 1.6
+      border-radius 2em
+      padding .0625em .5em
+      cursor pointer
+      box-shadow 0 0 0 2px brandOrange
+      background #fff
+      display inline-block
+      overflow hidden
+      text-overflow ellipsis
+      height 1.6em
+
+  .entity-label
+    display block
+    width 68%
+
+  .label-content
+    color mutedTextColor

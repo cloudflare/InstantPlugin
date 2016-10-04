@@ -8,7 +8,7 @@ main(data-component="application" data-flow="column")
     .step(data-ref="steps[]" data-step="embed-code")
       p Paste your embed code below:
 
-      textarea.embed-code-input(
+      textarea.embed-code-input.box(
         data-ref="embedCodeInput"
         placeholder="<script>\n  \\\\...\n</script>")
 
@@ -18,7 +18,7 @@ main(data-component="application" data-flow="column")
     .step(data-ref="steps[]" data-step="attributes")
       p Click parts of the embed code to make them dynamic:
 
-      .attribute-picker(data-ref="attributePicker")
+      .attribute-picker.box(data-ref="attributePicker")
       .attribute-list-mount(data-ref="attributeListMount")
 
       .step-buttons
@@ -26,7 +26,7 @@ main(data-component="application" data-flow="column")
         button.button.primary(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
 
     .step(data-ref="steps[]" data-step="preview")
-      .preview-container-wrapper
+      .preview-container-wrapper.box
         .preview-container(data-ref="previewContainer")
 
       .step-buttons
@@ -34,7 +34,7 @@ main(data-component="application" data-flow="column")
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="download") Next
 
     .step(data-ref="steps[]" data-step="download")
-      form.form(data-ref="pluginDetailsForm")
+      form.form.box(data-ref="pluginDetailsForm")
         .input
           label Email
           input.standard(name="email" placeholder="Email" required type="email")

@@ -12,10 +12,8 @@ inputFocus()
   border-color brandOrange
   box-shadow 0 0 .0625em brandOrange
 
-inputBorder()
-  border 1px solid lightLineGray
-  border-radius standardInputRadius
-  border-top-color darken(lightLineGray, 15%)
+textarea
+  resize none
 
 textarea,
 input[type="date"],
@@ -36,6 +34,7 @@ input[type="week"]
   -webkit-tap-highlight-color transparent
   text-rendering optimizeLegibility
   background #fff
+  padding .6em .8em
 
   @media firefoxOnlyQuery
     &:invalid
@@ -44,20 +43,12 @@ input[type="week"]
   &[disabled]
     background transparent
 
-  &.light
-    border 1px solid #fff
+  &.standard
+    border 1px solid #cfcfcf
+    background #eee
     padding .6em .8em
     border-radius standardInputRadius
 
     &:focus
       inputFocus()
-
-  &.standard
-    padding .6em .8em
-    inputBorder()
-
-    &:focus
-      inputFocus()
-
-    &[disabled]
-      border-color lightLineGray
+      background #fff
