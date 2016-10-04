@@ -12,8 +12,10 @@ export default class BaseComponent {
     }, spec)
   }
 
-  autofocus() {
-    const focusElement = this.element.querySelector("[autofocus]")
+  autofocus(element) {
+    element = element || this.element
+
+    const focusElement = element.querySelector("[autofocus]")
 
     if (focusElement) focusElement.focus()
   }

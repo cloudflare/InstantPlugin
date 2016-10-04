@@ -78,12 +78,12 @@ export default class Application extends BaseComponent {
     stepsContainer.setAttribute("data-active-step", value)
 
     steps.forEach(stepEl => {
-      const method = stepEl.getAttribute("data-step") === value ? "add" : "remove"
+      const active = stepEl.getAttribute("data-step") === value
+      const method = active ? "add" : "remove"
 
       stepEl.classList[method]("active")
+      if (active) this.autofocus(stepEl)
     })
-
-    // TODO: autofocus
 
     return value
   }
