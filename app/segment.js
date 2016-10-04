@@ -79,7 +79,7 @@
 
   // Load Analytics.js with your key, which will automatically
   // load the tools you"ve enabled for your account. Boosh!
-  analytics.load("_____FILL____ME____")
+  analytics.load("UeTgchn085EGxJh93fJWBSoUQQsY1Vr9")
 
   // Make the first page call to load the integrations. If
   // you"d like to manually name or tag the page, edit or

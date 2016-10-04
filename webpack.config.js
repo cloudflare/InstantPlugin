@@ -23,8 +23,8 @@ const $ = {}
 $.devtool = "source-map"
 
 $.entry = {
-  site: "./app/index.js"
-  // segment: "./app/segment.js" TODO get account key
+  site: "./app/index.js",
+  segment: "./app/segment.js"
 }
 
 $.markdownLoader = {renderer}
