@@ -1,4 +1,3 @@
-
 const script = `<script type="text/javascript">
   var emojis = "tada, fire, grinning"
   var selector = "body"
@@ -15,9 +14,11 @@ const script = `<script type="text/javascript">
   container.insertBefore(iframe, container.firstChild || container)
 </script>`
 
-export default runDemo(app) {
+export default function runDemo(app) {
   const {embedCodeInput} = app.refs
 
   embedCodeInput.value = script
   app.parseInput()
+
+  app.route = "embed-code"
 }

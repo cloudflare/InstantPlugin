@@ -9,7 +9,10 @@ main(data-component="application" data-flow="column")
         placeholder="<script>\n  \\\\...\n</script>")
 
       .actions
-        button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
+        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="intro") Back
+        button.button.secondary.next(data-ref="navigationButtons[]" data-step="attributes") Next
+
+    include ./steps/intro.pug
 
     .step(data-ref="steps[]" data-step="attributes")
       p Click parts of the embed code to make them dynamic:

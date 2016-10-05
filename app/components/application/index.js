@@ -10,6 +10,7 @@ import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 import autosize from "autosize"
 import formSerialize from "form-serialize"
+import runDemo from "./emoji-react-demo"
 
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
@@ -36,6 +37,8 @@ export default class Application extends BaseComponent {
     downloadButton.addEventListener("click", this.startDownload)
 
     const stepHandlers = {
+      demo: this.navigateToDemo,
+      intro: this.navigateToIntro,
       "embed-code": this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
       preview: this.navigateToPreview,
@@ -56,7 +59,7 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(attributeListMount, this.attributeList.render())
 
-    this.navigateToEmbedCode()
+    this.navigateToIntro()
     mountPoint.appendChild(element)
   }
 
@@ -83,11 +86,20 @@ export default class Application extends BaseComponent {
       const method = active ? "add" : "remove"
 
       stepEl.classList[method]("active")
-      // TODO: check if in viewport.
-      // if (active) this.autofocus(stepEl)
+      if (active) this.autofocus(stepEl)
     })
 
     return value
+  }
+
+  @autobind
+  navigateToIntro() {
+    this.route = "intro"
+  }
+
+  @autobind
+  navigateToDemo() {
+    runDemo(this)
   }
 
   @autobind
@@ -215,6 +227,7 @@ export default class Application extends BaseComponent {
     const {pluginDetailsForm} = this.refs
     const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
     const payload = {
+      cmsName: "wordpress",
       installJSON: this.installJSON,
       ...pluginDetails
     }

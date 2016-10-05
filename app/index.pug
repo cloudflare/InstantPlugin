@@ -13,12 +13,10 @@ html(lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/20
     meta(property="og:description" content=htmlWebpackPlugin.options.description)
     meta(name="description" content=htmlWebpackPlugin.options.description)
 
-  body(data-column)
+  body(data-flow="column")
     noscript.slide.no-js-info
       p This website requires JavaScript to retrieve content.
       p: a(href="http://enable-javascript.com", target="_blank") How to enable JavaScript.
-
-    include ./hero.pug
 
     #app.app
 
