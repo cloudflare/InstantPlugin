@@ -82,7 +82,8 @@ export default class Application extends BaseComponent {
       const method = active ? "add" : "remove"
 
       stepEl.classList[method]("active")
-      if (active) this.autofocus(stepEl)
+      // TODO: check if in viewport.
+      // if (active) this.autofocus(stepEl)
     })
 
     return value

@@ -1,19 +1,14 @@
 main(data-component="application" data-flow="column")
-  a.logo-link
-    != require("../../assets/logo.svg")
-
-  h1 Instant Plugin
-
   .steps(data-active-step="embed-code" data-ref="stepsContainer")
     .step(data-ref="steps[]" data-step="embed-code")
       p Paste your embed code below:
 
       textarea.embed-code-input.box(
-        autofocus
+        data-autofocus
         data-ref="embedCodeInput"
         placeholder="<script>\n  \\\\...\n</script>")
 
-      .step-buttons
+      .actions
         button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
 
     .step(data-ref="steps[]" data-step="attributes")
@@ -22,7 +17,7 @@ main(data-component="application" data-flow="column")
       .attribute-picker.box(data-ref="attributePicker")
       .attribute-list-mount(data-ref="attributeListMount")
 
-      .step-buttons
+      .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="embed-code") Back
         button.button.primary(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
 
@@ -30,7 +25,7 @@ main(data-component="application" data-flow="column")
       .preview-container-wrapper.box
         .preview-container(data-ref="previewContainer")
 
-      .step-buttons
+      .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="download") Next
 
@@ -73,12 +68,6 @@ main(data-component="application" data-flow="column")
 
           textarea.standard(name="app[metadata][targets][wordpress][faq]" placeholder="FAQ")
 
-      .step-buttons
+      .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="preview") Back
         button.button.primary.next(data-ref="downloadButton") Download Plugin
-
-  .made-by
-    .label Made by
-
-    a.logo-link(href="https://eager.io")
-      != require("../../assets/eager-logo.svg")

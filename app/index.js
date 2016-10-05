@@ -1,4 +1,5 @@
 import "./index.styl"
+import "./hero.styl"
 
 import Application from "components/application"
 

@@ -34,7 +34,17 @@ div, footer, header, main, section
     display block
 
 [data-flow="column"]
+  display flex
   flex-flow column nowrap
+
+.actions
+  display block
+  margin-top 2em
+  text-align center
+
+  button + button
+    margin-left 1em
+
 
 .download-iframe
   position fixed
@@ -46,7 +56,7 @@ div, footer, header, main, section
 .made-by
   display block
   text-align center
-  margin 4em auto 0
+  margin 4em auto 2em
   width 20em
   max-width 100%
 
