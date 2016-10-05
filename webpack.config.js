@@ -10,6 +10,8 @@ const webpack = require("webpack")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const marked = require("marked")
 const autoprefixer = require("autoprefixer")
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const extractCSS = new ExtractTextPlugin("site.css")
 
 const toURL = ({hostname, port, protocol}) => `${protocol}://${hostname}${port ? ":" + port : ""}`
 
@@ -27,8 +29,6 @@ $.entry = {
   segment: "./app/segment.js"
 }
 
-$.markdownLoader = {renderer}
-
 $.output = {
   path: __dirname + "/site-deploy",
   filename: "[name].js",
@@ -37,12 +37,17 @@ $.output = {
 
 $.plugins = [
   new webpack.NoErrorsPlugin(),
+  new webpack.LoaderOptionsPlugin({
+    markdownLoader: {renderer},
+    postcss: [autoprefixer({remove: false, browsers: ["last 2 versions", "ie 10"]})]
+  }),
   new webpack.DefinePlugin({
     API_BASE: JSON.stringify(API_BASE),
     APP_BASE: JSON.stringify(APP_BASE),
     VERSION: JSON.stringify(version),
     "process.env.NODE_ENV": JSON.stringify(ENVIRONMENT)
   }),
+  extractCSS,
   new HtmlWebpackPlugin({
     title: "Instant Plugin",
     description,
@@ -51,33 +56,32 @@ $.plugins = [
 ]
 
 $.resolve = {
-  extensions: ["", ".js", ".json"],
+  extensions: [".js", ".json"],
   modules: [resolve(__dirname, "app"), "node_modules"]
 }
-
-$.postcss = () => [autoprefixer({remove: false, browsers: ["last 2 versions", "ie 10"]})]
 
 const minimizeParam = ENVIRONMENT === "development" ? "-minimize" : "minimize"
 
 $.module = {
+  noParse: /\.min\.js/,
   loaders: [
     {test: /\.pug$/, loader: "pug", exclude},
     {test: /\.png|jpe?g|gif$/i, loader: "url?limit=0", exclude},
+    {test: /\.js$/, loader: "eslint", enforce: "pre", exclude},
     {test: /\.js$/, loader: "babel", exclude},
     {test: /\.svg$/, loader: "svg-inline", exclude},
-    {test: /\.styl$/, loader: `style!css?${minimizeParam}!postcss!stylus?paths=app`}
-  ],
-  noParse: /\.min\.js/
+    {
+      test: /\.styl$/,
+      loader: ExtractTextPlugin.extract({
+        fallbackLoader: "style",
+        loader: `css?${minimizeParam}!postcss!stylus?paths=app`
+      })
+    }
+  ]
 }
 
 if (ENVIRONMENT === "development") {
   $.devtool = "eval"
-
-  $.module.preLoaders = [{
-    exclude,
-    loader: "eslint-loader",
-    test: /\.js$/
-  }]
 
   const devServerClient = `webpack-dev-server/client?http://0.0.0.0:${viewsRoute.port}`
 
