@@ -20,5 +20,10 @@ export default function runDemo(app) {
   embedCodeInput.value = script
   app.parseInput()
 
+  Object.assign(app.entities.option_2, {
+    title: "Comma separated list of emoji names (tada, grinning)",
+    tracked: true
+  })
+
   app.route = "embed-code"
 }

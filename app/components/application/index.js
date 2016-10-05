@@ -111,6 +111,7 @@ export default class Application extends BaseComponent {
   navigateToAttributes() {
     this.route = "attributes"
     this.attributeList.render()
+    this.syncButtonState()
   }
 
   @autobind
@@ -210,6 +211,7 @@ export default class Application extends BaseComponent {
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
       })
 
+    this.attributeList.render()
     this.syncButtonState()
   }
 

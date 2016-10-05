@@ -37,7 +37,7 @@ export default class AttributeList extends BaseComponent {
         <label class="entity-label">
           <div class="label-content">Label for this dynamic option</div>
           <div class="entity-name">
-            <input class="standard" type="text" placeholder="Option ${order + 1}"/>
+            <input class="standard" type="text" placeholder="Option ${order + 1}" value="${entity.title}"/>
           </div>
         </label>
       `
