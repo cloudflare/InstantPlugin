@@ -23,7 +23,8 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
-      entities: {}
+      entities: {},
+      installJSON: null
     })
 
     const element = this.compileTemplate()
@@ -125,7 +126,7 @@ export default class Application extends BaseComponent {
       current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })
 
-    this.payload = createEagerSchema({
+    this.installJSON = createEagerSchema({
       embedCode: embedCodeDOM.textContent,
       properties
     })
@@ -140,7 +141,7 @@ export default class Application extends BaseComponent {
       if (data.type !== "eager:app-tester:upload-listener-ready") return
 
       preview.contentWindow.postMessage({
-        ...this.payload,
+        installJSON: this.installJSON,
         type: "eager:app-tester:upload-app"
       }, "*")
     }
@@ -213,13 +214,14 @@ export default class Application extends BaseComponent {
 
     const {pluginDetailsForm} = this.refs
     const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
-
-    console.log(pluginDetails)
-
-    postJson(`${API_BASE}/create/instant`, {
-      ...this.payload,
+    const payload = {
+      installJSON: this.installJSON,
       ...pluginDetails
-    })
+    }
+
+    console.log(payload)
+
+    postJson(`${API_BASE}/create/instant`, payload)
       .then(onComplete)
       .catch(error => console.error(error))
   }
