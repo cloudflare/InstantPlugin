@@ -127,6 +127,9 @@
     &[data-active-step="download"] .step[data-step="preview"]
       transform translate3d(-5em, 0, 0)
 
+    &[data-active-step="attributes"] [data-entity-id]
+      display inline-block
+
       &::after
         content ""
         display block
@@ -153,9 +156,11 @@
     word-wrap break-word
 
     [data-entity-id]
+      display inline-block
       position relative
       border-radius 2em
-      padding .0625em .5em
+      padding 0 .5em
+      line-height 1.3
       cursor pointer
       box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
       background #eee

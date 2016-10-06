@@ -204,7 +204,12 @@ export default class Application extends BaseComponent {
         const id = `option_${order + 1}`
         const [, type] = element.className.match(TYPE_PATTERN)
 
-        this.entities[id] = {order, original: element.textContent, tracked: false, type}
+        this.entities[id] = {
+          element,
+          order,
+          original: element.textContent,
+          tracked: false,
+          type}
 
         element.setAttribute(ENTITY_ID, id)
         element.setAttribute(ENTITY_ORDER, order)
