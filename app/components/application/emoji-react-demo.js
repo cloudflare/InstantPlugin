@@ -17,6 +17,7 @@ const script = `<script type="text/javascript">
 export default function runDemo(app) {
   const {embedCodeInput} = app.refs
 
+  embedCodeInput.autofocus = false
   embedCodeInput.value = script
   app.parseInput()
 
