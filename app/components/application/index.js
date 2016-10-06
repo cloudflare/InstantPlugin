@@ -89,6 +89,8 @@ export default class Application extends BaseComponent {
       if (active) this.autofocus(stepEl)
     })
 
+    this.syncButtonState()
+
     return value
   }
 
@@ -187,7 +189,7 @@ export default class Application extends BaseComponent {
         </p>
 
         <p class="details">
-          Press “Back” edit the embed code, or “Next” to continue.
+          Press “Back” edit the embed code, or “Preview Plugin” to continue.
         </p>
       `
 
