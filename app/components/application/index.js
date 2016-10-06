@@ -145,7 +145,7 @@ export default class Application extends BaseComponent {
     })
 
     const preview = createElement("iframe", {
-      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=instantPlugin&initialUrl=example.com`
+      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
     })
 
     window.removeEventListener("message", this.messageHandler)
