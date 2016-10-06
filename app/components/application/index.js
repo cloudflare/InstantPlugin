@@ -42,6 +42,7 @@ export default class Application extends BaseComponent {
       "embed-code": this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
       preview: this.navigateToPreview,
+      details: this.navigateToDetails,
       download: this.navigateToDownload
     }
 
@@ -60,6 +61,7 @@ export default class Application extends BaseComponent {
     this.replaceElement(attributeListMount, this.attributeList.render())
 
     this.navigateToIntro()
+    // this.navigateToDownload()
     mountPoint.appendChild(element)
   }
 
@@ -169,6 +171,11 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
+  navigateToDetails() {
+    this.route = "details"
+  }
+
+  @autobind
   navigateToDownload() {
     this.route = "download"
   }
@@ -224,7 +231,11 @@ export default class Application extends BaseComponent {
 
   @autobind
   startDownload() {
+    const {downloadLink} = this.refs
+
     function onComplete({downloadURL}) {
+      downloadLink.href = downloadURL
+
       const downloadIframe = createElement("iframe", {
         className: "download-iframe",
         src: downloadURL

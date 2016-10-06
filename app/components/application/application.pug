@@ -30,9 +30,9 @@ main(data-component="application" data-flow="column")
 
       .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
-        button.button.primary.next(data-ref="navigationButtons[]" data-step="download") Next
+        button.button.primary.next(data-ref="navigationButtons[]" data-step="details") Next
 
-    .step(data-ref="steps[]" data-step="download")
+    .step(data-ref="steps[]" data-step="details")
       form.form.box(data-ref="pluginDetailsForm")
         .input
           label Email
@@ -74,3 +74,5 @@ main(data-component="application" data-flow="column")
       .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="preview") Back
         button.button.primary.next(data-ref="downloadButton") Download Plugin
+
+    include ./steps/download.pug
