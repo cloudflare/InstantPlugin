@@ -38,8 +38,12 @@ $.output = {
 $.plugins = [
   new webpack.NoErrorsPlugin(),
   new webpack.LoaderOptionsPlugin({
-    markdownLoader: {renderer},
-    postcss: [autoprefixer({remove: false, browsers: ["last 2 versions", "ie 10"]})]
+    options: {
+      markdownLoader: {renderer},
+      postcss: {
+        plugins: [autoprefixer({remove: false, browsers: ["last 2 versions", "ie 10"]})]
+      }
+    }
   }),
   new webpack.DefinePlugin({
     API_BASE: JSON.stringify(API_BASE),
