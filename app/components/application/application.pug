@@ -10,7 +10,7 @@ main(data-component="application" data-flow="column")
 
       .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="intro") Back
-        button.button.secondary.next(data-ref="navigationButtons[]" data-step="attributes") Next
+        button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
 
     include ./steps/intro.pug
 
@@ -22,7 +22,7 @@ main(data-component="application" data-flow="column")
 
       .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="embed-code") Back
-        button.button.primary(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
+        button.button.primary.next(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
 
     .step(data-ref="steps[]" data-step="preview")
       .preview-container-wrapper.box
@@ -30,7 +30,7 @@ main(data-component="application" data-flow="column")
 
       .actions
         button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
-        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="download") Next
+        button.button.primary.next(data-ref="navigationButtons[]" data-step="download") Next
 
     .step(data-ref="steps[]" data-step="download")
       form.form.box(data-ref="pluginDetailsForm")
