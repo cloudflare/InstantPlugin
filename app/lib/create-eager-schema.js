@@ -1,24 +1,19 @@
-const INJECTION_PATTERN = "\"{{EMBED_CODE_INJECTION}}\""
+const encode = string => window.btoa(unescape(encodeURIComponent(string)))
 
 export default function createEagerSchema({embedCode, properties}) {
-  embedCode = JSON
-    .stringify(embedCode)
-    .replace("</script>", '</scr" + "ipt>" + "') // eslint-disable-line quotes
-
-  const initializeApp = function initializeApp() {
+  const initializeApp = function initializeApp(encodedEmbedCode) {
     if (!window.addEventListener) return // Check for IE9+
 
     const TRACKED_ENTITY_PATTERN = /TRACKED_ENTITY\[(\S+)\]/g
     const options = INSTALL_OPTIONS
 
     const insertOption = (match, key) => options[key]
+    const decode = string => decodeURIComponent(escape(window.atob(string)))
 
     function insertEmbedCode() {
-      let embedCodeInjection = "{{EMBED_CODE_INJECTION}}"
+      const embedCode = decode(encodedEmbedCode).replace(TRACKED_ENTITY_PATTERN, insertOption)
 
-      embedCodeInjection = embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
-
-      document.head.innerHTML += embedCodeInjection
+      document.head.innerHTML += embedCode
 
       eval(document.head.lastChild.textContent) // eslint-disable-line no-eval
     }
@@ -29,14 +24,14 @@ export default function createEagerSchema({embedCode, properties}) {
     else {
       insertEmbedCode()
     }
-  }.toString().replace(INJECTION_PATTERN, embedCode)
+  }.toString().replace(/\\n/g, "\\\\n")
 
   const installJSON = {
     resources: {
       body: [
         {
           type: "script",
-          contents: `(${initializeApp}())`
+          contents: `(${initializeApp}("${encode(embedCode)}"))`
         }
       ]
     },
