@@ -131,15 +131,16 @@ export default class Application extends BaseComponent {
 
     IDs.forEach((id, order) => {
       const entity = this.entities[id]
+      const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
+      const text = current.textContent
+      const entityDelimiter = entity.type === "string" ? text[0] : ""
 
       properties[id] = {
-        title: entity.title || `Option ${order + 1}`,
         order,
+        placeholder: entityDelimiter ? text.substring(1, text.length - 1) : text,
+        title: entity.title || `Option ${order + 1}`,
         type: entity.type
       }
-
-      const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
-      const entityDelimiter = entity.type === "string" ? current.textContent[0] : ""
 
       current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
     })

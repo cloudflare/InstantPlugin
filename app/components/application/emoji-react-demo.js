@@ -7,7 +7,7 @@ const script = `<script type="text/javascript">
   iframe.src = "https://emojireact.com/embed?emojis=" + emojis.replace(/\s/g, "") + "&url=" + url
   iframe.scrolling = "no"
   iframe.frameBorder = "0"
-  iframe.style = "border:none; overflow:hidden; width:130px; height:35px;"
+  iframe.style = "border:none; overflow:hidden; height:35px;"
 
   var container = document.querySelector(selector)
 
@@ -23,7 +23,7 @@ export default function runDemo(app) {
 
   const {option_2} = app.entities
 
-  option_2.title = "Comma separated list of emoji names (tada, grinning)"
+  option_2.title = "Comma separated list of emoji names"
   app.toggleEntityTracking(option_2.element)
   app.route = "embed-code"
 }
