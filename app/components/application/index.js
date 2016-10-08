@@ -29,12 +29,15 @@ export default class Application extends BaseComponent {
     })
 
     const element = this.compileTemplate()
-    const {attributeListMount, embedCodeInput, downloadButton, navigationButtons} = this.refs
+    const {attributeListMount, embedCodeInput, pluginDetailsForm, navigationButtons} = this.refs
 
     autosize(embedCodeInput)
 
     embedCodeInput.addEventListener("input", this.handleEntry)
-    downloadButton.addEventListener("click", this.startDownload)
+    pluginDetailsForm.addEventListener("submit", event => {
+      event.preventDefault()
+      this.startDownload()
+    })
 
     const stepHandlers = {
       demo: this.navigateToDemo,
