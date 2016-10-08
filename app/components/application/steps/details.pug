@@ -43,6 +43,14 @@
 
         textarea.standard(name="app[metadata][targets][wordpress][faq]" placeholder="FAQ")
 
+      .input
+        label
+          span.required Icon
+          .help-text
+            | A 256x256 PNG, or SVG file
+
+          section(data-ref="imageUploadMount")
+
     .actions
       button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="preview") Back
       input.button.primary.next(type="submit" value="Download Plugin")

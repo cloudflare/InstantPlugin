@@ -1,0 +1,65 @@
+@import "~styl/colors"
+
+.standard[filepicker]
+  display block
+  position relative
+  overflow hidden
+  cursor pointer
+  padding 1.25em
+  border 1px dashed rgba(#000, .3)
+  background-color rgba(#fff, .5)
+  text-align center
+
+  &:before
+    content "Drag an image here"
+    color subtleText
+    display block
+    font-size .7272em
+    font-weight normal
+    letter-spacing .072em
+    text-transform uppercase
+
+  &.dragging
+    background-color rgba(#000, .1)
+
+    &:before
+      color inherit
+      content "Drop to upload"
+
+  &.uploading:before
+    color inherit
+    content "Uploading..."
+
+  &[data-progress].uploading:before
+    content "Uploading (" attr(data-progress) "%)..."
+
+  &.error:before
+    content "There was an error uploading, please try again."
+
+  input[type="file"]
+    opacity 0
+    position absolute
+    top 0
+    left 0
+
+  label[for]
+    font-size .7em
+    margin-top .7em
+
+  &.dragging, &.uploading
+
+    label[for]
+      pointer-events none
+      opacity .5
+
+.standard.filepicker-with-image
+  cursor default
+
+  .image
+    margin .2em 0 .4em
+
+    a
+      display inline-block
+
+    img
+      display block

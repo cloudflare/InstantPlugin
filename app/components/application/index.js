@@ -4,6 +4,7 @@ import template from "./application.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import AttributeList from "components/attribute-list"
+import ImageUploader from "components/image-uploader"
 import {highlight} from "highlight.js"
 import createElement from "lib/create-element"
 import createEagerSchema from "lib/create-eager-schema"
@@ -29,7 +30,13 @@ export default class Application extends BaseComponent {
     })
 
     const element = this.compileTemplate()
-    const {attributeListMount, embedCodeInput, pluginDetailsForm, navigationButtons} = this.refs
+    const {
+      attributeListMount,
+      embedCodeInput,
+      pluginDetailsForm,
+      navigationButtons,
+      imageUploadMount
+    } = this.refs
 
     autosize(embedCodeInput)
 
@@ -63,7 +70,10 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(attributeListMount, this.attributeList.render())
 
-    this.navigateToIntro()
+    this.imageUploader = new ImageUploader()
+
+    this.replaceElement(imageUploadMount, this.imageUploader.render())
+
     // this.navigateToDownload()
     mountPoint.appendChild(element)
   }
