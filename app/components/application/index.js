@@ -249,9 +249,10 @@ export default class Application extends BaseComponent {
 
   @autobind
   startDownload() {
-    const {downloadLink} = this.refs
+    const {downloadLink, downloadDetails} = this.refs
 
     function onComplete({downloadURL}) {
+      downloadDetails.setAttribute("data-state", "ready")
       downloadLink.href = downloadURL
 
       const downloadIframe = createElement("iframe", {
