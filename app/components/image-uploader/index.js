@@ -5,6 +5,7 @@ import BaseComponent from "components/base-component"
 import autobind from "autobind-decorator"
 import filepicker from "filepicker-js"
 import previewImageFile from "lib/preview-image-file"
+import uniqueID from "lib/unique-id"
 
 const API_KEY = "AcwVASRX5QoO107ICFDDpz"
 const DOMAIN = "eager-app-images.imgix.net"
@@ -12,15 +13,17 @@ const DOMAIN = "eager-app-images.imgix.net"
 export default class ImageUploader extends BaseComponent {
   static template = template;
 
-  constructor() {
-    super(...arguments)
+  constructor(spec = {}) {
+    Object.assign(spec, {
+      _imageURL: "",
+      _uploading: false,
+      name: spec.name || "image",
+      id: `image-uploader-${uniqueID()}`
+    })
+
+    super(spec)
 
     filepicker.setKey(API_KEY)
-
-    Object.assign(this, {
-      _imageURL: "",
-      _uploading: false
-    })
   }
 
   get imageURL() {
@@ -28,17 +31,18 @@ export default class ImageUploader extends BaseComponent {
   }
 
   set imageKey(key) {
-    this._imageURL = key
+    this._imageKey = key
+    this._imageURL = key ? `//${DOMAIN}/${key}` : ""
 
-    const {imageAnchor, previewImage} = this.refs
-    const url = key ? `//${DOMAIN}/${key}` : ""
+    const {imageAnchor, previewImage, hiddenURLInput} = this.refs
 
-    imageAnchor.href = url
-    previewImage.src = url
+    imageAnchor.href = this._imageURL
+    previewImage.src = this._imageURL
+    hiddenURLInput.value = this._imageURL
 
     this.element.setAttribute("data-state", key ? "uploaded" : "ready")
 
-    return this._imageURL
+    return this._imageKey
   }
 
   get uploading() {
@@ -150,8 +154,6 @@ export default class ImageUploader extends BaseComponent {
     filepicker.makeDropPane(fileInputContainer, dropOptions)
 
     this.reset()
-
-    // this.imageKey = "9uL93FaAQCu51HHRHOFA_Screen Shot 2016-10-04 at 11.02.47 PM.png"
 
     return this.element
   }

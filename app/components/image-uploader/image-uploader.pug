@@ -1,7 +1,8 @@
 section(data-component="image-uploader" data-flow="column")
   .standard(filepicker data-ref="fileInputContainer")
-    input(data-ref="fileInput" type="file" name="file" accept="image/*" id="image-uploader")
-    label(class="button secondary transparent slim" for="image-uploader") Choose image...
+    input(data-ref="hiddenURLInput" type="hidden" name=this.name)
+    input(data-ref="fileInput" type="file" accept="image/*" id=this.id)
+    label(class="button secondary transparent slim" for=this.id) Choose image...
 
   .standard.filepicker-with-image
     .image

@@ -70,7 +70,7 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(attributeListMount, this.attributeList.render())
 
-    this.imageUploader = new ImageUploader()
+    this.imageUploader = new ImageUploader({name: "app[icon]"})
 
     this.replaceElement(imageUploadMount, this.imageUploader.render())
 
