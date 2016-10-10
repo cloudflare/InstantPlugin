@@ -30,6 +30,16 @@
     color inherit
     content "Uploading..."
 
+  &[data-state="ready"] .filepicker-with-image
+    display none
+
+  &[data-state="uploaded"] .standard[filepicker]
+    display none
+
+  .image img
+    max-height 200px
+    max-width 100%
+
   &[data-progress].uploading:before
     content "Uploading (" attr(data-progress) "%)..."
 

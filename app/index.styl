@@ -4,7 +4,6 @@
 @import "~styl/more-links-and-buttons"
 @import "~styl/form"
 @import "~styl/inputs"
-@import "~styl/filepicker"
 
 *, *::after, *::before
   box-sizing border-box
@@ -41,12 +40,13 @@ div, footer, header, main, section
 
 .actions
   display block
-  margin-top 2em
   text-align center
 
   .button + .button
     margin-left 1em
 
+.box + .actions
+  margin-top 2em
 
 .download-iframe
   position fixed
