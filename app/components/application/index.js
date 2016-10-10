@@ -43,7 +43,8 @@ export default class Application extends BaseComponent {
     embedCodeInput.addEventListener("input", this.handleEntry)
     pluginDetailsForm.addEventListener("submit", event => {
       event.preventDefault()
-      this.startDownload()
+
+      this.navigateToDownload()
     })
 
     const stepHandlers = {
@@ -193,6 +194,8 @@ export default class Application extends BaseComponent {
   @autobind
   navigateToDownload() {
     this.route = "download"
+
+    this.startDownload()
   }
 
   parseInput() {
