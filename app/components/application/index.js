@@ -74,7 +74,7 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(imageUploadMount, this.imageUploader.render())
 
-    // this.navigateToDownload()
+    this.navigateToIntro()
     mountPoint.appendChild(element)
   }
 
