@@ -5,17 +5,25 @@
   position relative
   z-index 1
 
+  .standard
+    border 1px solid #cfcfcf
+    background #eee
+    display block
+    width 100%
+    padding 1.25em
+    text-align center
+    border-radius .1875em
+
+    div, img
+      display block
+
   .standard[filepicker]
     display block
-    flex 1 0 auto
     position relative
     overflow hidden
     cursor pointer
-    padding 1.25em
-    border 1px dashed rgba(#000, .3)
-    background #eee
+    border-style dashed
     text-align center
-    width 100%
 
     &:before
       content "Drag an image here"
@@ -69,16 +77,17 @@
     .image
       align-items center
       flex-flow column nowrap
-      margin .2em 0 .4em
+      margin 0
 
       a
-        display inline-block
+        display block
 
       img
         display block
+        margin auto
 
       .actions
-        margin-top 1.5em
+        margin-top 1.25em
 
   &[data-state="ready"] .filepicker-with-image
     display none
