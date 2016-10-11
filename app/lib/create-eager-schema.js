@@ -10,9 +10,7 @@ export default function createEagerSchema({embedCode, properties}) {
     const insertOption = (match, key) => options[key]
 
     function insertEmbedCode() {
-      embedCodeInjection = JSON
-        .parse(embedCodeInjection)
-        .replace(TRACKED_ENTITY_PATTERN, insertOption)
+      embedCodeInjection = embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
 
       document.head.innerHTML += embedCodeInjection
 
@@ -32,7 +30,7 @@ export default function createEagerSchema({embedCode, properties}) {
       body: [
         {
           type: "script",
-          contents: `(${initializeApp}(${JSON.stringify(embedCode)}))`
+          contents: `(${initializeApp}(${embedCode}))`
         }
       ]
     },
