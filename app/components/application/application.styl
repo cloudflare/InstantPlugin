@@ -132,13 +132,15 @@
     &[data-active-step="intro"] .step[data-step="embedCode"],
     &[data-active-step="embedCode"] .step[data-step="attributes"],
     &[data-active-step="attributes"] .step[data-step="preview"],
-    &[data-active-step="preview"] .step[data-step="download"]
+    &[data-active-step="preview"] .step[data-step="details"],
+    &[data-active-step="details"] .step[data-step="download"]
       transform translate3d(5em, 0, 0)
 
     &[data-active-step="embedCode"] .step[data-step="intro"],
     &[data-active-step="attributes"] .step[data-step="embedCode"],
     &[data-active-step="preview"] .step[data-step="attributes"],
-    &[data-active-step="download"] .step[data-step="preview"]
+    &[data-active-step="details"] .step[data-step="preview"],
+    &[data-active-step="download"] .step[data-step="details"]
       transform translate3d(-5em, 0, 0)
 
     &[data-active-step="attributes"] [data-entity-id]
