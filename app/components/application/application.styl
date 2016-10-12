@@ -129,31 +129,6 @@
     overflow hidden
     padding 0 1em 1em
 
-    p
-      text-align center
-      font-size 1.25em
-      font-weight 300
-      margin 0 0 1em
-
-    .step
-      position relative
-      display block
-      min-width 40em // TODO: needs improvement on small screens.
-      width 50%
-      margin auto
-      transition transform .3s ease, opacity .3s ease
-      transform translate3d(0, 0, 0)
-      will-change transform
-      opacity 1
-
-      &[data-step="preview"]
-        width 100%
-
-    .step:not(.active)
-      pointer-events none
-      position absolute
-      opacity 0
-
     &[data-active-step="intro"] .step[data-step="embed-code"],
     &[data-active-step="embed-code"] .step[data-step="attributes"],
     &[data-active-step="attributes"] .step[data-step="preview"],
@@ -185,6 +160,31 @@
           animation highlight-entity 1s ease-in-out
           animation-fill-mode forwards
           animation-delay .15s * i
+
+    p
+      text-align center
+      font-size 1.25em
+      font-weight 300
+      margin 0 0 1em
+
+    .step
+      position relative
+      display block
+      min-width 40em // TODO: needs improvement on small screens.
+      width 50%
+      margin auto
+      transition transform .3s ease, opacity .3s ease
+      transform translate3d(0, 0, 0)
+      will-change transform
+      opacity 1
+
+      &[data-step="preview"]
+        width 100%
+
+      &:not(.active)
+        pointer-events none
+        position absolute
+        opacity 0
 
   .attribute-picker
     cursor default
