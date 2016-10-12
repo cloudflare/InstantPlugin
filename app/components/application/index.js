@@ -47,7 +47,7 @@ export default class Application extends BaseComponent {
     pluginDetailsForm.addEventListener("submit", event => {
       event.preventDefault()
 
-      this.navigateToDownload()
+      this.navigateToCreating()
     })
 
     steps.forEach(stepEl => this.steps[stepEl.getAttribute("data-step")] = stepEl)
@@ -59,6 +59,7 @@ export default class Application extends BaseComponent {
       attributes: this.navigateToAttributes,
       preview: this.navigateToPreview,
       details: this.navigateToDetails,
+      creating: this.navigateToCreating,
       download: this.navigateToDownload
     }
 
@@ -197,10 +198,43 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
+  navigateToCreating() {
+    this.activeStep = "creating"
+
+    const onComplete = ({downloadURL}) => {
+      this.downloadURL = downloadURL
+      this.navigateToDownload()
+    }
+
+    const {pluginDetailsForm} = this.refs
+    const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
+    const payload = {
+      cmsName: "wordpress",
+      installJSON: this.installJSON,
+      ...pluginDetails
+    }
+
+    console.log(payload)
+
+    postJson(`${API_BASE}/create/instant`, payload)
+      .then(onComplete)
+      .catch(error => console.error(error))
+  }
+
+  @autobind
   navigateToDownload() {
     this.activeStep = "download"
 
-    this.startDownload()
+    const {downloadLink} = this.refs
+
+    downloadLink.href = this.downloadURL
+
+    const downloadIframe = createElement("iframe", {
+      className: "download-iframe",
+      src: this.downloadURL
+    })
+
+    document.body.appendChild(downloadIframe)
   }
 
   parseInput() {
@@ -263,37 +297,6 @@ export default class Application extends BaseComponent {
 
     this.attributeList.render()
     this.syncButtonState()
-  }
-
-  @autobind
-  startDownload() {
-    const {downloadLink, downloadDetails} = this.refs
-
-    function onComplete({downloadURL}) {
-      downloadDetails.setAttribute("data-state", "ready")
-      downloadLink.href = downloadURL
-
-      const downloadIframe = createElement("iframe", {
-        className: "download-iframe",
-        src: downloadURL
-      })
-
-      document.body.appendChild(downloadIframe)
-    }
-
-    const {pluginDetailsForm} = this.refs
-    const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
-    const payload = {
-      cmsName: "wordpress",
-      installJSON: this.installJSON,
-      ...pluginDetails
-    }
-
-    console.log(payload)
-
-    postJson(`${API_BASE}/create/instant`, payload)
-      .then(onComplete)
-      .catch(error => console.error(error))
   }
 
   toggleEntityTracking(element) {

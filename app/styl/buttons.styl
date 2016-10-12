@@ -15,6 +15,7 @@
   border 0
   border-radius .25em
   font-size 1em
+  line-height 1
   padding .75em 1.75em
   margin 0
   text-align center
@@ -67,6 +68,30 @@
   &.primary
     background brandOrange
     color #fff
+
+  &.twitter-share
+    display inline-block
+    color #fff
+    background brandBlue
+    padding-right 1.1em
+    padding-left 0
+    text-decoration none
+    letter-spacing normal
+
+    &:hover
+      color #fff
+      background darken(brandBlue, 18%)
+
+    svg
+      fill currentColor
+      display inline-block
+      height 1em
+      width 1em
+      vertical-align middle
+      margin 0 0.65em 0 0.88em
+      position relative
+      top -.15em
+
 
   &[disabled]
     background #ccc
