@@ -210,11 +210,11 @@ export default class Application extends BaseComponent {
       attributePicker.classList.add("empty")
       attributePicker.innerHTML = `
         <p class="details">
-          We couldn't find any configurable strings or numbers in that embed code.
+          We couldn’t find any configurable strings or numbers in that embed code.
         </p>
 
         <p class="details">
-          Press “Back” edit the embed code, or “Preview Plugin” to continue.
+          Press “Back” to edit the embed code or “Preview Plugin” to continue.
         </p>
       `
 
