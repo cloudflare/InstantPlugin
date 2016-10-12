@@ -51,15 +51,22 @@ stepProgressions = {
         animation-fill-mode forwards
         animation-delay .15s * i
 
-  .header
+  > .header
+    position relative
     align-items center
     text-align center
-    margin-bottom 1em
+    height 10em
+    transition height .4s ease, transform .4s ease
+    will-change height, transform
+    overflow hidden
 
     .logo-link
+      position relative
       display inline-block
       max-width 100%
       width 75px
+      transition transform .4s ease
+      will-change transform
 
       > svg
         display block
@@ -67,20 +74,22 @@ stepProgressions = {
         height 100%
 
     h1
+      position relative
       font-size 1.6em
       color brandOrange
       margin .3em 0
+      transition transform .4s ease
+      will-change transform
 
-    h2
-      color #555
-      font-weight normal
-      margin 0
-      width 17em
-      max-width 100%
-      font-size 2em
-      font-weight 500
-      line-height 1.3
-      margin .5em 0
+  &:not([data-active-step="intro"]) > .header
+    height 4em
+    transform translate3d(0, -1.9em, 0)
+
+    .logo-link
+      transform translate3d(-8em, -1.1em, 0) scale(.5)
+
+    h1
+      transform translate3d(1em, -3.75em, 0) scale(.75)
 
   .box
     display block
@@ -166,7 +175,7 @@ stepProgressions = {
 
     p
       text-align center
-      font-size 1.25em
+      font-size 1.3em
       font-weight 300
       margin 0 0 1em
 
@@ -176,7 +185,7 @@ stepProgressions = {
       min-width 40em // TODO: needs improvement on small screens.
       width 50%
       margin auto
-      transition visibility .4s, transform .3s ease, opacity .3s ease
+      transition visibility .5s, transform .4s ease, opacity .4s ease
       transform translate3d(0, 0, 0)
       will-change visibility, transform, opacity
       opacity 1
