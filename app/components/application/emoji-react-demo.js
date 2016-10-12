@@ -1,3 +1,5 @@
+import autosize from "autosize"
+
 const script = String.raw`<script type="text/javascript">
   var emojis = "tada, fire, grinning"
   var selector = "body"
@@ -19,6 +21,7 @@ export default function runDemo(app) {
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
+  autosize.update(embedCodeInput)
   app.parseInput()
 
   const {option_2} = app.entities
