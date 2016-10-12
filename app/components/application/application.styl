@@ -9,13 +9,43 @@
   align-items center
   flex-flow column nowrap
   justify-content center
-  padding-top 1.5em
+  padding-top 4em
   line-height 1.5
-  min-height 100vh
 
   @media mobileMaxWidthQuery
     padding-top 4em
     padding-bottom @padding-top
+
+  .header
+    align-items center
+    text-align center
+    margin-bottom 1em
+
+    .logo-link
+      display inline-block
+      max-width 100%
+      width 75px
+
+      > svg
+        display block
+        width 100%
+        height 100%
+
+    h1
+      font-size 1.6em
+      color brandOrange
+      margin .3em 0
+
+    h2
+      color #555
+      font-weight normal
+      margin 0
+      width 17em
+      max-width 100%
+      font-size 2em
+      font-weight 500
+      line-height 1.3
+      margin .5em 0
 
   .box
     display block
@@ -81,6 +111,11 @@
       margin 0
       text-align center
       white-space normal
+      padding-left 6.5em
+      padding-right @padding-left
+
+      + .details
+        margin-top -2.8em
 
   @import "./steps/intro"
   @import "./steps/details"
