@@ -12,6 +12,7 @@ import {postJson} from "simple-fetch"
 import autosize from "autosize"
 import formSerialize from "form-serialize"
 import runDemo from "./emoji-react-demo"
+import KM from "lib/key-map"
 
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
@@ -26,7 +27,8 @@ export default class Application extends BaseComponent {
 
     Object.assign(this, {
       entities: {},
-      installJSON: null
+      installJSON: null,
+      steps: {}
     })
 
     const element = this.compileTemplate()
@@ -35,7 +37,8 @@ export default class Application extends BaseComponent {
       embedCodeInput,
       pluginDetailsForm,
       navigationButtons,
-      imageUploadMount
+      imageUploadMount,
+      steps
     } = this.refs
 
     autosize(this.element.querySelectorAll("textarea"))
@@ -47,10 +50,12 @@ export default class Application extends BaseComponent {
       this.navigateToDownload()
     })
 
+    steps.forEach(stepEl => this.steps[stepEl.getAttribute("data-step")] = stepEl)
+
     const stepHandlers = {
       demo: this.navigateToDemo,
       intro: this.navigateToIntro,
-      "embed-code": this.navigateToEmbedCode,
+      embedCode: this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
       preview: this.navigateToPreview,
       details: this.navigateToDetails,
@@ -123,7 +128,7 @@ export default class Application extends BaseComponent {
 
   @autobind
   navigateToEmbedCode() {
-    this.route = "embed-code"
+    this.route = "embedCode"
   }
 
   @autobind
@@ -225,23 +230,36 @@ export default class Application extends BaseComponent {
     attributePicker.classList.remove("empty")
     attributePicker.innerHTML = serializer.innerHTML
 
+    const entityElements = attributePicker.querySelectorAll(ENTITY_QUERY)
+    const entityCount = entityElements.length
+
+    // Offset the existing tabindexes given our entity count.
     Array
-      .from(attributePicker.querySelectorAll(ENTITY_QUERY))
-      .forEach((element, order) => {
-        const id = `option_${order + 1}`
+      .from(this.steps.attributes.querySelectorAll("[tabindex]"))
+      .forEach((tabableEl, index) => tabableEl.tabIndex = entityCount + index + 1)
+
+    Array
+      .from(entityElements)
+      .forEach((element, index) => {
+        const id = `option_${index + 1}`
         const [, type] = element.className.match(TYPE_PATTERN)
 
         this.entities[id] = {
           element,
-          order,
+          order: index,
           original: element.textContent,
           tracked: false,
           type}
 
+        if (index === 0) element.setAttribute("data-autofocus", "")
+
+        element.tabIndex = index + 1
         element.setAttribute(ENTITY_ID, id)
-        element.setAttribute(ENTITY_ORDER, order)
+        element.setAttribute(ENTITY_ORDER, index)
         element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
       })
+
+    attributePicker.addEventListener("keydown", this.handleAttributeKeyDown)
 
     this.attributeList.render()
     this.syncButtonState()
@@ -301,7 +319,7 @@ export default class Application extends BaseComponent {
 
   syncButtonState() {
     const {embedCodeInput, stepsContainer} = this.refs
-    const embedCodeStep = stepsContainer.querySelector(".step[data-step='embed-code']")
+    const embedCodeStep = stepsContainer.querySelector(".step[data-step='embedCode']")
     const attributesStep = stepsContainer.querySelector(".step[data-step='attributes']")
     const navigateToAttributesButton = embedCodeStep.querySelector("button[data-step='attributes']")
     const navigateToPreviewButton = attributesStep.querySelector("button[data-step='preview']")
@@ -314,5 +332,21 @@ export default class Application extends BaseComponent {
   @autobind
   handleEntry() {
     this.parseInput()
+  }
+
+  @autobind
+  handleAttributeKeyDown(event) {
+    const entityEl = document.activeElement
+
+    if (!entityEl || ![KM.enter, KM.spacebar].includes(event.keyCode)) return
+
+    const {attributes} = this.steps
+    const id = entityEl.getAttribute(ENTITY_ID)
+
+    if (!attributes.contains(entityEl) || !id) return
+
+    event.preventDefault()
+
+    this.toggleEntityTracking(entityEl)
   }
 }
