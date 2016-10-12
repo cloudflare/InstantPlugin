@@ -1,11 +1,11 @@
-main(data-component="application" data-flow="column")
+main(data-component="application" data-flow="column" data-active-step="embedCode")
   header.header(data-flow="column")
     a.logo-link
       != require("../../assets/logo.svg")
 
     h1 Instant WordPress Plugin
 
-  .steps(data-active-step="embedCode" data-ref="stepsContainer")
+  .steps(data-ref="stepsContainer")
     .step(data-ref="steps[]" data-step="embedCode")
       p Paste your embed code below:
 

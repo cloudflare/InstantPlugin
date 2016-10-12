@@ -2,6 +2,14 @@
 @import "~styl/fonts"
 @import "~styl/font-smoothing"
 
+stepProgressions = {
+  "intro": "embedCode",
+  "embedCode": "attributes",
+  "attributes": "preview",
+  "preview": "details",
+  "details": "download"
+}
+
 [data-component="application"]
   width 100%
   position relative
@@ -15,6 +23,33 @@
   @media mobileMaxWidthQuery
     padding-top 4em
     padding-bottom @padding-top
+
+  for previous, next in stepProgressions
+    &[data-active-step={previous}] .step[data-step={next}]
+      transform translate3d(5em, 0, 0)
+
+    &[data-active-step={next}] .step[data-step={previous}]
+      transform translate3d(-5em, 0, 0)
+
+  &[data-active-step="attributes"] [data-entity-id]
+    display inline-block
+
+    &::after
+      content ""
+      display block
+      position absolute
+      border-radius 2em
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+
+    for i in (0..20)
+      &[data-entity-order={'"' + i + '"'}]::after
+        animation highlight-entity 1s ease-in-out
+        animation-fill-mode forwards
+        animation-delay .15s * i
 
   .header
     align-items center
@@ -129,40 +164,6 @@
     overflow hidden
     padding 0 1em 1em
 
-    &[data-active-step="intro"] .step[data-step="embedCode"],
-    &[data-active-step="embedCode"] .step[data-step="attributes"],
-    &[data-active-step="attributes"] .step[data-step="preview"],
-    &[data-active-step="preview"] .step[data-step="details"],
-    &[data-active-step="details"] .step[data-step="download"]
-      transform translate3d(5em, 0, 0)
-
-    &[data-active-step="embedCode"] .step[data-step="intro"],
-    &[data-active-step="attributes"] .step[data-step="embedCode"],
-    &[data-active-step="preview"] .step[data-step="attributes"],
-    &[data-active-step="details"] .step[data-step="preview"],
-    &[data-active-step="download"] .step[data-step="details"]
-      transform translate3d(-5em, 0, 0)
-
-    &[data-active-step="attributes"] [data-entity-id]
-      display inline-block
-
-      &::after
-        content ""
-        display block
-        position absolute
-        border-radius 2em
-        top 0
-        right 0
-        bottom 0
-        left 0
-        pointer-events none
-
-      for i in (0..20)
-        &[data-entity-order={'"' + i + '"'}]::after
-          animation highlight-entity 1s ease-in-out
-          animation-fill-mode forwards
-          animation-delay .15s * i
-
     p
       text-align center
       font-size 1.25em
@@ -175,7 +176,7 @@
       min-width 40em // TODO: needs improvement on small screens.
       width 50%
       margin auto
-      transition visibility 0s, transform .3s ease, opacity .3s ease
+      transition visibility .4s, transform .3s ease, opacity .3s ease
       transform translate3d(0, 0, 0)
       will-change visibility, transform, opacity
       opacity 1

@@ -93,14 +93,14 @@ export default class Application extends BaseComponent {
       .sort((keyA, keyB) => $[keyA].order - $[keyB].order)
   }
 
-  get route() {
-    return this.refs.stepsContainer.getAttribute("data-active-step")
+  get activeStep() {
+    return this.element.getAttribute("data-active-step")
   }
 
-  set route(value) {
-    const {steps, stepsContainer} = this.refs
+  set activeStep(value) {
+    const {steps} = this.refs
 
-    stepsContainer.setAttribute("data-active-step", value)
+    this.element.setAttribute("data-active-step", value)
 
     steps.forEach(stepEl => {
       const active = stepEl.getAttribute("data-step") === value
@@ -118,7 +118,7 @@ export default class Application extends BaseComponent {
 
   @autobind
   navigateToIntro() {
-    this.route = "intro"
+    this.activeStep = "intro"
   }
 
   @autobind
@@ -128,12 +128,12 @@ export default class Application extends BaseComponent {
 
   @autobind
   navigateToEmbedCode() {
-    this.route = "embedCode"
+    this.activeStep = "embedCode"
   }
 
   @autobind
   navigateToAttributes() {
-    this.route = "attributes"
+    this.activeStep = "attributes"
     this.attributeList.render()
     this.syncButtonState()
   }
@@ -188,17 +188,17 @@ export default class Application extends BaseComponent {
 
     previewContainer.appendChild(preview)
 
-    this.route = "preview"
+    this.activeStep = "preview"
   }
 
   @autobind
   navigateToDetails() {
-    this.route = "details"
+    this.activeStep = "details"
   }
 
   @autobind
   navigateToDownload() {
-    this.route = "download"
+    this.activeStep = "download"
 
     this.startDownload()
   }
