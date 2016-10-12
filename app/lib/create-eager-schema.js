@@ -10,9 +10,7 @@ export default function createEagerSchema({embedCode, properties}) {
     const insertOption = (match, key) => options[key]
 
     function insertEmbedCode() {
-      embedCodeInjection = embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
-
-      document.head.innerHTML += embedCodeInjection
+      document.head.innerHTML += embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
 
       eval(document.head.lastChild.textContent) // eslint-disable-line no-eval
     }
