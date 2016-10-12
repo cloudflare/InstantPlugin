@@ -38,7 +38,7 @@ export default class Application extends BaseComponent {
       imageUploadMount
     } = this.refs
 
-    autosize(embedCodeInput)
+    autosize(this.element.querySelectorAll("textarea"))
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     pluginDetailsForm.addEventListener("submit", event => {
