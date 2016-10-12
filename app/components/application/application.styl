@@ -13,12 +13,15 @@ stepProgressions = {
 
 [data-component="application"]
   width 100%
+  overflow hidden
   position relative
   z-index 2
   align-items center
   flex-flow column nowrap
   justify-content center
   padding-top 4em
+  padding-bottom 4em
+  min-height 100vh
   line-height 1.5
 
   @media mobileMaxWidthQuery
@@ -227,6 +230,52 @@ stepProgressions = {
         background #fff
         box-shadow 0 0 0 2px brandOrange
 
+  a.made-by.button
+    position absolute
+    z-index 20
+    bottom 0
+    left 0
+    right 0
+    margin-left auto
+    margin-right auto
+    width 7em
+    padding 1.1em
+    border-bottom-left-radius 0
+    border-bottom-right-radius 0
+    display block
+    text-align center
+    max-width 100%
+    transition transform .4s ease
+    will-change transform
+    background #ccc
+    box-shadow none
+
+    > *
+      opacity .4
+
+    .label
+      display block
+      font-size .7em
+      font-weight 100
+      text-transform uppercase
+      letter-spacing .1em
+      text-indent @letter-spacing
+      margin-bottom 1em
+
+    svg
+      display block
+      width 100%
+      height auto
+
+      path
+        fill currentColor
+
+  &[data-active-step="intro"]
+    padding-bottom 10em
+
+  &:not([data-active-step="intro"]) > a.made-by.button
+    transform translate3d(0, calc(100% + 4em), 0)
+
 @keyframes highlight-entity
   0%
     box-shadow 0 0 0 1px rgba(brandOrange, 0)
@@ -239,4 +288,3 @@ stepProgressions = {
   100%
     box-shadow 0 0 0 5px rgba(brandOrange, 0)
     animation-timing-function ease-out
-

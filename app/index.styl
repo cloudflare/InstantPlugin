@@ -57,32 +57,26 @@ div, footer, header, main, section
   width 1px
   height 1px
 
-.made-by
-  display block
-  text-align center
-  margin 4em auto
-  width 20em
-  max-width 100%
+a.twitter-share
+  font-size .85em
+  font-weight 500
+  padding .5em .85em
+  border-radius .1875em
+  color #fff
+  background brandBlue
+  text-decoration none
+  letter-spacing normal
 
-  .label
-    display block
-    font-size .7em
-    font-weight 100
-    text-transform uppercase
-    letter-spacing .1em
-    text-indent @letter-spacing
-    margin-bottom 1em
-    opacity .3
+  &:hover
+    color #fff
+    background darken(brandBlue, 18%)
 
-  .logo-link
-    color inherit
-    display block
-    width 6em
-    height 3em
-    margin auto
-
-    &:not(:hover)
-      opacity .3
-
-    path
-      fill currentColor
+  svg
+    fill currentColor
+    display inline-block
+    height 1em
+    width 1em
+    vertical-align middle
+    margin 0 .5em 0 .125em
+    position relative
+    top -.15em
