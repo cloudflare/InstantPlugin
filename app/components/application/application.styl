@@ -173,10 +173,11 @@
       min-width 40em // TODO: needs improvement on small screens.
       width 50%
       margin auto
-      transition transform .3s ease, opacity .3s ease
+      transition visibility 0s, transform .3s ease, opacity .3s ease
       transform translate3d(0, 0, 0)
-      will-change transform
+      will-change visibility, transform, opacity
       opacity 1
+      visibility visible
 
       &[data-step="preview"]
         width 100%
@@ -185,6 +186,7 @@
         pointer-events none
         position absolute
         opacity 0
+        visibility hidden
 
   .attribute-picker
     cursor default
