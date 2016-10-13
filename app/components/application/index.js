@@ -110,12 +110,7 @@ export default class Application extends BaseComponent {
       stepEl.classList[method]("active")
 
       if (active) {
-        window.requestAnimationFrame(_ => {
-          stepsContainer.style.height = `${stepEl.clientHeight + 16}px`
-          window.requestAnimationFrame(_ => {
-            stepsContainer.style.height = "auto"
-          })
-        })
+        window.requestAnimationFrame(() => { stepsContainer.style.height = `${stepEl.clientHeight + 16}px` })
         this.autofocus(stepEl)
       }
     })
