@@ -161,6 +161,7 @@ stepProgressions = {
         margin-top -2.8em
 
   @import "./steps/intro"
+  @import "./steps/embed-code"
   @import "./steps/details"
   @import "./steps/creating"
   @import "./steps/download"
@@ -174,15 +175,9 @@ stepProgressions = {
     transition height .6s cubic-bezier(.6, 0, .4, 1)
     will-change height
 
-    p
-      text-align center
-      font-size 1.3em
-      font-weight 300
-      margin 0 0 1em
-
     .step
       position relative
-      display block
+      flex-flow column nowrap
       width 40em
       max-width calc(100vw - 2em)
       margin auto
@@ -201,6 +196,12 @@ stepProgressions = {
         position absolute
         opacity 0
         visibility hidden
+
+      & > p
+        text-align center
+        font-size 1.3em
+        font-weight 300
+        margin 0 0 1em
 
   .attribute-picker
     cursor default

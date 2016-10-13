@@ -1,0 +1,18 @@
+.step(data-ref="steps[]" data-step="embedCode")
+  p Paste your embed code below:
+
+
+  .input-container(data-flow="column")
+    .demos
+      .demo(data-ref="navigationButtons[]" data-step="demo" data-demo="emojiReact") Emoji React 🎉
+      .demo(data-ref="navigationButtons[]" data-step="demo" data-demo="nectarNinja") Nectar Ninja 🐝
+
+    textarea.embed-code-input.box(
+      autofocus
+      data-ref="embedCodeInput"
+      placeholder="<script>\n  \n  \n  \n  \n  \n  \n  \n  \n</script>")
+
+  .actions
+    button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="intro") Back
+    button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
+

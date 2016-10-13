@@ -1,0 +1,28 @@
+.step[data-step="embedCode"]
+  .input-container
+    position relative
+
+    .demos
+      justify-content flex-end
+
+      .demo
+        background offwhite
+        border-top-right-radius .2em
+        border-top-left-radius .2em
+        border-bottom 1px solid darkOffwhite
+        cursor pointer
+        padding 0 1em
+        line-height 1.8
+        font-size 0.85em
+
+        &:hover
+          background darkOffwhite
+
+        &:active
+          transform translate3d(0, 1px, 0)
+
+      .demo + .demo
+        margin-left 1em
+
+    .demos + .box
+      border-top-right-radius 0

@@ -6,18 +6,7 @@ main(data-component="application" data-flow="column" data-active-step="embedCode
     h1 Instant WordPress Plugin
 
   .steps(data-ref="stepsContainer")
-    .step(data-ref="steps[]" data-step="embedCode")
-      p Paste your embed code below:
-
-      textarea.embed-code-input.box(
-        autofocus
-        data-ref="embedCodeInput"
-        placeholder="<script>\n  \n  \n  \n  \n  \n  \n  \n  \n</script>")
-
-      .actions
-        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="intro") Back
-        button.button.primary.next(data-ref="navigationButtons[]" data-step="attributes") Next
-
+    include ./steps/embed-code.pug
     include ./steps/intro.pug
 
     .step(data-ref="steps[]" data-step="attributes")

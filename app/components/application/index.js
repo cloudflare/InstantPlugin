@@ -11,7 +11,7 @@ import createEagerSchema from "lib/create-eager-schema"
 import {postJson} from "simple-fetch"
 import autosize from "autosize"
 import formSerialize from "form-serialize"
-import runDemo from "./emoji-react-demo"
+import * as demos from "./demos"
 import KM from "lib/key-map"
 
 const ENTITY_ID = "data-entity-id"
@@ -130,8 +130,10 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
-  navigateToDemo() {
-    runDemo(this)
+  navigateToDemo({target}) {
+    const demo = demos[target.getAttribute("data-demo")]
+
+    demo(this)
   }
 
   @autobind
