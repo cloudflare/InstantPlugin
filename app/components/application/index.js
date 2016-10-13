@@ -41,8 +41,11 @@ export default class Application extends BaseComponent {
       imageUploadMount,
       steps
     } = this.refs
+    const setStepsContainerHeightAuto = () => stepsContainer.style.height = "auto"
 
-    window.addEventListener("resize", () => stepsContainer.style.height = "auto")
+    window.addEventListener("resize", setStepsContainerHeightAuto)
+    document.addEventListener("keypress", setStepsContainerHeightAuto)
+    document.addEventListener("click", setStepsContainerHeightAuto)
 
     autosize(this.element.querySelectorAll("textarea"))
 
