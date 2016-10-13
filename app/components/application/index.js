@@ -121,7 +121,7 @@ export default class Application extends BaseComponent {
     })
 
     this.syncButtonState()
-    //window.scrollTo(0, 0)
+    window.scrollTo(0, 0)
 
     return value
   }
