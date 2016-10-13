@@ -38,16 +38,10 @@ export default class Application extends BaseComponent {
       pluginDetailsForm,
       navigationButtons,
       imageUploadMount,
-      stepsContainer,
       steps
     } = this.refs
 
     autosize(this.element.querySelectorAll("textarea"))
-
-    window.addEventListener("resize", event => {
-      stepsContainer.style.height = "auto"
-    })
-
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     pluginDetailsForm.addEventListener("submit", event => {
@@ -118,13 +112,16 @@ export default class Application extends BaseComponent {
       if (active) {
         window.requestAnimationFrame(_ => {
           stepsContainer.style.height = `${stepEl.clientHeight + 16}px`
+          window.requestAnimationFrame(_ => {
+            stepsContainer.style.height = "auto"
+          })
         })
         this.autofocus(stepEl)
       }
     })
 
     this.syncButtonState()
-    window.scrollTo(0, 0)
+    //window.scrollTo(0, 0)
 
     return value
   }
