@@ -21,7 +21,6 @@ stepProgressions = {
   justify-content center
   padding-top 4em
   padding-bottom 4em
-  min-height 100vh
   line-height 1.5
 
   for previous, next in stepProgressions
@@ -56,17 +55,19 @@ stepProgressions = {
     align-items center
     text-align center
     height 10em
-    transition height .4s ease, transform .4s ease
+    transition height .6s ease, transform .6s ease
     will-change height, transform
     overflow hidden
+
+    .logo-link, h1
+      transition transform .6s ease
+      will-change transform
 
     .logo-link
       position relative
       display inline-block
       max-width 100%
       width 75px
-      transition transform .4s ease
-      will-change transform
 
       > svg
         display block
@@ -78,8 +79,6 @@ stepProgressions = {
       font-size 1.6em
       color brandOrange
       margin .3em 0
-      transition transform .4s ease
-      will-change transform
 
   &:not([data-active-step="intro"]) > .header
     height 4em
@@ -172,7 +171,7 @@ stepProgressions = {
     justify-content center
     position relative
     padding 0 1em 1em
-    transition height .4s ease
+    transition height .6s ease
     will-change height
 
     p
@@ -187,7 +186,7 @@ stepProgressions = {
       width 40em
       max-width calc(100vw - 2em)
       margin auto
-      transition visibility .5s, transform .4s ease, opacity .4s ease
+      transition visibility .7s, transform .6s ease, opacity .6s ease
       transform translate3d(0, 0, 0)
       will-change visibility, transform, opacity
       opacity 1
@@ -228,22 +227,17 @@ stepProgressions = {
         box-shadow 0 0 0 2px brandOrange
 
   a.made-by.button
-    position absolute
     z-index 20
-    bottom 0
-    left 0
-    right 0
+    margin-top 4em
     margin-left auto
     margin-right auto
     width 7em
     padding 1.1em
-    border-bottom-left-radius 0
-    border-bottom-right-radius 0
     display block
     text-align center
     max-width 100%
-    transition transform .4s ease
-    will-change transform
+    transition opacity .25s ease
+    will-change opacity
     background #ccc
     box-shadow none
 
@@ -267,11 +261,9 @@ stepProgressions = {
       path
         fill currentColor
 
-  &[data-active-step="intro"]
-    padding-bottom 10em
-
   &:not([data-active-step="intro"]) > a.made-by.button
-    transform translate3d(0, calc(100% + 4em), 0)
+    opacity 0
+    pointer-events none
 
 @keyframes highlight-entity
   0%
