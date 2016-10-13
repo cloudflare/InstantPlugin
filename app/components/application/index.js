@@ -33,6 +33,7 @@ export default class Application extends BaseComponent {
 
     const element = this.compileTemplate()
     const {
+      stepsContainer,
       attributeListMount,
       embedCodeInput,
       pluginDetailsForm,
@@ -40,6 +41,8 @@ export default class Application extends BaseComponent {
       imageUploadMount,
       steps
     } = this.refs
+
+    window.addEventListener("resize", () => stepsContainer.style.height = "auto")
 
     autosize(this.element.querySelectorAll("textarea"))
 
