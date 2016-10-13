@@ -38,10 +38,16 @@ export default class Application extends BaseComponent {
       pluginDetailsForm,
       navigationButtons,
       imageUploadMount,
+      stepsContainer,
       steps
     } = this.refs
 
     autosize(this.element.querySelectorAll("textarea"))
+
+    window.addEventListener("resize", event => {
+      stepsContainer.style.height = "auto"
+    })
+
 
     embedCodeInput.addEventListener("input", this.handleEntry)
     pluginDetailsForm.addEventListener("submit", event => {
@@ -99,7 +105,7 @@ export default class Application extends BaseComponent {
   }
 
   set activeStep(value) {
-    const {steps} = this.refs
+    const {steps, stepsContainer} = this.refs
 
     this.element.setAttribute("data-active-step", value)
 
@@ -108,7 +114,13 @@ export default class Application extends BaseComponent {
       const method = active ? "add" : "remove"
 
       stepEl.classList[method]("active")
-      if (active) this.autofocus(stepEl)
+
+      if (active) {
+        window.requestAnimationFrame(_ => {
+          stepsContainer.style.height = `${stepEl.clientHeight + 16}px`
+        })
+        this.autofocus(stepEl)
+      }
     })
 
     this.syncButtonState()

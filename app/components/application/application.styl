@@ -24,10 +24,6 @@ stepProgressions = {
   min-height 100vh
   line-height 1.5
 
-  @media mobileMaxWidthQuery
-    padding-top 4em
-    padding-bottom @padding-top
-
   for previous, next in stepProgressions
     &[data-active-step={previous}] .step[data-step={next}]
       transform translate3d(5em, 0, 0)
@@ -175,8 +171,9 @@ stepProgressions = {
     max-width 100vw
     justify-content center
     position relative
-    overflow hidden
     padding 0 1em 1em
+    transition height .4s ease
+    will-change height
 
     p
       text-align center
@@ -187,8 +184,8 @@ stepProgressions = {
     .step
       position relative
       display block
-      min-width 40em // TODO: needs improvement on small screens.
-      width 50%
+      width 40em
+      max-width calc(100vw - 2em)
       margin auto
       transition visibility .5s, transform .4s ease, opacity .4s ease
       transform translate3d(0, 0, 0)
