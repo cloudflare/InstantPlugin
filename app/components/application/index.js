@@ -80,7 +80,8 @@ export default class Application extends BaseComponent {
       preview: this.navigateToPreview,
       details: this.navigateToDetails,
       creating: this.navigateToCreating,
-      download: this.navigateToDownload
+      download: this.navigateToDownload,
+      reset: () => window.location.reload() // TODO: Reset more elegantly.
     }
 
     navigationButtons.forEach(buttonEl => {
