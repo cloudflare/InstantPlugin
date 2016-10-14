@@ -1,28 +1,24 @@
 .step[data-step="embedCode"]
+
   .input-container
     position relative
 
-    .demos
-      justify-content flex-end
+  .demos
+    display block
+    text-align center
+    margin-bottom 1em
 
-      .demo
-        background offwhite
-        border-top-right-radius .2em
-        border-top-left-radius .2em
-        border-bottom 1px solid darkOffwhite
-        cursor pointer
-        padding 0 1em
-        line-height 1.8
-        font-size 0.85em
+    > *
+      display inline-block
+      vertical-align middle
+      font-size .75em
 
-        &:hover
-          background darkOffwhite
+    > span
+      margin-right 1em
 
-        &:active
-          transform translate3d(0, 1px, 0)
+  .demo.button
+    padding-left 1em
+    padding-right @padding-left
 
-      .demo + .demo
-        margin-left 1em
-
-    .demos + .box
-      border-top-right-radius 0
+    + .demo
+      margin-left 1em
