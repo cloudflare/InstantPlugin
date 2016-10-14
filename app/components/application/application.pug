@@ -8,25 +8,8 @@ main(data-component="application" data-flow="column" data-active-step="embedCode
   .steps(data-ref="stepsContainer")
     include ./steps/embed-code.pug
     include ./steps/intro.pug
-
-    .step(data-ref="steps[]" data-step="attributes")
-      p Click parts of the embed code to make them dynamic:
-
-      .attribute-picker.box(data-ref="attributePicker")
-      .attribute-list-mount(data-ref="attributeListMount")
-
-      .actions
-        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="embedCode") Back
-        button.button.primary.next(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
-
-    .step(data-ref="steps[]" data-step="preview")
-      .preview-container-wrapper.box
-        .preview-container(data-ref="previewContainer")
-
-      .actions
-        button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
-        button.button.primary.next(data-ref="navigationButtons[]" data-step="details") Next
-
+    include ./steps/attributes.pug
+    include ./steps/preview.pug
     include ./steps/details.pug
     include ./steps/creating.pug
     include ./steps/download.pug
