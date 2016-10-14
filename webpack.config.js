@@ -11,6 +11,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const marked = require("marked")
 const autoprefixer = require("autoprefixer")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 const extractCSS = new ExtractTextPlugin("site.css")
 
 const toURL = ({hostname, port, protocol}) => `${protocol}://${hostname}${port ? ":" + port : ""}`
@@ -56,6 +57,11 @@ $.plugins = [
     title: "Instant Plugin",
     description,
     template: "app/index.pug"
+  }),
+  new CopyWebpackPlugin([
+    {from: "./app/external-assets", to: "external-assets"}
+  ], {
+    ignore: [".DS_Store"]
   })
 ]
 
