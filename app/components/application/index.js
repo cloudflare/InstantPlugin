@@ -45,7 +45,6 @@ export default class Application extends BaseComponent {
 
     window.addEventListener("resize", setStepsContainerHeightAuto)
     document.addEventListener("keypress", setStepsContainerHeightAuto)
-    document.addEventListener("click", setStepsContainerHeightAuto)
 
     autosize(this.element.querySelectorAll("textarea"))
 
