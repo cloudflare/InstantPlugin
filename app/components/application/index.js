@@ -18,6 +18,7 @@ const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const ENTITY_QUERY = ".hljs-string, .hljs-number"
 const TYPE_PATTERN = /hljs-([\S]*)/
+const previewURL = `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
 
 export default class Application extends BaseComponent {
   static template = template;
@@ -26,9 +27,23 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
+      awaitingPreview: false,
       entities: {},
       installJSON: null,
-      steps: {}
+      steps: {},
+      previewURL,
+      previewReady: false
+    })
+
+    window.addEventListener("message", ({data}) => {
+      if (data.type !== "eager:app-tester:upload-listener-ready") return
+
+      this.previewReady = true
+
+      if (this.awaitingPreview) {
+        this.awaitingPreview = false
+        this.sendPreviewPayload()
+      }
     })
 
     const element = this.compileTemplate()
@@ -152,10 +167,6 @@ export default class Application extends BaseComponent {
 
   @autobind
   navigateToPreview() {
-    const {previewContainer} = this.refs
-
-    previewContainer.innerHTML = ""
-
     const IDs = this.getTrackedEntityIDs()
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
     const properties = {}
@@ -181,24 +192,8 @@ export default class Application extends BaseComponent {
       properties
     })
 
-    const preview = createElement("iframe", {
-      src: `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
-    })
-
-    window.removeEventListener("message", this.messageHandler)
-
-    this.messageHandler = ({data}) => {
-      if (data.type !== "eager:app-tester:upload-listener-ready") return
-
-      preview.contentWindow.postMessage({
-        installJSON: this.installJSON,
-        type: "eager:app-tester:upload-app"
-      }, "*")
-    }
-
-    window.addEventListener("message", this.messageHandler)
-
-    previewContainer.appendChild(preview)
+    if (this.previewReady) this.sendPreviewPayload()
+    else this.awaitingPreview = true
 
     this.activeStep = "preview"
   }
@@ -344,11 +339,6 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
-  handleEntry() {
-    this.parseInput()
-  }
-
-  @autobind
   handleAttributeKeyDown(event) {
     const entityEl = document.activeElement
 
@@ -362,5 +352,20 @@ export default class Application extends BaseComponent {
     event.preventDefault()
 
     this.toggleEntityTracking(entityEl)
+  }
+
+  @autobind
+  sendPreviewPayload() {
+    const {previewIframe} = this.refs
+
+    previewIframe.contentWindow.postMessage({
+      installJSON: this.installJSON,
+      type: "eager:app-tester:upload-app"
+    }, "*")
+  }
+
+  @autobind
+  handleEntry() {
+    this.parseInput()
   }
 }

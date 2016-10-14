@@ -1,6 +1,7 @@
 .step(data-ref="steps[]" data-step="preview")
   .preview-container-wrapper.box
     .preview-container(data-ref="previewContainer")
+      iframe(src=this.previewURL data-ref="previewIframe")
 
   .actions
     button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="attributes") Back
