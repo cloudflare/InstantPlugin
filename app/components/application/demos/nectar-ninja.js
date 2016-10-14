@@ -17,7 +17,7 @@ const script = String.raw`<script>
 </script>`
 
 export default function runDemo(app) {
-  const {embedCodeInput} = app.refs
+  const {embedCodeInput, pluginDetailsForm} = app.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
@@ -29,4 +29,18 @@ export default function runDemo(app) {
   option_1.title = "Twitter username"
   app.toggleEntityTracking(option_1.element)
   app.activeStep = "embedCode"
+
+  const fields = {
+    "[name='email']": "demo@instantwordpressplugin.com",
+    "[name='app[title]']": "Nectar Ninja",
+    "[name='app[description]']": "Send website notifications via Twitter!",
+    "[name='app[metadata][description]']": `Let users know of new features, deals or downtimes.
+Dead-simple, no signup required. Yes, it's free.`
+  }
+
+  Object
+    .keys(fields)
+    .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
+
+  app.imageUploader.imageURL = "/external-assets/bee.png"
 }

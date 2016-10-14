@@ -30,9 +30,8 @@ export default class ImageUploader extends BaseComponent {
     return this._imageURL
   }
 
-  set imageKey(key) {
-    this._imageKey = key
-    this._imageURL = key ? `//${DOMAIN}/${key}` : ""
+  set imageURL(value) {
+    this._imageURL = value
 
     const {imageAnchor, previewImage, hiddenURLInput} = this.refs
 
@@ -40,7 +39,12 @@ export default class ImageUploader extends BaseComponent {
     previewImage.src = this._imageURL
     hiddenURLInput.value = this._imageURL
 
-    this.element.setAttribute("data-state", key ? "uploaded" : "ready")
+    this.element.setAttribute("data-state", value ? "uploaded" : "ready")
+  }
+
+  set imageKey(key) {
+    this._imageKey = key
+    this.imageURL = key ? `//${DOMAIN}/${key}` : ""
 
     return this._imageKey
   }
