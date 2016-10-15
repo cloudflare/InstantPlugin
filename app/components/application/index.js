@@ -147,20 +147,34 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
+  createPreviewIframe() {
+    const {previewContainer} = this.refs
+    const previewIframe = createElement("iframe", {src: this.previewURL})
+
+    this.refs.previewIframe = previewIframe
+
+    previewContainer.innerHTML = ""
+
+    previewContainer.appendChild(previewIframe)
+  }
+
+  @autobind
   navigateToIntro() {
     this.activeStep = "intro"
   }
 
   @autobind
   navigateToDemo({target}) {
-    const demo = demos[target.getAttribute("data-demo")]
-
-    demo(this)
+    demos[target.getAttribute("data-demo")](this)
   }
 
   @autobind
   navigateToEmbedCode() {
     this.activeStep = "embedCode"
+
+    // NOTE: Loading an iframe can freeze browser scrolling momentarily.
+    // This has to occur at some point. This could use some tweaking.
+    setTimeout(this.createPreviewIframe, 1500)
   }
 
   @autobind
