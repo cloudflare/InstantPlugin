@@ -3,7 +3,7 @@ import autosize from "autosize"
 const script = String.raw`<script type="text/javascript">
   var emojis = "tada, fire, grinning"
   var selector = "body"
-  var url = window.location.href.replace(/(http:\/\/|https:\/\/)/gi, '').replace(/^\/|\/$/g, '');
+  var url = window.location.href.replace(/(http:\/\/|https:\/\/)/gi, "").replace(/^\/|\/$/g, "");
 
   var iframe = document.createElement("iframe")
   iframe.src = "https://emojireact.com/embed?emojis=" + emojis.replace(/\s/g, "") + "&url=" + url
