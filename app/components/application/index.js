@@ -57,6 +57,7 @@ export default class Application extends BaseComponent {
       steps
     } = this.refs
     const setStepsContainerHeightAuto = () => stepsContainer.style.height = "auto"
+    const setStepsContainerHeightPx = () => stepsContainer.style.height = stepsContainer.clientHeight + 'px'
 
     window.addEventListener("resize", setStepsContainerHeightAuto)
     document.addEventListener("keypress", setStepsContainerHeightAuto)
@@ -87,7 +88,10 @@ export default class Application extends BaseComponent {
     navigationButtons.forEach(buttonEl => {
       const step = buttonEl.getAttribute("data-step")
 
-      buttonEl.addEventListener("click", stepHandlers[step])
+      buttonEl.addEventListener("click", event => {
+        setStepsContainerHeightPx()
+        stepHandlers[step](event)
+      })
     })
 
     this.attributeList = new AttributeList({

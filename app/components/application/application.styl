@@ -55,8 +55,9 @@ stepProgressions = {
     align-items center
     text-align center
     height 10em
+    margin-bottom -7em
     transition height .6s cubic-bezier(.6, 0, .4, 1), transform .6s cubic-bezier(.6, 0, .4, 1)
-    will-change height, transform
+    will-change transform
     overflow hidden
 
     .logo-link, h1
@@ -81,8 +82,7 @@ stepProgressions = {
       margin .3em 0
 
   &:not([data-active-step="intro"]) > .header
-    height 4em
-    transform translate3d(0, -1.9em, 0)
+    transform translate3d(0, -3em, 0)
 
     .logo-link
       transform translate3d(-8em, -1.1em, 0) scale(.5)
@@ -268,6 +268,9 @@ stepProgressions = {
   &:not([data-active-step="intro"]) > a.made-by.button
     opacity 0
     pointer-events none
+
+  &[data-active-step="intro"] > a.made-by.button
+    transition-delay 1s
 
 @keyframes highlight-entity
   0%
