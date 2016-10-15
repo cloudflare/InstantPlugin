@@ -28,7 +28,6 @@ export default function runDemo(app) {
 
   option_2.title = "Comma separated list of emoji names"
   app.toggleEntityTracking(option_2.element)
-  app.activeStep = "embedCode"
 
   const fields = {
     "[name='app[title]']": "Emoji React",

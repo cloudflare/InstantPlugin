@@ -28,7 +28,6 @@ export default function runDemo(app) {
 
   option_1.title = "Twitter username"
   app.toggleEntityTracking(option_1.element)
-  app.activeStep = "embedCode"
 
   const fields = {
     "[name='email']": "demo@instantwordpressplugin.com",

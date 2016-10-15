@@ -3,10 +3,19 @@
 
   .input-container(data-flow="column")
     .demos
-      span
-        | Or try a demo:
-      a.demo.button.secondary(tabindex="0" data-ref="navigationButtons[]" data-step="demo" data-demo="emojiReact") Emoji React 🎉
-      a.demo.button.secondary(tabindex="0" data-ref="navigationButtons[]" data-step="demo" data-demo="nectarNinja") Nectar Ninja 🐝
+      span Or try a demo:
+
+      button.demo.button.secondary(
+        data-ref="navigationButtons[]"
+        data-step="demo"
+        data-demo="emojiReact"
+        tabindex="0")  Emoji React 🎉
+
+      button.demo.button.secondary(
+        data-ref="navigationButtons[]"
+        data-step="demo"
+        data-demo="nectarNinja"
+        tabindex="0")  Nectar Ninja 🐝
 
     textarea.embed-code-input.box(
       autofocus
