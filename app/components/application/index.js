@@ -56,11 +56,6 @@ export default class Application extends BaseComponent {
       imageUploadMount,
       steps
     } = this.refs
-    const setStepsContainerHeightAuto = () => stepsContainer.style.height = "auto"
-    const setStepsContainerHeightPx = () => stepsContainer.style.height = stepsContainer.clientHeight + "px"
-
-    window.addEventListener("resize", setStepsContainerHeightAuto)
-    document.addEventListener("keypress", setStepsContainerHeightAuto)
 
     autosize(this.element.querySelectorAll("textarea"))
 
@@ -88,10 +83,7 @@ export default class Application extends BaseComponent {
     navigationButtons.forEach(buttonEl => {
       const step = buttonEl.getAttribute("data-step")
 
-      buttonEl.addEventListener("click", event => {
-        setStepsContainerHeightPx()
-        stepHandlers[step](event)
-      })
+      buttonEl.addEventListener("click", stepHandlers[step])
     })
 
     this.attributeList = new AttributeList({
@@ -106,8 +98,9 @@ export default class Application extends BaseComponent {
 
     this.replaceElement(imageUploadMount, this.imageUploader.render())
 
-    this.navigateToIntro()
     mountPoint.appendChild(element)
+
+    this.navigateToIntro()
   }
 
   @autobind
@@ -125,6 +118,7 @@ export default class Application extends BaseComponent {
 
   set activeStep(value) {
     const {steps, stepsContainer} = this.refs
+    const containerStyle = stepsContainer.style
 
     this.element.setAttribute("data-active-step", value)
 
@@ -135,7 +129,15 @@ export default class Application extends BaseComponent {
       stepEl.classList[method]("active")
 
       if (active) {
-        window.requestAnimationFrame(() => { stepsContainer.style.height = `${stepEl.clientHeight + 16}px` })
+        requestAnimationFrame(() => {
+          containerStyle.height = `${stepEl.clientHeight + 16}px`
+
+          // HACK: Chrome seems to be selective in calling transitionend if an
+          // element is hidden or already in another transition.
+          // The timeout is set slightly past the height transition to reset the property.
+          setTimeout(() => containerStyle.height = "auto", 700)
+        })
+
         this.autofocus(stepEl)
       }
     })
