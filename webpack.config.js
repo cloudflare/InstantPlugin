@@ -5,7 +5,7 @@ const ENVIRONMENT = process.env.NODE_ENV || "development"
 const {resolve} = require("path")
 const {description, version} = require("./package.json")
 const routes = require("./routes.json")
-const viewsRoute = routes.views[ENVIRONMENT]
+const appRoute = routes.app[ENVIRONMENT]
 const webpack = require("webpack")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const marked = require("marked")
@@ -18,6 +18,8 @@ const toURL = ({hostname, port, protocol}) => `${protocol}://${hostname}${port ?
 
 const API_BASE = toURL(routes.api[ENVIRONMENT])
 const APP_BASE = toURL(routes.app[ENVIRONMENT])
+const ASSET_BASE =`${toURL(routes.app.production)}/external-assets`
+const EAGER_BASE = toURL(routes.eager[ENVIRONMENT])
 const exclude = /node_modules/
 
 const renderer = new marked.Renderer()
@@ -49,6 +51,8 @@ $.plugins = [
   new webpack.DefinePlugin({
     API_BASE: JSON.stringify(API_BASE),
     APP_BASE: JSON.stringify(APP_BASE),
+    ASSET_BASE: JSON.stringify(ASSET_BASE),
+    EAGER_BASE: JSON.stringify(EAGER_BASE),
     VERSION: JSON.stringify(version),
     "process.env.NODE_ENV": JSON.stringify(ENVIRONMENT)
   }),
@@ -93,7 +97,7 @@ $.module = {
 if (ENVIRONMENT === "development") {
   $.devtool = "eval"
 
-  const devServerClient = `webpack-dev-server/client?http://0.0.0.0:${viewsRoute.port}`
+  const devServerClient = `webpack-dev-server/client?http://0.0.0.0:${appRoute.port}`
 
   if (Array.isArray($.entry)) {
     $.entry.unshift(devServerClient)

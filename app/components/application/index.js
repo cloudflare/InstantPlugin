@@ -18,7 +18,7 @@ const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const ENTITY_QUERY = ".hljs-string, .hljs-number"
 const TYPE_PATTERN = /hljs-([\S]*)/
-const previewURL = `${APP_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
+const previewURL = `${EAGER_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
 
 export default class Application extends BaseComponent {
   static template = template;
@@ -48,7 +48,6 @@ export default class Application extends BaseComponent {
 
     const element = this.compileTemplate()
     const {
-      stepsContainer,
       attributeListMount,
       embedCodeInput,
       pluginDetailsForm,

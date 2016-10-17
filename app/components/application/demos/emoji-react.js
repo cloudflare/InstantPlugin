@@ -39,5 +39,5 @@ export default function runDemo(app) {
     .keys(fields)
     .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
 
-  app.imageUploader.imageURL = "/external-assets/tada.png"
+  app.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
 }

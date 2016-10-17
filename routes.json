@@ -1,5 +1,5 @@
 {
-  "views": {
+  "app": {
     "development": {
       "hostname": "0.0.0.0",
       "port": 9003,
@@ -23,7 +23,7 @@
       "protocol": "https"
     }
   },
-  "app": {
+  "eager": {
     "development": {
       "hostname": "local.eager.io",
       "port": 9000,
