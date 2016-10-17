@@ -10,9 +10,17 @@ export default function createEagerSchema({embedCode, properties}) {
     const insertOption = (match, key) => options[key]
 
     function insertEmbedCode() {
-      document.head.innerHTML += embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
+      const serializer = document.createElement("div")
 
-      eval(document.head.lastChild.textContent) // eslint-disable-line no-eval
+      serializer.innerHTML = embedCodeInjection.replace(TRACKED_ENTITY_PATTERN, insertOption)
+
+      Array.prototype.forEach.call(serializer.children, element => {
+        document.body.appendChild(element)
+
+        if (element.nodeName === "SCRIPT") {
+          eval(element.textContent) // eslint-disable-line no-eval
+        }
+      })
     }
 
     if (document.readyState === "loading") {
