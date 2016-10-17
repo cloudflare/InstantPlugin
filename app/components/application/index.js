@@ -23,7 +23,7 @@ const TYPE_PATTERN = /hljs-([\S]*)/
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
-].join()
+].join("")
 
 export default class Application extends BaseComponent {
   static template = template;
