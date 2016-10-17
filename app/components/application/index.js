@@ -94,8 +94,8 @@ export default class Application extends BaseComponent {
     this.replaceElement(attributeListMount, this.attributeList.render())
 
     this.imageUploader = new ImageUploader({name: "app[icon]"})
-
     this.replaceElement(imageUploadMount, this.imageUploader.render())
+    this.imageUploader.imageURL = `${ASSET_BASE}/default-plugin-logo.png`
 
     mountPoint.appendChild(element)
 
