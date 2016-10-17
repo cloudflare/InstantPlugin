@@ -18,7 +18,7 @@ const toURL = ({hostname, port, protocol}) => `${protocol}://${hostname}${port ?
 
 const API_BASE = toURL(routes.api[ENVIRONMENT])
 const APP_BASE = toURL(routes.app[ENVIRONMENT])
-const ASSET_BASE =`${toURL(routes.app.production)}/external-assets`
+const ASSET_BASE = `${toURL(routes.app.production)}/external-assets`
 const EAGER_BASE = toURL(routes.eager[ENVIRONMENT])
 const exclude = /node_modules/
 

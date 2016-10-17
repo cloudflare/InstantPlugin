@@ -6,11 +6,11 @@
   "extends": "eslint:recommended",
   "ecmaVersion": 7,
   "globals": {
-    "INSTALL_OPTIONS": "null",
-    "API_BASE": "null",
-    "APP_BASE": "null",
-    "ASSET_BASE": "null",
-    "EAGER_BASE": "null",
+    "INSTALL_OPTIONS": null,
+    "API_BASE": null,
+    "APP_BASE": null,
+    "ASSET_BASE": null,
+    "EAGER_BASE": null,
     "process": null,
     "VERSION": null
   },
