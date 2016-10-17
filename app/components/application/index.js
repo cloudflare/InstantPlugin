@@ -14,11 +14,16 @@ import formSerialize from "form-serialize"
 import * as demos from "./demos"
 import KM from "lib/key-map"
 
+const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
+const ACTIVE_STEP = "data-active-step"
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const ENTITY_QUERY = ".hljs-string, .hljs-number"
 const TYPE_PATTERN = /hljs-([\S]*)/
-const previewURL = `${EAGER_BASE}/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com`
+const previewURL = [
+  EAGER_BASE,
+  "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
+].join()
 
 export default class Application extends BaseComponent {
   static template = template;
@@ -95,7 +100,7 @@ export default class Application extends BaseComponent {
 
     this.imageUploader = new ImageUploader({name: "app[icon]"})
     this.replaceElement(imageUploadMount, this.imageUploader.render())
-    this.imageUploader.imageURL = `${ASSET_BASE}/default-plugin-logo.png`
+    this.imageUploader.imageURL = DEFAULT_PLUGIN_ICON
 
     mountPoint.appendChild(element)
 
@@ -112,37 +117,43 @@ export default class Application extends BaseComponent {
   }
 
   get activeStep() {
-    return this.element.getAttribute("data-active-step")
+    return this.element.getAttribute(ACTIVE_STEP)
   }
 
   set activeStep(value) {
     const {steps, stepsContainer} = this.refs
     const containerStyle = stepsContainer.style
 
-    this.element.setAttribute("data-active-step", value)
+    this.element.setAttribute(ACTIVE_STEP, value)
 
-    steps.forEach(stepEl => {
-      const active = stepEl.getAttribute("data-step") === value
-      const method = active ? "add" : "remove"
+    if (this.activeStep !== "intro") {
+      containerStyle.height = `${stepsContainer.clientHeight}px`
+    }
 
-      stepEl.classList[method]("active")
+    requestAnimationFrame(() => {
+      steps.forEach(stepEl => {
+        const active = stepEl.getAttribute("data-step") === value
+        const method = active ? "add" : "remove"
 
-      if (active) {
-        requestAnimationFrame(() => {
-          containerStyle.height = `${stepEl.clientHeight + 16}px`
+        stepEl.classList[method]("active")
 
-          // HACK: Chrome seems to be selective in calling transitionend if an
-          // element is hidden or already in another transition.
-          // The timeout is set slightly past the height transition to reset the property.
-          setTimeout(() => containerStyle.height = "auto", 700)
-        })
+        if (active) {
+          requestAnimationFrame(() => {
+            containerStyle.height = `${stepEl.clientHeight + 16}px`
 
-        this.autofocus(stepEl)
-      }
+            // HACK: Chrome seems to be selective in calling transitionend if an
+            // element is hidden or already in another transition.
+            // The timeout is set slightly past the height transition to reset the property.
+            setTimeout(() => containerStyle.height = "auto", 700)
+          })
+
+          this.autofocus(stepEl)
+        }
+      })
+
+      this.syncButtonState()
+      window.scrollTo(0, 0)
     })
-
-    this.syncButtonState()
-    window.scrollTo(0, 0)
 
     return value
   }
@@ -234,6 +245,9 @@ export default class Application extends BaseComponent {
 
     const {pluginDetailsForm} = this.refs
     const pluginDetails = formSerialize(pluginDetailsForm, {hash: true})
+
+    pluginDetails.app.icon = pluginDetails.app.icon || DEFAULT_PLUGIN_ICON
+
     const payload = {
       cmsName: "wordpress",
       installJSON: this.installJSON,
