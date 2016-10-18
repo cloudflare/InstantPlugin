@@ -22,6 +22,7 @@ const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const STRING_CLASS = "hljs-string"
 const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
+const PRENORMALIZED = "data-prenormalized"
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
@@ -219,6 +220,7 @@ export default class Application extends BaseComponent {
       properties[id] = {
         order,
         placeholder: normalized,
+        default: normalized,
         title: title || `Option ${order + 1}`,
         type
       }
@@ -333,23 +335,28 @@ export default class Application extends BaseComponent {
         if (params.length === 0) return
 
         const groupFragment = document.createDocumentFragment()
+        const add = element => groupFragment.appendChild(element)
 
-        groupFragment.appendChild(document.createTextNode(delimiter))
-        groupFragment.appendChild(createElement("span", {
-          textContent: urlBase + paramDelimiter
-        }))
+        add(document.createTextNode(delimiter))
+        add(createElement("span", {textContent: urlBase + paramDelimiter}))
 
-        params.forEach(({key, value}) => {
-          groupFragment.appendChild(createElement("span", {
+        params.forEach(({key, value}, index) => {
+          add(createElement("span", {
             className: "url-param-key",
             textContent: `${key}=`
           }))
 
-          groupFragment.appendChild(createElement("span", {
+          const paramEl = createElement("span", {
             className: `${STRING_CLASS} url-param-value`,
             textContent: value
-          }))
+          })
+
+          paramEl.setAttribute(PRENORMALIZED, value)
+          add(paramEl)
+
+          if (index !== params.length - 1) add(document.createTextNode("&"))
         })
+
         groupFragment.appendChild(document.createTextNode(delimiter))
 
         this.replaceElement(element, groupFragment)
@@ -369,7 +376,7 @@ export default class Application extends BaseComponent {
       const text = element.textContent
       const id = `option_${index + 1}`
       const type = getType(element)
-      const normalized = normalize(type, text)
+      const normalized = element.getAttribute(PRENORMALIZED) || normalize(type, text)
 
       if (normalized.length === 0) {
         // Skip empty strings.
@@ -378,7 +385,7 @@ export default class Application extends BaseComponent {
       }
 
       this.entities[id] = {
-        delimiter: getDelimiter(type, text),
+        delimiter: element.getAttribute(PRENORMALIZED) ? "" : getDelimiter(type, text),
         element,
         normalized,
         order: index,

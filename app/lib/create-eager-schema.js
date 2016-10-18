@@ -4,7 +4,7 @@ export default function createEagerSchema({embedCode, properties}) {
   const initializeApp = function initializeApp(embedCodeInjection) {
     if (!window.addEventListener) return // Check for IE9+
 
-    const TRACKED_ENTITY_PATTERN = /TRACKED_ENTITY\[(\S+)\]/g
+    const TRACKED_ENTITY_PATTERN = /TRACKED_ENTITY\[([^\]]+)\]/g
     const options = INSTALL_OPTIONS
 
     const insertOption = (match, key) => options[key]
