@@ -7,23 +7,32 @@ import AttributeList from "components/attribute-list"
 import ImageUploader from "components/image-uploader"
 import {highlight} from "highlight.js"
 import createElement from "lib/create-element"
+import parseURL from "lib/parse-url"
 import createEagerSchema from "lib/create-eager-schema"
+import KM from "lib/key-map"
 import {postJson} from "simple-fetch"
 import autosize from "autosize"
+import isURL from "is-url"
 import formSerialize from "form-serialize"
 import * as demos from "./demos"
-import KM from "lib/key-map"
 
 const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
 const ACTIVE_STEP = "data-active-step"
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const ENTITY_QUERY = ".hljs-string, .hljs-number"
-const TYPE_PATTERN = /hljs-([\S]*)/
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
 ].join("")
+
+const getType = element => {
+  const [, type] = element.className.match(/hljs-([\S]*)/)
+
+  return type
+}
+const getDelimiter = (type, text) => type === "string" ? text[0] : ""
+const normalize = (type, text) => getDelimiter(type, text) ? text.substring(1, text.length - 1) : text
 
 export default class Application extends BaseComponent {
   static template = template;
@@ -203,19 +212,17 @@ export default class Application extends BaseComponent {
     const properties = {}
 
     IDs.forEach((id, order) => {
-      const entity = this.entities[id]
+      const {delimiter, normalized, title, type} = this.entities[id]
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
-      const text = current.textContent
-      const entityDelimiter = entity.type === "string" ? text[0] : ""
 
       properties[id] = {
         order,
-        placeholder: entityDelimiter ? text.substring(1, text.length - 1) : text,
-        title: entity.title || `Option ${order + 1}`,
-        type: entity.type
+        placeholder: normalized,
+        title: title || `Option ${order + 1}`,
+        type
       }
 
-      current.textContent = `${entityDelimiter}TRACKED_ENTITY[${id}]${entityDelimiter}`
+      current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
     })
 
     this.installJSON = createEagerSchema({
@@ -304,7 +311,45 @@ export default class Application extends BaseComponent {
     attributePicker.classList.remove("empty")
     attributePicker.innerHTML = serializer.innerHTML
 
-    const entityElements = attributePicker.querySelectorAll(ENTITY_QUERY)
+    const getEntityElements = () => Array.from(attributePicker.querySelectorAll(ENTITY_QUERY))
+
+    // Parse URL components into entities.
+    getEntityElements()
+      .map(element => {
+        const type = getType(element)
+
+        return {element, type, normalized: normalize(type, element.textContent)}
+      })
+      .filter(({type, normalized}) => type === "string" && isURL(encodeURI(normalized)))
+      .forEach(({element}) => {
+        const {paramDelimiter, params, urlBase} = parseURL(element.textContent)
+
+        if (params.length === 0) return
+
+        const groupFragment = document.createDocumentFragment()
+
+        groupFragment.appendChild(createElement("span", {
+          textContent: urlBase + paramDelimiter
+        }))
+
+        params.forEach(({key, value}) => {
+          groupFragment.appendChild(createElement("span", {
+            className: "url-param-key",
+            textContent: `${key}=`
+          }))
+
+          groupFragment.appendChild(createElement("span", {
+            className: "hljs-string url-param-value",
+            textContent: value
+          }))
+        })
+
+        this.replaceElement(element, groupFragment)
+
+        element.classList.remove("hljs-string")
+      })
+
+    const entityElements = getEntityElements()
     const entityCount = entityElements.length
 
     // Offset the existing tabindexes given our entity count.
@@ -312,26 +357,29 @@ export default class Application extends BaseComponent {
       .from(this.steps.attributes.querySelectorAll("[tabindex]"))
       .forEach((tabableEl, index) => tabableEl.tabIndex = entityCount + index + 1)
 
-    Array
-      .from(entityElements)
-      .forEach((element, index) => {
-        const id = `option_${index + 1}`
-        const [, type] = element.className.match(TYPE_PATTERN)
+    entityElements.forEach((element, index) => {
+      const text = element.textContent
+      const id = `option_${index + 1}`
+      const type = getType(element)
+      const normalized = normalize(type, text)
 
-        this.entities[id] = {
-          element,
-          order: index,
-          original: element.textContent,
-          tracked: false,
-          type}
+      this.entities[id] = {
+        delimiter: getDelimiter(type, text),
+        element,
+        normalized,
+        order: index,
+        original: text,
+        tracked: false,
+        type
+      }
 
-        if (index === 0) element.setAttribute("data-autofocus", "")
+      if (index === 0) element.setAttribute("data-autofocus", "")
 
-        element.tabIndex = index + 1
-        element.setAttribute(ENTITY_ID, id)
-        element.setAttribute(ENTITY_ORDER, index)
-        element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
-      })
+      element.tabIndex = index + 1
+      element.setAttribute(ENTITY_ID, id)
+      element.setAttribute(ENTITY_ORDER, index)
+      element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
+    })
 
     attributePicker.addEventListener("keydown", this.handleAttributeKeyDown)
 
