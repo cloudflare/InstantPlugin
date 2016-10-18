@@ -1,5 +1,8 @@
+const PARAM_PATTERN = /(\#|\?)/
+
 export default function parseURL(string) {
-  const [urlBase, paramDelimiter, paramString] = string.split(/(\#|\?)/)
+  const [urlBase, paramDelimiter = "", paramString = ""] = string.split(PARAM_PATTERN) || []
+
   const params = paramString
     .split("&")
     .map(chunk => {

@@ -20,7 +20,8 @@ const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
 const ACTIVE_STEP = "data-active-step"
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
-const ENTITY_QUERY = ".hljs-string, .hljs-number"
+const STRING_CLASS = "hljs-string"
+const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
@@ -345,7 +346,7 @@ export default class Application extends BaseComponent {
           }))
 
           groupFragment.appendChild(createElement("span", {
-            className: "hljs-string url-param-value",
+            className: `${STRING_CLASS} url-param-value`,
             textContent: value
           }))
         })
@@ -353,7 +354,7 @@ export default class Application extends BaseComponent {
 
         this.replaceElement(element, groupFragment)
 
-        element.classList.remove("hljs-string")
+        element.classList.remove(STRING_CLASS)
       })
 
     const entityElements = getEntityElements()
@@ -369,6 +370,12 @@ export default class Application extends BaseComponent {
       const id = `option_${index + 1}`
       const type = getType(element)
       const normalized = normalize(type, text)
+
+      if (normalized.length === 0) {
+        // Skip empty strings.
+        element.classList.remove(STRING_CLASS)
+        return
+      }
 
       this.entities[id] = {
         delimiter: getDelimiter(type, text),
