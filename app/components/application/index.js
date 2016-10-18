@@ -318,16 +318,22 @@ export default class Application extends BaseComponent {
       .map(element => {
         const type = getType(element)
 
-        return {element, type, normalized: normalize(type, element.textContent)}
+        return {
+          element,
+          type,
+          delimiter: getDelimiter(type, element.textContent),
+          normalized: normalize(type, element.textContent)
+        }
       })
       .filter(({type, normalized}) => type === "string" && isURL(encodeURI(normalized)))
-      .forEach(({element}) => {
-        const {paramDelimiter, params, urlBase} = parseURL(element.textContent)
+      .forEach(({element, delimiter, normalized}) => {
+        const {paramDelimiter, params, urlBase} = parseURL(normalized)
 
         if (params.length === 0) return
 
         const groupFragment = document.createDocumentFragment()
 
+        groupFragment.appendChild(document.createTextNode(delimiter))
         groupFragment.appendChild(createElement("span", {
           textContent: urlBase + paramDelimiter
         }))
@@ -343,6 +349,7 @@ export default class Application extends BaseComponent {
             textContent: value
           }))
         })
+        groupFragment.appendChild(document.createTextNode(delimiter))
 
         this.replaceElement(element, groupFragment)
 
