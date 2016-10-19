@@ -324,21 +324,36 @@ export default class Application extends BaseComponent {
         return {
           element,
           type,
-          delimiter: getDelimiter(type, element.textContent),
+          entityDelimiter: getDelimiter(type, element.textContent),
           normalized: normalize(type, element.textContent)
         }
       })
       .filter(({type, normalized}) => type === "string" && isURL(encodeURI(normalized)))
-      .forEach(({element, delimiter, normalized}) => {
-        const {paramDelimiter, params, urlBase} = parseURL(normalized)
+      .forEach(({element, entityDelimiter, normalized}) => {
+        const {url, paramDelimiter, params, pathChunks} = parseURL(normalized)
 
-        if (params.length === 0) return
+        if (!pathChunks.length || !params) return
 
         const groupFragment = document.createDocumentFragment()
         const add = element => groupFragment.appendChild(element)
 
-        add(document.createTextNode(delimiter))
-        add(createElement("span", {textContent: urlBase + paramDelimiter}))
+        add(document.createTextNode(entityDelimiter))
+        add(createElement("span", {textContent: url}))
+
+        pathChunks.forEach(({type, value}) => {
+          const className = type === "delimiter" ? "path-delimiter" : `${STRING_CLASS} url-path-value`
+          const chunkEl = createElement("span", {
+            className,
+            textContent: value
+          })
+
+          chunkEl.setAttribute(PRENORMALIZED, value)
+          add(chunkEl)
+        })
+
+        if (params.length) {
+          add(document.createTextNode(paramDelimiter))
+        }
 
         params.forEach(({key, value}, index) => {
           add(createElement("span", {
@@ -357,7 +372,7 @@ export default class Application extends BaseComponent {
           if (index !== params.length - 1) add(document.createTextNode("&"))
         })
 
-        groupFragment.appendChild(document.createTextNode(delimiter))
+        groupFragment.appendChild(document.createTextNode(entityDelimiter))
 
         this.replaceElement(element, groupFragment)
 

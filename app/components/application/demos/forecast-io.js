@@ -11,15 +11,15 @@ export default function runDemo(app) {
   autosize.update(embedCodeInput)
   app.parseInput()
 
-  const {option_6, option_7, option_8} = app.entities
+  const {option_7, option_8, option_9} = app.entities
 
-  option_6.title = "Latitude"
-  option_7.title = "Longitude"
-  option_8.title = "Location Name"
+  option_7.title = "Latitude"
+  option_8.title = "Longitude"
+  option_9.title = "Location Name"
 
-  app.toggleEntityTracking(option_6.element)
   app.toggleEntityTracking(option_7.element)
   app.toggleEntityTracking(option_8.element)
+  app.toggleEntityTracking(option_9.element)
 
   const fields = {
     "[name='app[title]']": "Forecast.io",
