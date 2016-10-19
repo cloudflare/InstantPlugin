@@ -5,6 +5,7 @@ export default function parseURL(string) {
 
   const params = paramString
     .split("&")
+    .filter(chunk => chunk.length !== 0)
     .map(chunk => {
       const [key, value] = chunk.split("=")
 
