@@ -23,6 +23,7 @@ const ENTITY_ORDER = "data-entity-order"
 const STRING_CLASS = "hljs-string"
 const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
 const PRENORMALIZED = "data-prenormalized"
+const TRANSITION_DELAY = 700
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
@@ -155,7 +156,7 @@ export default class Application extends BaseComponent {
             // HACK: Chrome seems to be selective in calling transitionend if an
             // element is hidden or already in another transition.
             // The timeout is set slightly past the height transition to reset the property.
-            setTimeout(() => containerStyle.height = "auto", 700)
+            setTimeout(() => containerStyle.height = "auto", TRANSITION_DELAY)
           })
 
           this.autofocus(stepEl)
@@ -233,10 +234,13 @@ export default class Application extends BaseComponent {
       properties
     })
 
-    if (this.previewReady) this.sendPreviewPayload()
-    else this.awaitingPreview = true
-
     this.activeStep = "preview"
+
+    // Pacing the preview payload delays the iframe repaint, improving transition performance.
+    setTimeout(() => {
+      if (this.previewReady) this.sendPreviewPayload()
+      else this.awaitingPreview = true
+    }, TRANSITION_DELAY)
   }
 
   @autobind
