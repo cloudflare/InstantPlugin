@@ -1,6 +1,7 @@
 @import "~styl/colors"
 @import "~styl/fonts"
 @import "~styl/font-smoothing"
+@import "~styl/media-query-variables"
 
 stepProgressions = {
   "intro": "embedCode",
@@ -19,9 +20,13 @@ stepProgressions = {
   align-items center
   flex-flow column nowrap
   justify-content center
-  padding-top 4em
-  padding-bottom 4em
+  padding-top 2em
+  padding-bottom 2em
   line-height 1.5
+
+  @media largeDesktopMinHeightQuery
+    padding-top 4em
+    padding-bottom 4em
 
   for previous, next in stepProgressions
     &[data-active-step={previous}] .step[data-step={next}]
@@ -82,7 +87,10 @@ stepProgressions = {
       margin .3em 0
 
   &:not([data-active-step="intro"]) > .header
-    transform translate3d(0, -3em, 0)
+    transform translate3d(0, -2em, 0)
+
+    @media largeDesktopMinHeightQuery
+      transform translate3d(0, -3em, 0)
 
     .logo-link
       transform translate3d(-8em, -1.1em, 0) scale(.5)
