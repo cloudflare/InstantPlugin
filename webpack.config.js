@@ -75,6 +75,7 @@ $.resolve = {
 }
 
 const minimizeParam = ENVIRONMENT === "development" ? "-minimize" : "minimize"
+const commonCSSLoaderList = `css?${minimizeParam}!postcss!stylus?paths=app`
 
 $.module = {
   noParse: /\.min\.js/,
@@ -84,12 +85,14 @@ $.module = {
     {test: /\.js$/, loader: "eslint", enforce: "pre", exclude},
     {test: /\.js$/, loader: "babel", exclude},
     {test: /\.svg$/, loader: "svg-inline", exclude},
+    {test: /\.styl$/, loader: `css-to-string!${commonCSSLoaderList}`, exclude, include: /inline-assets/},
     {
       test: /\.styl$/,
       loader: ExtractTextPlugin.extract({
         fallbackLoader: "style",
-        loader: `css?${minimizeParam}!postcss!stylus?paths=app`
-      })
+        loader: commonCSSLoaderList
+      }),
+      exclude: /inline-assets/
     }
   ]
 }
