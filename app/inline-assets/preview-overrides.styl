@@ -1,0 +1,30 @@
+@import "~styl/colors"
+
+eager-app
+  input[type=text],
+  input[type=date],
+  input[type=datetime],
+  input[type=datetime-local],
+  input[type=email],
+  input[type=month],
+  input[type=number],
+  input[type=password],
+  input[type=search],
+  input[type=tel],
+  input[type=time],
+  input[type=url],
+  input[type=week],
+  textarea
+    &.standard:focus
+      border-color brandOrange
+      box-shadow 0 0 .0625em brandOrange
+
+.installs-new-and-edit-page .browser .browser-address > form .browser-address-input-wrapper
+  right: 0 // Compensate for hidden "new window button."
+
+  .browser-submit
+    &:active, &:focus, &:hover
+      background-color brandOrange
+
+  .browser-url:focus~.browser-submit
+    background-color brandOrange

@@ -1,5 +1,6 @@
 import "./application.styl"
 import template from "./application.pug"
+import previewOverrides from "inline-assets/preview-overrides.styl"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
@@ -56,6 +57,7 @@ export default class Application extends BaseComponent {
       if (data.type !== "eager:app-tester:upload-listener-ready") return
 
       this.previewReady = true
+      this.sendPreviewStyleOverrides()
 
       if (this.awaitingPreview) {
         this.awaitingPreview = false
@@ -173,7 +175,10 @@ export default class Application extends BaseComponent {
   @autobind
   createPreviewIframe() {
     const {previewContainer} = this.refs
-    const previewIframe = createElement("iframe", {src: this.previewURL})
+    const previewIframe = createElement("iframe", {
+      sandbox: "allow-scripts allow-same-origin allow-popups",
+      src: this.previewURL
+    })
 
     this.refs.previewIframe = previewIframe
 
@@ -483,6 +488,15 @@ export default class Application extends BaseComponent {
     previewIframe.contentWindow.postMessage({
       installJSON: this.installJSON,
       type: "eager:app-tester:upload-app"
+    }, "*")
+  }
+
+  sendPreviewStyleOverrides() {
+    const {previewIframe} = this.refs
+
+    previewIframe.contentWindow.postMessage({
+      styleContent: previewOverrides,
+      type: "eager:app-tester:set-style"
     }, "*")
   }
 
