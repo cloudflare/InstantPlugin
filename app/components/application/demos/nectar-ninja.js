@@ -2,17 +2,17 @@ import autosize from "autosize"
 
 const script = String.raw`<script>
 (function(){
-  var handle = "@placeholder";
+  var handle = "@NectarNinjaDemo";
   var script = document.createElement("script");
   var source = document.getElementsByTagName("script")[0];
 
   script.async = 1;
   script.src = "https://nectar.ninja/api/v1/" + handle.replace(/^@/, "");
 
-  source.parentNode.insertBefore(script, source);
-
   // Reset demo.
   document.cookie = 'sentry-close-timestamp=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+  source.parentNode.insertBefore(script, source);
 })();
 </script>`
 
