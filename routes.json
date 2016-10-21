@@ -30,7 +30,7 @@
       "protocol": "http"
     },
     "production": {
-      "hostname": "eager.io",
+      "hostname": "br-eager-branding.eager.io",
       "port": "",
       "protocol": "https"
     }
