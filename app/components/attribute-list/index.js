@@ -22,7 +22,11 @@ export default class AttributeList extends BaseComponent {
     this.element.innerHTML = "<div class=\"attribute-list-content box\"></div>"
 
     if (IDs.length) {
-      this.element.innerHTML = "<p>Add labels for these dynamic options:</p>" + this.element.innerHTML
+      this.element.innerHTML = `<p class="divider">
+        Add labels for these dynamic options:
+      </p>
+      ${this.element.innerHTML}
+      `
     }
 
     IDs.forEach((id, index) => {

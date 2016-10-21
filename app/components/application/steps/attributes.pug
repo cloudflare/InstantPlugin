@@ -4,13 +4,11 @@
 
     .attribute-picker.box(data-ref="attributePicker")
 
-    .box.form.schema-form.embed-code-location
-      .input
-        label
-          span Location
-          .help-text
-            | Where should the embed code be inserted?
+    .attribute-list-mount(data-ref="attributeListMount")
 
+    p.divider Where should the embed code be inserted?
+
+    .box.form.schema-form.embed-code-location
       .input
         select.standard(data-ref="locationSelect" name="location" required)
           option(value="head") Head
@@ -28,8 +26,6 @@
           name="customLocation"
           placeholder="body"
           type="text")
-
-    .attribute-list-mount(data-ref="attributeListMount")
 
     .actions
       button.button.secondary.transparent(
