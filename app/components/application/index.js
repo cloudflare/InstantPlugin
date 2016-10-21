@@ -49,19 +49,15 @@ export default class Application extends BaseComponent {
       entities: {},
       installJSON: null,
       steps: {},
-      previewURL,
-      previewReady: false
+      previewURL
     })
 
     window.addEventListener("message", ({data}) => {
       if (data.type !== "eager:app-tester:upload-listener-ready") return
 
-      this.previewReady = true
-      this.sendPreviewStyleOverrides()
-
-      if (this.awaitingPreview) {
-        this.awaitingPreview = false
-        this.sendPreviewPayload()
+      if (this.deferredIframeCallback) {
+        this.deferredIframeCallback()
+        this.deferredIframeCallback = null
       }
     })
 
@@ -194,7 +190,9 @@ export default class Application extends BaseComponent {
   }
 
   @autobind
-  createPreviewIframe() {
+  createPreviewIframe(next = () => {}) {
+    this.deferredIframeCallback = next
+
     const {previewContainer} = this.refs
     const previewIframe = createElement("iframe", {
       sandbox: "allow-scripts allow-same-origin allow-popups",
@@ -204,7 +202,6 @@ export default class Application extends BaseComponent {
     this.refs.previewIframe = previewIframe
 
     previewContainer.innerHTML = ""
-
     previewContainer.appendChild(previewIframe)
   }
 
@@ -221,10 +218,6 @@ export default class Application extends BaseComponent {
   @autobind
   navigateToEmbedCode() {
     this.activeStep = "embedCode"
-
-    // NOTE: Loading an iframe can freeze browser scrolling momentarily.
-    // This has to occur at some point. This could use some tweaking.
-    setTimeout(this.createPreviewIframe, 1500)
   }
 
   @autobind
@@ -265,11 +258,10 @@ export default class Application extends BaseComponent {
 
     this.activeStep = "preview"
 
-    // Pacing the preview payload delays the iframe repaint, improving transition performance.
-    setTimeout(() => {
-      if (this.previewReady) this.sendPreviewPayload()
-      else this.awaitingPreview = true
-    }, TRANSITION_DELAY)
+    this.createPreviewIframe(() => {
+      this.sendPreviewStyleOverrides()
+      this.sendPreviewPayload()
+    })
   }
 
   @autobind
