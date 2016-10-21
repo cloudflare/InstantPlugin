@@ -11,6 +11,7 @@
     "APP_BASE": null,
     "ASSET_BASE": null,
     "EAGER_BASE": null,
+    "Eager": null,
     "process": null,
     "VERSION": null
   },

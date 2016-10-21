@@ -4,12 +4,14 @@ const script = String.raw`<iframe id="forecast_embed" type="text/html" framebord
 </iframe>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, pluginDetailsForm} = app.refs
+  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
   app.parseInput()
+
+  locationSelect.value = "body"
 
   const {option_7, option_8, option_9} = app.entities
 

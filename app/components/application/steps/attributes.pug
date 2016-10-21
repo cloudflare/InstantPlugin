@@ -1,9 +1,44 @@
 .step(data-ref="steps[]" data-step="attributes")
-  p Click parts of the embed code to make them dynamic:
+  form(data-ref="attributesForm")
+    p Click parts of the embed code to make them dynamic:
 
-  .attribute-picker.box(data-ref="attributePicker")
-  .attribute-list-mount(data-ref="attributeListMount")
+    .attribute-picker.box(data-ref="attributePicker")
 
-  .actions
-    button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="embedCode") Back
-    button.button.primary.next(data-ref="navigationButtons[]" data-step="preview") Preview Plugin
+    .box.form.schema-form.embed-code-location
+      .input
+        label
+          span Location
+          .help-text
+            | Where should the embed code be inserted?
+
+      .input
+        select.standard(data-ref="locationSelect" name="location" required)
+          option(value="head") Head
+          option(value="body") Body
+          option(value="custom") Custom location
+
+      .input(data-ref="customLocationContainer" style="display: none;")
+        label
+          span.required Custom Location
+          .help-text
+            | Enter a CSS selector
+
+        input.standard(
+          data-ref="customLocationInput"
+          name="customLocation"
+          placeholder="body"
+          type="text")
+
+    .attribute-list-mount(data-ref="attributeListMount")
+
+    .actions
+      button.button.secondary.transparent(
+        data-ref="navigationButtons[]"
+        data-step="embedCode"
+        type="button") Back
+
+      input.button.primary.next(
+        data-ref="navigationButtons[]"
+        data-step="preview"
+        type="submit"
+        value="Preview Plugin")

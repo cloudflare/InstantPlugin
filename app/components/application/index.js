@@ -67,20 +67,40 @@ export default class Application extends BaseComponent {
 
     const element = this.compileTemplate()
     const {
+      attributesForm,
       attributeListMount,
+      customLocationContainer,
+      customLocationInput,
       embedCodeInput,
-      pluginDetailsForm,
-      navigationButtons,
       imageUploadMount,
+      locationSelect,
+      navigationButtons,
+      pluginDetailsForm,
       steps
     } = this.refs
 
     autosize(this.element.querySelectorAll("textarea"))
 
     embedCodeInput.addEventListener("input", this.handleEntry)
+
+    attributesForm.addEventListener("submit", event => {
+      event.preventDefault()
+      this.navigateToPreview()
+    })
+
+    locationSelect.addEventListener("change", ({target: {value}}) => {
+      if (value === "custom") {
+        customLocationContainer.style.display = ""
+        customLocationInput.required = true
+      }
+      else {
+        customLocationContainer.style.display = "none"
+        customLocationInput.required = false
+      }
+    })
+
     pluginDetailsForm.addEventListener("submit", event => {
       event.preventDefault()
-
       this.navigateToCreating()
     })
 
@@ -91,7 +111,6 @@ export default class Application extends BaseComponent {
       intro: this.navigateToIntro,
       embedCode: this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
-      preview: this.navigateToPreview,
       details: this.navigateToDetails,
       creating: this.navigateToCreating,
       download: this.navigateToDownload,
@@ -118,6 +137,8 @@ export default class Application extends BaseComponent {
 
     mountPoint.appendChild(element)
 
+    // demos.emojiReact(this)
+    // this.navigateToAttributes()
     this.navigateToIntro()
   }
 
@@ -234,7 +255,10 @@ export default class Application extends BaseComponent {
       current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
     })
 
+    const {attributesForm} = this.refs
+
     this.installJSON = createEagerSchema({
+      options: formSerialize(attributesForm, {hash: true}),
       embedCode: embedCodeDOM.textContent,
       properties
     })
@@ -458,7 +482,7 @@ export default class Application extends BaseComponent {
     const embedCodeStep = stepsContainer.querySelector(".step[data-step='embedCode']")
     const attributesStep = stepsContainer.querySelector(".step[data-step='attributes']")
     const navigateToAttributesButton = embedCodeStep.querySelector("button[data-step='attributes']")
-    const navigateToPreviewButton = attributesStep.querySelector("button[data-step='preview']")
+    const navigateToPreviewButton = attributesStep.querySelector(".button[data-step='preview']")
     const IDs = this.getTrackedEntityIDs()
 
     navigateToAttributesButton.disabled = embedCodeInput.value.length === 0

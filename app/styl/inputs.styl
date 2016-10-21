@@ -52,3 +52,54 @@ input[type="week"]
     &:focus
       inputFocus()
       background #fff
+
+select.standard
+  appearance none
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 8'><g><polygon fill='rgba(0,0,0,0.734)' transform='translate%287.5, 4.5%29 scale%281, -1%29 translate%28-7.5, -4.5%29' points='7.5 1 14 8 1 8'></polygon></g></svg>")
+  -webkit-tap-highlight-color transparent
+  text-rendering optimizeLegibility
+  cursor pointer
+  display block
+  padding .6em 2.25em .6em .8em
+  border 1px solid lightLineGray
+  border-bottom-color darken(lightLineGray, 15%)
+  width 20em
+  max-width 100%
+  background-color #fff
+  font-weight normal
+  selectArrow #444
+  background-repeat no-repeat
+  background-position right 45%
+  background-size 2.5em .6em
+
+  &:focus
+    inputFocus()
+
+  @media chromeOnlyQuery
+    selectArrow rgba(#000, .734) // #444
+
+  @media firefoxOnlyQuery
+    padding-right .6em
+    height 2.65em
+
+    option
+      padding .25em .4em
+      font-family sansSerifFonts
+
+      &:hover, &[selected]
+        background brandPink
+        color #fff
+
+@css {
+  /* Firefox version 30+ */
+  @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
+    select.standard {
+      padding-right: 0;
+      text-indent: -.09375em
+    }
+
+    select.standard option {
+      padding: .4em .8em
+    }
+  }
+}

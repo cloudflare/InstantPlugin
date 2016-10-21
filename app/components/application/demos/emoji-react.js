@@ -17,12 +17,14 @@ const script = String.raw`<script type="text/javascript">
 </script>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, pluginDetailsForm} = app.refs
+  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
   app.parseInput()
+
+  locationSelect.value = "body"
 
   const {option_2} = app.entities
 
