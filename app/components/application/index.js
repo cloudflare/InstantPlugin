@@ -27,7 +27,7 @@ const PRENORMALIZED = "data-prenormalized"
 const TRANSITION_DELAY = 700
 const previewURL = [
   EAGER_BASE,
-  "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=example.com"
+  "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=typical.design"
 ].join("")
 
 const getType = element => {
