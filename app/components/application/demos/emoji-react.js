@@ -3,13 +3,23 @@ import autosize from "autosize"
 const script = String.raw`<script type="text/javascript">
   var emojis = "tada, fire, grinning"
   var selector = "body"
+  var style = {
+    border: "none",
+    overflow: "hidden",
+    height: "35px",
+    position: "relative",
+    zIndex: 2
+  }
   var url = window.location.href.replace(/(http:\/\/|https:\/\/)/gi, "").replace(/^\/|\/$/g, "");
 
   var iframe = document.createElement("iframe")
   iframe.src = "https://emojireact.com/embed?emojis=" + emojis.replace(/\s/g, "") + "&url=" + url
   iframe.scrolling = "no"
   iframe.frameBorder = "0"
-  iframe.style = "border:none; overflow:hidden; height:35px;"
+
+  Object.keys(style).forEach(function (key) {
+    iframe.style[key] = style[key]
+  })
 
   var container = document.querySelector(selector)
 
