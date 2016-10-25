@@ -24,9 +24,13 @@
         tabindex="0")  Nectar Ninja 🐝
 
     textarea.embed-code-input.box(
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
       autofocus
       data-ref="embedCodeInput"
-      placeholder="<script>, <iframe>, etc...")
+      placeholder="<script>, <iframe>, etc..."
+      spellcheck="false")
 
   .actions
     button.button.secondary.transparent(data-ref="navigationButtons[]" data-step="intro") Back
