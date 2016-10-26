@@ -1,9 +1,12 @@
 import {parse} from "url"
 
 const PARAM_PATTERN = /(\#|\?)/
+const PARAM_DELIMITER_PATTERN = /&|=/
 const PATH_DELIMITER_PATTERN = /[^\w+]/
 const PROTOCOL_PATTERN = /(^\S*:?)(\/\/)/
 const DEFAULT_PROTOCOL_MATCH = [null, "//", ""]
+
+const chunkIsPresent = chunk => chunk.value.length !== 0
 
 export default function parseURL(string) {
   const [urlWithPath, paramDelimiter = "", paramString = ""] = string.split(PARAM_PATTERN) || []
@@ -11,6 +14,7 @@ export default function parseURL(string) {
   const parsed = parse(urlWithPath, false, true)
   const {host, pathname} = parsed
   const pathCharacters = pathname.split("")
+  const paramCharacters = paramString.split("")
   let url
 
   if (parsed.protocol) {
@@ -33,16 +37,31 @@ export default function parseURL(string) {
 
       return accumulator
     }, [{type: "path", value: ""}])
-    .filter(chunk => chunk.value.length !== 0)
+    .filter(chunkIsPresent)
 
-  const params = paramString
-    .split("&")
-    .filter(chunk => chunk.length !== 0)
-    .map(chunk => {
-      const [key, value] = chunk.split("=")
+  const paramChunks = []
 
-      return {key, value}
-    })
+  paramString.split("&").forEach((param, index, paramArray) => {
+    const [key, value] = param.split("=")
 
-  return {paramDelimiter, params, pathChunks, url}
+    paramChunks.push(
+      {type: "param-key", value: key},
+      {type: "delimiter", value: "="},
+      {type: "param-value", value}
+    )
+
+    if (index !== paramArray.length - 1) {
+      paramChunks.push({type: "delimiter", value: "&"})
+    }
+  })
+
+  if (paramChunks.length) {
+    paramChunks.unshift({type: "delimiter", value: paramDelimiter})
+  }
+
+  return [
+    {type: "url", value: url},
+    ...pathChunks,
+    ...paramChunks
+  ]
 }

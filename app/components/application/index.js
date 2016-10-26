@@ -19,12 +19,14 @@ import * as demos from "./demos"
 
 const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
 const ACTIVE_STEP = "data-active-step"
+const CHUNK_TYPE = "data-chunk-type"
 const ENTITY_ID = "data-entity-id"
 const ENTITY_ORDER = "data-entity-order"
 const STRING_CLASS = "hljs-string"
-const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
 const PRENORMALIZED = "data-prenormalized"
+const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
 const TRANSITION_DELAY = 700
+const SELECTABLE_TYPES = ["path", "param-value"]
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=typical.design"
@@ -355,49 +357,25 @@ export default class Application extends BaseComponent {
       })
       .filter(({type, normalized}) => type === "string" && isURL(encodeURI(normalized)))
       .forEach(({element, entityDelimiter, normalized}) => {
-        const {url, paramDelimiter, params, pathChunks} = parseURL(normalized)
-
-        if (!pathChunks.length || !params) return
-
         const groupFragment = document.createDocumentFragment()
-        const add = element => groupFragment.appendChild(element)
+        const appendChild = element => groupFragment.appendChild(element)
+        const chunks = [
+          {type: "delimiter", value: entityDelimiter},
+          ...parseURL(normalized),
+          {type: "delimiter", value: entityDelimiter}
+        ]
 
-        add(document.createTextNode(entityDelimiter))
-        add(createElement("span", {textContent: url}))
+        chunks.forEach(({type, value}) => {
+          const chunkEl = createElement("span", {textContent: value})
 
-        pathChunks.forEach(({type, value}) => {
-          const className = type === "delimiter" ? "path-delimiter" : `${STRING_CLASS} url-path-value`
-          const chunkEl = createElement("span", {
-            className,
-            textContent: value
-          })
+          chunkEl.setAttribute(CHUNK_TYPE, type)
+          if (SELECTABLE_TYPES.includes(type)) {
+            chunkEl.className = STRING_CLASS
+            chunkEl.setAttribute(PRENORMALIZED, value)
+          }
 
-          chunkEl.setAttribute(PRENORMALIZED, value)
-          add(chunkEl)
+          appendChild(chunkEl)
         })
-
-        if (params.length) {
-          add(document.createTextNode(paramDelimiter))
-        }
-
-        params.forEach(({key, value}, index) => {
-          add(createElement("span", {
-            className: "url-param-key",
-            textContent: `${key}=`
-          }))
-
-          const paramEl = createElement("span", {
-            className: `${STRING_CLASS} url-param-value`,
-            textContent: value
-          })
-
-          paramEl.setAttribute(PRENORMALIZED, value)
-          add(paramEl)
-
-          if (index !== params.length - 1) add(document.createTextNode("&"))
-        })
-
-        groupFragment.appendChild(document.createTextNode(entityDelimiter))
 
         this.replaceElement(element, groupFragment)
 
