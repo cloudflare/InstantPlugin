@@ -472,13 +472,9 @@ export default class Application extends BaseComponent {
   syncButtonState() {
     const {embedCodeInput, stepsContainer} = this.refs
     const embedCodeStep = stepsContainer.querySelector(".step[data-step='embedCode']")
-    const attributesStep = stepsContainer.querySelector(".step[data-step='attributes']")
     const navigateToAttributesButton = embedCodeStep.querySelector("button[data-step='attributes']")
-    const navigateToPreviewButton = attributesStep.querySelector(".button[data-step='preview']")
-    const IDs = this.getTrackedEntityIDs()
 
     navigateToAttributesButton.disabled = embedCodeInput.value.length === 0
-    navigateToPreviewButton.disabled = IDs.length === 0 && Object.keys(this.entities).length !== 0
   }
 
   @autobind
