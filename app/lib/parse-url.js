@@ -1,7 +1,6 @@
 import {parse} from "url"
 
 const PARAM_PATTERN = /(\#|\?)/
-const PARAM_DELIMITER_PATTERN = /&|=/
 const PATH_DELIMITER_PATTERN = /[^\w+]/
 const PROTOCOL_PATTERN = /(^\S*:?)(\/\/)/
 const DEFAULT_PROTOCOL_MATCH = [null, "//", ""]
@@ -14,7 +13,6 @@ export default function parseURL(string) {
   const parsed = parse(urlWithPath, false, true)
   const {host, pathname} = parsed
   const pathCharacters = pathname.split("")
-  const paramCharacters = paramString.split("")
   let url
 
   if (parsed.protocol) {
@@ -45,9 +43,11 @@ export default function parseURL(string) {
     const [key, value] = param.split("=")
 
     paramChunks.push(
-      {type: "param-key", value: key},
-      {type: "delimiter", value: "="},
-      {type: "param-value", value}
+      {type: "param-group", value: [
+        {type: "param-key", value: key},
+        {type: "delimiter", value: "="},
+        {type: "param-value", value}
+      ]}
     )
 
     if (index !== paramArray.length - 1) {

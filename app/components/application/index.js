@@ -358,24 +358,33 @@ export default class Application extends BaseComponent {
       .filter(({type, normalized}) => type === "string" && isURL(encodeURI(normalized)))
       .forEach(({element, entityDelimiter, normalized}) => {
         const groupFragment = document.createDocumentFragment()
-        const appendChild = element => groupFragment.appendChild(element)
         const chunks = [
           {type: "delimiter", value: entityDelimiter},
           ...parseURL(normalized),
           {type: "delimiter", value: entityDelimiter}
         ]
 
-        chunks.forEach(({type, value}) => {
-          const chunkEl = createElement("span", {textContent: value})
+        function parseChunk(parentEl, {type, value}) {
+          const chunkEl = createElement("span")
 
           chunkEl.setAttribute(CHUNK_TYPE, type)
-          if (SELECTABLE_TYPES.includes(type)) {
-            chunkEl.className = STRING_CLASS
+
+          if (typeof value === "string") {
+            chunkEl.textContent = value
             chunkEl.setAttribute(PRENORMALIZED, value)
           }
 
-          appendChild(chunkEl)
-        })
+          if (type === "param-group") {
+            value.forEach(parseChunk.bind(null, chunkEl))
+          }
+          else if (SELECTABLE_TYPES.includes(type)) {
+            chunkEl.className = STRING_CLASS
+          }
+
+          parentEl.appendChild(chunkEl)
+        }
+
+        chunks.forEach(parseChunk.bind(null, groupFragment))
 
         this.replaceElement(element, groupFragment)
 
@@ -429,13 +438,13 @@ export default class Application extends BaseComponent {
   toggleEntityTracking(element) {
     const entity = this.entities[element.getAttribute(ENTITY_ID)]
 
-    if (entity.tracked) {
-      entity.tracked = false
-      element.classList.remove("tracked")
-    }
-    else {
-      entity.tracked = true
-      element.classList.add("tracked")
+    entity.tracked = !entity.tracked
+    const method = entity.tracked ? "add" : "remove"
+
+    element.classList[method]("tracked")
+
+    if (element.parentNode.getAttribute(CHUNK_TYPE) === "param-group") {
+      element.parentNode.classList[method]("tracked")
     }
 
     this.attributeList.render()
