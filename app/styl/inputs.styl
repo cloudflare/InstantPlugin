@@ -30,11 +30,11 @@ input[type="url"],
 input[type="week"]
   width 100%
   font-family inherit
+  text-rendering optimizeLegibility
   appearance none
   -webkit-tap-highlight-color transparent
-  text-rendering optimizeLegibility
   background #fff
-  padding .6em .8em
+  padding 0 .8em
 
   @media firefoxOnlyQuery
     &:invalid
@@ -46,7 +46,7 @@ input[type="week"]
   &.standard
     border 1px solid #cfcfcf
     background lighterGray
-    padding .6em .8em
+    line-height 2.35
     border-radius standardInputRadius
 
     &:focus
