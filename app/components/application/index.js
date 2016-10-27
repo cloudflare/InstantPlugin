@@ -353,7 +353,7 @@ export default class Application extends BaseComponent {
       .forEach(entityEl => {
         const {nextSibling} = entityEl
 
-        if (!nextSibling || nextSibling.nodeType === Node.TEXT_NODE) return
+        if (!nextSibling || nextSibling.nodeType !== Node.TEXT_NODE) return
         if (!JAVASCRIPT_PROPERTY_PATTERN.test(nextSibling.textContent)) return
 
         entityEl.classList.remove(STRING_CLASS)
