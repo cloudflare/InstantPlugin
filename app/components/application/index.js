@@ -31,7 +31,7 @@ const SELECTABLE_TYPES = ["path", "param-value"]
 const GROUP_PATTERN = /-group$/
 const JAVASCRIPT_ENTITY_QUERY = ".javascript .hljs-string, .javascript .hljs-number"
 const JAVASCRIPT_PROPERTY_PATTERN = /:/
-const JAVASCRIPT_DECLARATION_PATTERN = /[\$_A-Za-z]+/
+const JAVASCRIPT_DECLARATION_PATTERN = /([\$_A-Za-z]+)/
 const JAVASCRIPT_DECLARATION_CLASS_PATTERN = /hljs-(keyword|attr)/
 const previewURL = [
   EAGER_BASE,
@@ -376,7 +376,18 @@ export default class Application extends BaseComponent {
 
           entityGroup.setAttribute(CHUNK_TYPE, "entity-group")
 
-          collection.forEach(entry => entityGroup.appendChild(entry.cloneNode(true)))
+          collection.forEach(entry => {
+            let cloneEl = entry.cloneNode(true)
+
+            if (cloneEl.nodeType === Node.TEXT_NODE) {
+              cloneEl = createElement("span", {
+                className: "entity-text",
+                textContent: cloneEl.textContent
+              })
+            }
+
+            entityGroup.appendChild(cloneEl)
+          })
 
           let identifier = `Unknown ${type}`
 
@@ -384,11 +395,16 @@ export default class Application extends BaseComponent {
             identifier = entityGroup.querySelector(".hljs-attr").textContent
           }
           else {
-            const [textNode] = Array
-              .from(entityGroup.childNodes)
-              .filter(node => node.nodeType === Node.TEXT_NODE)
+            const identifierEl = entityGroup.querySelector(".entity-text")
 
-            ;[identifier] = textNode.textContent.match(JAVASCRIPT_DECLARATION_PATTERN)
+            if (identifierEl) {
+              [, identifier] = identifierEl.textContent.match(JAVASCRIPT_DECLARATION_PATTERN)
+
+              if (identifier) {
+                identifierEl.innerHTML = identifierEl.innerHTML.replace(JAVASCRIPT_DECLARATION_PATTERN,
+                  "<span class='entity-identifier'>$1</span>")
+              }
+            }
           }
 
           entityGroup.setAttribute(ENTITY_IDENTIFIER, identifier)
