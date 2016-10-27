@@ -360,6 +360,57 @@ export default class Application extends BaseComponent {
         entityEl.classList.add("hljs-attr")
       })
 
+    // Group HTML attributes with their values.
+    Array
+      .from(attributePicker.querySelectorAll(".hljs-tag .hljs-string"))
+      .forEach(entityEl => {
+        const normalized = encodeURI(normalize("string", entityEl.textContent))
+
+        if (isURL(normalized)) return
+
+        const collection = [entityEl]
+        let sibling = entityEl
+
+        const replaceWithGroup = () => {
+          const entityGroup = createElement("span")
+
+          entityGroup.setAttribute(CHUNK_TYPE, "attribute-group")
+
+          collection.forEach(entry => {
+            let cloneEl = entry.cloneNode(true)
+
+            if (cloneEl.nodeType === Node.TEXT_NODE) {
+              cloneEl = createElement("span", {
+                className: "entity-text",
+                textContent: cloneEl.textContent
+              })
+            }
+
+            entityGroup.appendChild(cloneEl)
+          })
+
+          const attributeEl = entityGroup.querySelector(".hljs-attr")
+          const identifier = attributeEl ? attributeEl.textContent : ""
+
+          entityGroup.setAttribute(ENTITY_IDENTIFIER, identifier)
+
+          entityEl.parentNode.insertBefore(entityGroup, entityEl)
+          collection.forEach(entry => entry.parentNode.removeChild(entry))
+        }
+
+        // Walk the DOM until we find the attribute.
+        while (sibling = sibling.previousSibling) { // eslint-disable-line no-cond-assign
+          collection.unshift(sibling)
+
+          const {className = ""} = sibling
+
+          if (/hljs-attr/.test(className)) {
+            replaceWithGroup()
+            break
+          }
+        }
+      })
+
     // Group JS entities with their assignment name.
     Array
       .from(attributePicker.querySelectorAll(JAVASCRIPT_ENTITY_QUERY))
@@ -392,7 +443,9 @@ export default class Application extends BaseComponent {
           let identifier = `Unknown ${type}`
 
           if (type === "property") {
-            identifier = entityGroup.querySelector(".hljs-attr").textContent
+            const propertyEl = entityGroup.querySelector(".hljs-attr")
+
+            if (propertyEl) identifier = propertyEl.textContent
           }
           else {
             const identifierEl = entityGroup.querySelector(".entity-text")
@@ -416,6 +469,7 @@ export default class Application extends BaseComponent {
         // Walk the DOM until we (hopefully) find the declaration.
         while (sibling = sibling.previousSibling) { // eslint-disable-line no-cond-assign
           collection.unshift(sibling)
+
           const {className = ""} = sibling
           const [, tokenName] = className.match(JAVASCRIPT_DECLARATION_CLASS_PATTERN) || []
 
