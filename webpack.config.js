@@ -58,7 +58,7 @@ $.plugins = [
   }),
   extractCSS,
   new HtmlWebpackPlugin({
-    title: "Instant Plugin",
+    title: "Instant WordPress Plugin",
     description,
     template: "app/index.pug"
   }),
