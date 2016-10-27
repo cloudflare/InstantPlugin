@@ -7,7 +7,7 @@ const script = String.raw`<script type="text/javascript">
     border: "none",
     overflow: "hidden",
     height: "35px",
-    position: "relative",
+    "position": "relative",
     zIndex: 2
   }
   var url = window.location.href.replace(/(http:\/\/|https:\/\/)/gi, "").replace(/^\/|\/$/g, "");

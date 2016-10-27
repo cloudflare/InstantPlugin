@@ -13,24 +13,22 @@
     + .entity
       border-top 1px solid #eee
 
-  .original-entity
+  .entity-details
     width 27%
     margin-right 5%
+    padding-top 0.15em
 
-    code
+    .entity-identifier, .entity-token
       antialiasedFonts()
       font-family monospaceFonts
       line-height 1.6
-      border-radius 2em
-      padding .0625em .5em
-      cursor default
-      box-shadow 0 0 0 2px brandOrange
-      background #fff
+
+    .entity-token
+      color subtleText
       display inline-block
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
-      height 1.6em
 
   .entity-label
     display block

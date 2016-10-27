@@ -21,12 +21,18 @@ const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
 const ACTIVE_STEP = "data-active-step"
 const CHUNK_TYPE = "data-chunk-type"
 const ENTITY_ID = "data-entity-id"
+const ENTITY_IDENTIFIER = "data-identifier"
 const ENTITY_ORDER = "data-entity-order"
 const STRING_CLASS = "hljs-string"
 const PRENORMALIZED = "data-prenormalized"
 const ENTITY_QUERY = `.${STRING_CLASS}, .hljs-number`
 const TRANSITION_DELAY = 700
 const SELECTABLE_TYPES = ["path", "param-value"]
+const GROUP_PATTERN = /-group$/
+const JAVASCRIPT_ENTITY_QUERY = ".javascript .hljs-string, .javascript .hljs-number"
+const JAVASCRIPT_PROPERTY_PATTERN = /:/
+const JAVASCRIPT_DECLARATION_PATTERN = /[\$_A-Za-z]+/
+const JAVASCRIPT_DECLARATION_CLASS_PATTERN = /hljs-(keyword|attr)/
 const previewURL = [
   EAGER_BASE,
   "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=typical.design"
@@ -236,14 +242,14 @@ export default class Application extends BaseComponent {
     const properties = {}
 
     IDs.forEach((id, order) => {
-      const {delimiter, normalized, title, type} = this.entities[id]
+      const {delimiter, identifier, normalized, placeholder, title, type} = this.entities[id]
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
 
       properties[id] = {
         order,
-        placeholder: normalized,
+        placeholder,
         default: normalized,
-        title: title || `Option ${order + 1}`,
+        title: title || identifier || `Option ${order + 1}`,
         type
       }
 
@@ -341,6 +347,70 @@ export default class Application extends BaseComponent {
     attributePicker.classList.remove("empty")
     attributePicker.innerHTML = serializer.innerHTML
 
+    // Remove strings that object properties.
+    Array
+      .from(attributePicker.querySelectorAll(JAVASCRIPT_ENTITY_QUERY))
+      .forEach(entityEl => {
+        const {nextSibling} = entityEl
+
+        if (!nextSibling || nextSibling.nodeName !== "#text") return
+        if (!JAVASCRIPT_PROPERTY_PATTERN.test(nextSibling.textContent)) return
+
+        entityEl.classList.remove(STRING_CLASS)
+        entityEl.classList.add("hljs-attr")
+      })
+
+    // Group JS entities with their assignment name.
+    Array
+      .from(attributePicker.querySelectorAll(JAVASCRIPT_ENTITY_QUERY))
+      .forEach(entityEl => {
+        const collection = [entityEl]
+        let sibling = entityEl
+
+        const replaceWithGroup = tokenName => {
+          const entityGroup = createElement("span")
+          const type = {
+            attr: "property",
+            keyword: "assignment"
+          }[tokenName]
+
+          entityGroup.setAttribute(CHUNK_TYPE, "entity-group")
+
+          collection.forEach(entry => entityGroup.appendChild(entry.cloneNode(true)))
+
+          let identifier = `Unknown ${type}`
+
+          if (type === "property") {
+            identifier = entityGroup.querySelector(".hljs-attr").textContent
+          }
+          else {
+            const [textNode] = Array
+              .from(entityGroup.childNodes)
+              .filter(node => node.nodeType === Node.TEXT_NODE)
+
+            ;[identifier] = textNode.textContent.match(JAVASCRIPT_DECLARATION_PATTERN)
+          }
+
+          entityGroup.setAttribute(ENTITY_IDENTIFIER, identifier)
+
+          entityEl.parentNode.insertBefore(entityGroup, entityEl)
+          collection.forEach(entry => entry.parentNode.removeChild(entry))
+        }
+
+        // Walk the DOM until we (hopefully) find the declaration.
+        while (sibling = sibling.previousSibling) { // eslint-disable-line no-cond-assign
+          collection.unshift(sibling)
+          const {className = ""} = sibling
+          const [, tokenName] = className.match(JAVASCRIPT_DECLARATION_CLASS_PATTERN) || []
+
+          if (tokenName) {
+            replaceWithGroup(tokenName)
+            break
+          }
+        }
+      })
+
+
     const getEntityElements = () => Array.from(attributePicker.querySelectorAll(ENTITY_QUERY))
 
     // Parse URL components into entities.
@@ -374,6 +444,10 @@ export default class Application extends BaseComponent {
             chunkEl.setAttribute(PRENORMALIZED, value)
           }
 
+          if (type === "param-key") {
+            parentEl.setAttribute(ENTITY_IDENTIFIER, value)
+          }
+
           if (type === "param-group") {
             value.forEach(parseChunk.bind(null, chunkEl))
           }
@@ -399,11 +473,13 @@ export default class Application extends BaseComponent {
       .from(this.steps.attributes.querySelectorAll("[tabindex]"))
       .forEach((tabableEl, index) => tabableEl.tabIndex = entityCount + index + 1)
 
+    // Populate entities.
     entityElements.forEach((element, index) => {
       const text = element.textContent
       const id = `option_${index + 1}`
       const type = getType(element)
       const normalized = element.getAttribute(PRENORMALIZED) || normalize(type, text)
+      let identifier = ""
 
       if (normalized.length === 0) {
         // Skip empty strings.
@@ -411,10 +487,16 @@ export default class Application extends BaseComponent {
         return
       }
 
+      if (GROUP_PATTERN.test(element.parentNode.getAttribute(CHUNK_TYPE))) {
+        identifier = element.parentNode.getAttribute(ENTITY_IDENTIFIER)
+      }
+
       this.entities[id] = {
         delimiter: element.getAttribute(PRENORMALIZED) ? "" : getDelimiter(type, text),
         element,
+        identifier,
         normalized,
+        placeholder: normalized,
         order: index,
         original: text,
         tracked: false,
@@ -443,7 +525,7 @@ export default class Application extends BaseComponent {
 
     element.classList[method]("tracked")
 
-    if (element.parentNode.getAttribute(CHUNK_TYPE) === "param-group") {
+    if (GROUP_PATTERN.test(element.parentNode.getAttribute(CHUNK_TYPE))) {
       element.parentNode.classList[method]("tracked")
     }
 

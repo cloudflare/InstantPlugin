@@ -232,12 +232,22 @@ stepProgressions = {
       box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
       background #eee
 
-      &:not(.tracked):hover
-        box-shadow 0 0 0 1px rgba(textColor, .8)
+      &:focus
+        outline none
+
+      &:not(.tracked)
+        &:hover
+          box-shadow 0 0 0 1px rgba(textColor, .8)
+
+        &:focus
+          box-shadow 0 0 2 1px rgba(textColor, .8)
 
       &.tracked
         background #fff
         box-shadow 0 0 0 2px brandOrange
+
+        &:focus
+          box-shadow 0 0 2px 2px brandOrange
 
     [data-chunk-type="param-group"]
       [data-chunk-type="param-key"]
@@ -245,6 +255,9 @@ stepProgressions = {
 
       &.tracked [data-chunk-type="param-key"]
         color brandOrange
+
+    [data-chunk-type="entity-group"].tracked
+      color brandOrange
 
   a.made-by.button
     display block

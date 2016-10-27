@@ -36,15 +36,16 @@ export default class AttributeList extends BaseComponent {
       })
 
       element.innerHTML = escapeTemplate`
-        <div class="original-entity">
-          <code>${entity.original}</code>
+        <div class="entity-details" data-flow="column">
+          <code class="entity-identifier">${entity.identifier}</code>
+          <code class="entity-token">${entity.original}</code>
         </div>
         <label class="entity-label">
           <div class="label-content">Label for this dynamic option</div>
           <div class="entity-name">
             <input
               class="standard"
-              placeholder="Option ${index + 1}"
+              placeholder="${entity.placeholder}"
               tabindex="${entityCount + index + 1}"
               type="text"
               value="${entity.title}"/>
