@@ -564,7 +564,7 @@ export default class Application extends BaseComponent {
 
       this.entities[id] = {
         delimiter: element.getAttribute(PRENORMALIZED) ? "" : getDelimiter(type, text),
-        format: "",
+        format: "plaintext",
         element,
         identifier,
         normalized,
