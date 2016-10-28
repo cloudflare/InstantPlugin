@@ -17,7 +17,7 @@ export default function runDemo(app) {
 
   option_7.title = "Latitude"
   option_8.title = "Longitude"
-  option_9.title = "Location Name"
+  option_9.title = "Description"
 
   app.toggleEntityTracking(option_7.element)
   app.toggleEntityTracking(option_8.element)
