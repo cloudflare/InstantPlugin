@@ -1,14 +1,39 @@
 .entity
-  .entity-details(data-flow="column")
-    code.entity-identifier= entity.identifier
-    code.entity-token= entity.original
+  .details(data-flow="column")
+    code.identifier= entity.identifier
+    code.token= entity.original
 
-  label.entity-label
-    .label-content Label for this dynamic option
+  .form(data-flow="column")
+    .input
+      label.label(for=("schema-label-" + id))
+        span Label
+        .help-text What should the option be labeled?
 
-    .entity-name
       input.standard(
-        placeholder=entity.placeholder
+        name="schema-name"
+        id=("schema-label-" + id)
+        placeholder=(entity.identifier || "Option " + (index + 1))
         tabindex=(entityCount + index + 1)
         type="text"
         value=entity.title)
+
+    if entity.type === "string"
+      .input
+        label.label(for=("schema-format-" + id))
+          span Format
+          .help-text What kind of input will the user type?
+
+        select.standard(
+          name="schema-format"
+          id=("schema-format-" + id)
+          placeholder=entity.placeholder)
+          option(value="plaintext") Plaintext
+          option(value="richtext") Richtext
+          option(value="textarea") Textarea
+          option(value="selector") Element Selector
+          option(value="image") Image
+          option(value="color") Color
+          option(value="code") Code
+          option(value="date") Date
+          option(value="time") Time
+          option(value="date-time") Date Time

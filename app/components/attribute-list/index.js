@@ -17,25 +17,33 @@ export default class AttributeList extends BaseComponent {
     const entities = this.getEntities()
     const entityCount = Object.keys(entities).length
 
-    this.element.innerHTML = "<div class=\"attribute-list-content box\"></div>"
+    this.element.innerHTML = "<div class='attribute-list-content box'></div>"
 
     if (IDs.length) {
+      const tense = IDs.length === 1 ? "this dynamic option" : "these dynamic options"
+
       this.element.innerHTML = `<p class="divider">
-        Add labels for these dynamic options:
+        Customize ${tense}:
       </p>
       ${this.element.innerHTML}
       `
     }
 
+    const listContent = this.element.querySelector(".attribute-list-content")
+
     IDs.forEach((id, index) => {
       const entity = entities[id]
-      const element = this.serialize(entityTemplate, {entity, entityCount, index})
+      const entityEl = this.serialize(entityTemplate, {entity, entityCount, id, index})
 
-      element
-        .querySelector(".entity-name > input")
-        .addEventListener("input", event => this.setEntityTitle(id, event))
+      entityEl
+        .querySelector("[name='schema-name']")
+        .addEventListener("input", ({target: {value}}) => entities[id].title = value)
 
-      this.element.querySelector(".attribute-list-content").appendChild(element)
+      entityEl
+        .querySelector("[name='schema-format']")
+        .addEventListener("change", ({target: {value}}) => entities[id].format = value)
+
+      listContent.appendChild(entityEl)
     })
 
     return this.element

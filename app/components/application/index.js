@@ -130,8 +130,7 @@ export default class Application extends BaseComponent {
 
     this.attributeList = new AttributeList({
       getEntities: () => this.entities,
-      getTrackedEntityIDs: this.getTrackedEntityIDs,
-      setEntityTitle: this.setEntityTitle
+      getTrackedEntityIDs: this.getTrackedEntityIDs
     })
 
     this.replaceElement(attributeListMount, this.attributeList.render())
@@ -243,10 +242,11 @@ export default class Application extends BaseComponent {
     const properties = {}
 
     IDs.forEach((id, order) => {
-      const {delimiter, identifier, normalized, placeholder, title, type} = this.entities[id]
+      const {delimiter, identifier, format, normalized, placeholder, title, type} = this.entities[id]
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
 
       properties[id] = {
+        format,
         order,
         placeholder,
         default: normalized,
@@ -564,6 +564,7 @@ export default class Application extends BaseComponent {
 
       this.entities[id] = {
         delimiter: element.getAttribute(PRENORMALIZED) ? "" : getDelimiter(type, text),
+        format: "",
         element,
         identifier,
         normalized,
@@ -602,11 +603,6 @@ export default class Application extends BaseComponent {
 
     this.attributeList.render()
     this.syncButtonState()
-  }
-
-  @autobind
-  setEntityTitle(id, {target: {value}}) {
-    this.entities[id].title = value
   }
 
   syncButtonState() {

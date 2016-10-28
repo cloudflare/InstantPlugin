@@ -7,29 +7,36 @@
   > p:first-child
     padding-top 2em
 
+  .form
+    flex 1 1 auto
+
+    .standard
+      flex 1 0 auto
+      width 100%
+
   .entity
     padding 1.25em
 
     + .entity
       border-top 1px solid #eee
 
-  .entity-details
+  .details
     width 27%
     margin-right 5%
     padding-top 0.15em
 
-    .entity-identifier, .entity-token
+    .identifier, .token
       antialiasedFonts()
       font-family monospaceFonts
       line-height 1.6
 
-    .entity-token
+    .token
       color subtleText
       display inline-block
       overflow hidden
       text-overflow ellipsis
       white-space nowrap
 
-  .entity-label
+  .label
     display block
     width 68%
