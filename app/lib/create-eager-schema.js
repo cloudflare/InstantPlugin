@@ -12,7 +12,7 @@ export default function createEagerSchema({options, embedCode, properties}) {
   else if (options.location === "custom") {
     // The embed code developer requires that the embed be inserted in a specific place.
     resourceLocation = "body"
-    mountOptions = {selector: options.customLocation, method: "after"}
+    mountOptions = {selector: options.customLocation || "body", method: "after"}
   }
   else {
     resourceLocation = options.location
