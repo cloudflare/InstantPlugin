@@ -1,0 +1,14 @@
+.entity
+  .entity-details(data-flow="column")
+    code.entity-identifier= entity.identifier
+    code.entity-token= entity.original
+
+  label.entity-label
+    .label-content Label for this dynamic option
+
+    .entity-name
+      input.standard(
+        placeholder=entity.placeholder
+        tabindex=(entityCount + index + 1)
+        type="text"
+        value=entity.title)

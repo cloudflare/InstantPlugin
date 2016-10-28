@@ -1,10 +1,8 @@
 import "./attribute-list.styl"
 import template from "./attribute-list.pug"
+import entityTemplate from "./entity.pug"
 
 import BaseComponent from "components/base-component"
-import createElement from "lib/create-element"
-import escapeTemplate from "lib/escape-template"
-
 export default class AttributeList extends BaseComponent {
   static template = template;
 
@@ -31,27 +29,8 @@ export default class AttributeList extends BaseComponent {
 
     IDs.forEach((id, index) => {
       const entity = entities[id]
-      const element = createElement("div", {
-        className: "entity"
-      })
+      const element = this.serialize(entityTemplate, {entity, entityCount, index})
 
-      element.innerHTML = escapeTemplate`
-        <div class="entity-details" data-flow="column">
-          <code class="entity-identifier">${entity.identifier}</code>
-          <code class="entity-token">${entity.original}</code>
-        </div>
-        <label class="entity-label">
-          <div class="label-content">Label for this dynamic option</div>
-          <div class="entity-name">
-            <input
-              class="standard"
-              placeholder="${entity.placeholder}"
-              tabindex="${entityCount + index + 1}"
-              type="text"
-              value="${entity.title}"/>
-          </div>
-        </label>
-      `
       element
         .querySelector(".entity-name > input")
         .addEventListener("input", event => this.setEntityTitle(id, event))
