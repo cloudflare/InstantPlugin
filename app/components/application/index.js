@@ -241,21 +241,31 @@ export default class Application extends BaseComponent {
     const embedCodeDOM = this.refs.attributePicker.cloneNode(true)
     const properties = {}
 
-    IDs.forEach((id, order) => {
+    IDs.forEach((id, index) => {
       const {delimiter, identifier, format, normalized, placeholder, title, type} = this.entities[id]
       const current = embedCodeDOM.querySelector(`[${ENTITY_ID}="${id}"]`)
 
       properties[id] = {
         format,
-        order,
+        order: index + 1,
         placeholder,
         default: normalized,
-        title: title || identifier || `Option ${order + 1}`,
+        title: title || identifier || `Option ${index + 1}`,
         type
       }
 
       current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
     })
+
+    if (this.includesHTMLTags) {
+      properties.embedLocation = {
+        default: {selector: "body", method: "prepend"},
+        format: "element",
+        title: "Location",
+        order: 0,
+        type: "object"
+      }
+    }
 
     const {attributesForm} = this.refs
 
@@ -324,7 +334,7 @@ export default class Application extends BaseComponent {
   parseInput() {
     this.entities = {}
 
-    const {attributePicker, embedCodeInput} = this.refs
+    const {attributePicker, embedCodeInput, embedCodeLocationContainer} = this.refs
     const serializer = createElement("div", {
       innerHTML: highlight("html", embedCodeInput.value).value
     })
@@ -543,6 +553,15 @@ export default class Application extends BaseComponent {
     Array
       .from(this.steps.attributes.querySelectorAll("[tabindex]"))
       .forEach((tabableEl, index) => tabableEl.tabIndex = entityCount + index + 1)
+
+    // Embed codes that include non script tags like iframes use a special
+    // option to let the plugin user choose the location.
+    this.includesHTMLTags = Array
+      .from(attributePicker.querySelectorAll(".hljs-tag .hljs-name"))
+      .map(element => element.textContent)
+      .some(name => name !== "script")
+
+    embedCodeLocationContainer.style.display = this.includesHTMLTags ? "none" : ""
 
     // Populate entities.
     entityElements.forEach((element, index) => {

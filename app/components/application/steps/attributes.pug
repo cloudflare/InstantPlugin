@@ -6,26 +6,27 @@
 
     .attribute-list-mount(data-ref="attributeListMount")
 
-    p.divider Where should the embed code be inserted?
+    .embed-code-location-container(data-ref="embedCodeLocationContainer")
+      p.divider Where should the embed code be inserted?
 
-    .box.form.schema-form.embed-code-location
-      .input
-        select.standard(data-ref="locationSelect" name="location" required)
-          option(value="head") Head
-          option(value="body") Body
-          option(value="custom") Custom location
+      .box.form.schema-form.embed-code-location
+        .input
+          select.standard(data-ref="locationSelect" name="location" required)
+            option(value="head") Head
+            option(value="body") End of Body
+            option(value="custom") Specific Location In Body
 
-      .input(data-ref="customLocationContainer" style="display: none;")
-        label
-          span.required Custom Location
-          .help-text
-            | Enter a CSS selector
+        .input(data-ref="customLocationContainer" style="display: none;")
+          label
+            span.required Custom Location
+            .help-text
+              | Enter a CSS selector
 
-        input.standard(
-          data-ref="customLocationInput"
-          name="customLocation"
-          placeholder="body"
-          type="text")
+          input.standard(
+            data-ref="customLocationInput"
+            name="customLocation"
+            placeholder="body"
+            type="text")
 
     .actions
       button.button.secondary.transparent(

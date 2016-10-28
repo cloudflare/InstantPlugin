@@ -1,24 +1,38 @@
+const {stringify} = JSON
+
 export default function createEagerSchema({options, embedCode, properties}) {
-  embedCode = JSON.stringify(embedCode)
+  let resourceLocation
+  let mountOptions
 
-  let insertSelector = options.location
-  let resourceLocation = options.location
-
-  if (options.location === "custom") {
+  if (properties.embedLocation) {
+    // Embed code contains DOM elements.
+    // mountOptions is decided by the user at runtime.
     resourceLocation = "body"
-    insertSelector = options.customLocation
+  }
+  else if (options.location === "custom") {
+    // The embed code developer requires that the embed be inserted in a specific place.
+    resourceLocation = "body"
+    mountOptions = {selector: options.customLocation, method: "after"}
+  }
+  else {
+    resourceLocation = options.location
+    mountOptions = {selector: options.location, method: "append"}
   }
 
-  const initializeApp = function initializeApp(insertSelector, embedCodeInjection) {
+  const initializeApp = function initializeApp({mountOptions, embedCodeInjection, resourceLocation}) {
     if (!window.addEventListener) return // Check for IE9+
 
     const TRACKED_ENTITY_PATTERN = /TRACKED_ENTITY\[([^\]]+)\]/g
     const options = INSTALL_OPTIONS
 
+    if (options.embedLocation) {
+      mountOptions = options.embedLocation
+    }
+
     const insertOption = (match, key) => options[key]
 
     function insertEmbedCode() {
-      const mountPoint = Eager.createElement({selector: insertSelector, method: "prepend"})
+      const mountPoint = Eager.createElement(mountOptions)
       const mountParent = mountPoint.parentNode
 
       mountPoint.style.display = "none !important"
@@ -38,7 +52,7 @@ export default function createEagerSchema({options, embedCode, properties}) {
       mountPoint.parentNode.removeChild(mountPoint)
     }
 
-    if (document.readyState === "loading") {
+    if (resourceLocation === "body" && document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", insertEmbedCode)
     }
     else {
@@ -51,7 +65,7 @@ export default function createEagerSchema({options, embedCode, properties}) {
       [resourceLocation]: [
         {
           type: "script",
-          contents: `(${initializeApp}(${JSON.stringify(insertSelector)}, ${embedCode}))`
+          contents: `(${initializeApp}({mountOptions: ${stringify(mountOptions)}, embedCodeInjection: ${stringify(embedCode)}, resourceLocation: ${stringify(resourceLocation)}}))`
         }
       ]
     },
