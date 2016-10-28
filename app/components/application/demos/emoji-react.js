@@ -36,10 +36,15 @@ export default function runDemo(app) {
 
   locationSelect.value = "body"
 
-  const {option_2} = app.entities
+  const {option_2, option_3} = app.entities
 
   option_2.title = "Comma separated list of emoji names"
   app.toggleEntityTracking(option_2.element)
+
+  option_3.title = "Location"
+  option_3.format = "selector"
+  app.toggleEntityTracking(option_3.element)
+
 
   const fields = {
     "[name='app[title]']": "Emoji React",
