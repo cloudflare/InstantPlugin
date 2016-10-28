@@ -115,6 +115,7 @@ export default class Application extends BaseComponent {
       intro: this.navigateToIntro,
       embedCode: this.navigateToEmbedCode,
       attributes: this.navigateToAttributes,
+      preview: this.navigateToPreview,
       details: this.navigateToDetails,
       creating: this.navigateToCreating,
       download: this.navigateToDownload,
