@@ -141,8 +141,6 @@ export default class Application extends BaseComponent {
 
     mountPoint.appendChild(element)
 
-    // demos.emojiReact(this)
-    // this.navigateToAttributes()
     this.navigateToIntro()
   }
 
