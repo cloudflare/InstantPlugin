@@ -234,20 +234,18 @@ stepProgressions = {
 
       &:focus
         outline none
+        box-shadow 0 0 2px 1px saturation(brandOrangeDark, 75%)
 
       &:not(.tracked)
         &:hover
           box-shadow 0 0 0 1px rgba(textColor, .8)
-
-        &:focus
-          box-shadow 0 0 2 1px rgba(textColor, .8)
 
       &.tracked
         background #fff
         box-shadow 0 0 0 2px brandOrange
 
         &:focus
-          box-shadow 0 0 2px 2px brandOrange
+          box-shadow 0 0 2px 2px brandOrangeDark
 
     [data-chunk-type="param-group"]
       [data-chunk-type="param-key"]
