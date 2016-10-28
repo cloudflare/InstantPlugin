@@ -39,9 +39,10 @@ export default class AttributeList extends BaseComponent {
         .querySelector("[name='schema-name']")
         .addEventListener("input", ({target: {value}}) => entities[id].title = value)
 
-      entityEl
-        .querySelector("[name='schema-format']")
-        .addEventListener("change", ({target: {value}}) => entities[id].format = value)
+      const formatSelect = entityEl.querySelector("[name='schema-format']")
+
+      formatSelect.value = entity.format
+      formatSelect.addEventListener("change", ({target: {value}}) => entities[id].format = value)
 
       listContent.appendChild(entityEl)
     })
