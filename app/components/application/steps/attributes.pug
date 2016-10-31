@@ -1,6 +1,8 @@
 .step(data-ref="steps[]" data-step="attributes")
   form(data-ref="attributesForm")
-    p Click parts of the embed code to make them dynamic:
+    h1.headline Choose your options.
+
+    p Click parts of your embed code to turn them into options for the user.
 
     .attribute-picker.box(data-ref="attributePicker")
 
@@ -13,14 +15,14 @@
         .input
           select.standard(data-ref="locationSelect" name="location" required)
             option(value="head") Head
-            option(value="body") End of Body
-            option(value="custom") Specific Location In Body
+            option(value="body") Body
+            option(value="custom") A specific location in the body
 
         .input(data-ref="customLocationContainer" style="display: none;")
           label
             span.required Custom Location
             .help-text
-              | Enter a CSS selector
+              | Enter a CSS selector for an element inside which the embed will be placed.
 
           input.standard(
             data-ref="customLocationInput"
