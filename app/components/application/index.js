@@ -201,7 +201,7 @@ export default class Application extends BaseComponent {
 
     const {previewContainer} = this.refs
     const previewIframe = createElement("iframe", {
-      sandbox: "allow-scripts allow-same-origin allow-popups",
+      sandbox: "allow-forms allow-scripts allow-same-origin allow-popups",
       src: this.previewURL
     })
 
