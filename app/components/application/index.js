@@ -35,7 +35,7 @@ const JAVASCRIPT_DECLARATION_PATTERN = /([\$_A-Za-z]+)/
 const JAVASCRIPT_DECLARATION_CLASS_PATTERN = /hljs-(keyword|attr)/
 const previewURL = [
   EAGER_BASE,
-  "/developer/app-tester?remoteInstall&embed&cmsName=appTester&initialUrl=typical.design"
+  "/developer/app-tester?remoteInstall&embed&&siteId=preview&cmsName=appTester&initialUrl=typical.design"
 ].join("")
 
 const getType = element => {
