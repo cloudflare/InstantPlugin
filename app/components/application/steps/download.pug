@@ -1,14 +1,16 @@
 .step(data-ref="steps[]" data-step="download")
-  header.header(data-flow="column")
-    h1 Your plugin is downloading...
+  h2 Your plugin is downloading.
 
-    a.download-link.more(data-ref="downloadLink" download)
-      | Download immediately
+  .content.short-instruction
+    p
+      | If for some reason the download doesn’t start,&#32;
+      a.download-link.more(data-ref="downloadLink" download)
+        | click here
 
   .content.download-details(data-flow="column")
 
   .actions
-    button.button.secondary.transparent(
+    button.button.secondary.slim.transparent(
       data-ref="navigationButtons[]"
       data-step="reset"
       type="button") Create another plugin

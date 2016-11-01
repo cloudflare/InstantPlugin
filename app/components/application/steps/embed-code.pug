@@ -1,13 +1,12 @@
 .step(data-ref="steps[]" data-step="embedCode")
-  h1.headline Paste your embed code below.
+  h2 Paste your embed code below.
 
-  p
-    | This is the embed code your users add to their website to install your tool or service.
-    | Don’t worry if it requires some user customization, you’ll be able to set that up in the next step.
+  .content
+    p This is the embed code your users add to their website to install your tool or service. Don’t worry if it requires some user customization, you’ll be able to set that up in the next step.
 
   .input-container(data-flow="column")
     .demos
-      span Or try a demo:
+      span Try a demo:
 
       button.demo.button.secondary(
         data-ref="navigationButtons[]"

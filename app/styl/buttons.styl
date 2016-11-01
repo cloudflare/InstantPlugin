@@ -31,6 +31,10 @@
   @media chromeOnlyQuery
     font-weight 300
 
+  &.slim
+    padding-left 1em
+    padding-right @padding-left
+
   &:hover
     text-decoration none
 
@@ -67,7 +71,7 @@
 
   &.secondary
     background #fff
-    color currentColor
+    color paragraphColor
 
   &.twitter-share
     display inline-block
