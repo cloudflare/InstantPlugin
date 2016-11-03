@@ -27,23 +27,25 @@ const script = String.raw`<script type="text/javascript">
 </script>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
+  const {attributePicker} = app
+  const {embedCodeInput, pluginDetailsForm} = app.refs
+  const {locationSelect} = attributePicker.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
-  app.parseInput()
+  attributePicker.parseInput()
 
   locationSelect.value = "body"
 
   const {option_2, option_3} = app.entities
 
   option_2.title = "Comma separated list of emoji names"
-  app.toggleEntityTracking(option_2.element)
+  attributePicker.toggleEntityTracking(option_2.element)
 
   option_3.title = "Location"
   option_3.format = "selector"
-  app.toggleEntityTracking(option_3.element)
+  attributePicker.toggleEntityTracking(option_3.element)
 
 
   const fields = {

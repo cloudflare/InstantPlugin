@@ -5,8 +5,8 @@
 
 stepProgressions = {
   "intro": "embedCode",
-  "embedCode": "attributes",
-  "attributes": "preview",
+  "embedCode": "attributePicker",
+  "attributePicker": "preview",
   "preview": "details",
   "details": "creating"
   "creating": "download"
@@ -35,7 +35,7 @@ stepProgressions = {
     &[data-active-step={next}] .step[data-step={previous}]
       transform translate3d(-5em, 0, 0)
 
-  &[data-active-step="attributes"] [data-entity-id]
+  &[data-active-step="attributePicker"] [data-entity-id]
     display inline-block
 
     &::after
@@ -105,7 +105,7 @@ stepProgressions = {
     box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
     position relative
 
-  .embed-code-input, .attribute-picker
+  .embed-code-input, [data-step="attributePicker"] .picker
     antialiasedFonts()
     font-family monospaceFonts
     border 0
@@ -149,29 +149,9 @@ stepProgressions = {
     &:focus
       outline none
 
-  .attribute-picker
-    color mutedTextColor
-
-    .hljs-string, .hljs-number
-      color textColor
-
-    .details
-      color darken(mutedTextColor, 20%)
-      font-family sansSerifFonts
-      font-size 1.2em
-      margin 0
-      text-align center
-      white-space normal
-      padding-left 6.5em
-      padding-right @padding-left
-
-      + .details
-        margin-top -2.8em
-
   @import "./steps/intro"
   @import "./steps/embed-code"
   @import "./steps/details"
-  @import "./steps/attributes"
   @import "./steps/creating"
   @import "./steps/download"
 
@@ -215,58 +195,6 @@ stepProgressions = {
 
       .short-instructions
         text-align center
-
-  .attribute-picker
-    cursor default
-    overflow-wrap break-word
-    user-select none
-    white-space pre-wrap
-    word-break break-word
-    word-wrap break-word
-    // Fix animation artifacts.
-    background #fff
-    subpixelAntialiasedFonts()
-
-    [data-entity-id]
-      display inline-block
-      position relative
-      border-radius 2em
-      padding 0 .5em
-      line-height 1.3
-      font-family inherit
-      cursor pointer
-      box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
-      background #eee
-
-      &:focus
-        outline none
-        box-shadow 0 0 2px 1px saturation(brandOrangeDark, 75%)
-
-      &:not(.tracked)
-        &:hover
-          box-shadow 0 0 0 1px rgba(textColor, .8)
-
-      &.tracked
-        background #fff
-        box-shadow 0 0 0 2px brandOrange
-
-        &:focus
-          box-shadow 0 0 2px 2px brandOrangeDark
-
-    [data-chunk-type="param-group"]
-      [data-chunk-type="param-key"]
-        color darkGray
-
-      &.tracked [data-chunk-type="param-key"]
-        color brandOrange
-
-    [data-chunk-type="entity-group"].tracked
-      .hljs-attr, .entity-identifier
-        color brandOrange
-
-    [data-chunk-type="attribute-group"].tracked
-      .hljs-attr
-        color brandOrange
 
   a.made-by.button
     display block

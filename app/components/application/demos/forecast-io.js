@@ -4,12 +4,14 @@ const script = String.raw`<iframe id="forecast_embed" type="text/html" framebord
 </iframe>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
+  const {attributePicker} = app
+  const {embedCodeInput, pluginDetailsForm} = app.refs
+  const {locationSelect} = attributePicker.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
-  app.parseInput()
+  attributePicker.parseInput()
 
   locationSelect.value = "body"
 
@@ -19,9 +21,9 @@ export default function runDemo(app) {
   option_8.title = "Longitude"
   option_9.title = "Description"
 
-  app.toggleEntityTracking(option_7.element)
-  app.toggleEntityTracking(option_8.element)
-  app.toggleEntityTracking(option_9.element)
+  attributePicker.toggleEntityTracking(option_7.element)
+  attributePicker.toggleEntityTracking(option_8.element)
+  attributePicker.toggleEntityTracking(option_9.element)
 
   const fields = {
     "[name='app[title]']": "Forecast.io",

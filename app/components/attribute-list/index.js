@@ -13,8 +13,8 @@ export default class AttributeList extends BaseComponent {
   }
 
   render() {
-    const IDs = this.getTrackedEntityIDs()
-    const entities = this.getEntities()
+    const IDs = this.$root.getTrackedEntityIDs()
+    const {entities} = this.$root
     const entityCount = Object.keys(entities).length
 
     this.element.innerHTML = "<div class='attribute-list-content box'></div>"

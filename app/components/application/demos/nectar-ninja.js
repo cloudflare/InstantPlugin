@@ -17,17 +17,21 @@ const script = String.raw`<script>
 </script>`
 
 export default function runDemo(app) {
+  const {attributePicker} = app
   const {embedCodeInput, pluginDetailsForm} = app.refs
+  const {locationSelect} = attributePicker.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
-  app.parseInput()
+  attributePicker.parseInput()
+
+  locationSelect.value = "body"
 
   const {option_1} = app.entities
 
   option_1.title = "Twitter username"
-  app.toggleEntityTracking(option_1.element)
+  attributePicker.toggleEntityTracking(option_1.element)
 
   const fields = {
     "[name='email']": "demo@instantwordpressplugin.com",
