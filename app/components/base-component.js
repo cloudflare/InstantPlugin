@@ -1,3 +1,5 @@
+import autosize from "autosize"
+
 // Ends with brackets e.g. [data-ref="foo[]"]
 const ARRAY_REF_PATTERN = /([a-zA-Z\d]*)(\[?\]?)/
 
@@ -68,6 +70,8 @@ export default class BaseComponent {
 
     this.element = this.serialize(template, templateVars)
     this.updateRefs()
+
+    autosize(this.element.querySelectorAll("textarea"))
 
     return this.element
   }
