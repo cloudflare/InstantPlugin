@@ -1,0 +1,11 @@
+main(data-component="application" data-flow="column" data-active-step="embedCode")
+  .steps-container(data-ref="stepsContainer")
+    p foobar
+
+  footer.app-footer
+    .logo
+      != require("../../assets/logo.svg")
+      .mode-label Instant #{this.$modeLabel} Plugin
+
+    .actions(data-ref="navigationContainer")
+      button.button.primary Next

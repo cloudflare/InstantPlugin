@@ -1,0 +1,31 @@
+@import "~styl/colors"
+
+[data-component="application"]
+  height 100vh
+  width 100%
+
+  .steps-container
+    flex 1 0 auto
+
+  .app-footer
+    background-color offBlack
+    flex 0 1 auto
+    padding 1.5em
+
+    .logo
+      align-items center
+      flex 0 1 auto
+
+      svg
+        height 3em
+        width @height
+
+        + .mode-label
+          margin-left 1em
+
+    .actions
+      flex 1 1 auto
+      justify-content flex-end
+
+      .button + .button
+        margin-left 1em
