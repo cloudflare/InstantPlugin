@@ -3,13 +3,15 @@ import template from "./attribute-picker.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
-import AttributeList from "components/attribute-list"
 import createElement from "lib/create-element"
-import {highlight} from "highlight.js"
+import hljs from "highlight.js"
 import KM from "lib/key-map"
 import parseURL from "lib/parse-url"
 import isURL from "is-url"
 import $$ from "lib/constants"
+
+// Actionscript is stubbed since HLJS miscategorizes small JavaScript embed codes.
+hljs.registerLanguage("actionscript", () => ({}))
 
 const getType = element => {
   const [, type] = element.className.match(/hljs-([\S]*)/)
@@ -25,55 +27,26 @@ export default class AttributePicker extends BaseComponent {
   render() {
     this.compileTemplate()
 
-    const {
-      attributesForm,
-      attributeListMount,
-      customLocationContainer,
-      customLocationInput,
-      locationSelect
-    } = this.refs
-
-    locationSelect.addEventListener("change", ({target: {value}}) => {
-      if (value === "custom") {
-        customLocationContainer.style.display = ""
-        customLocationInput.required = true
-      }
-      else {
-        customLocationContainer.style.display = "none"
-        customLocationInput.required = false
-      }
-    })
-
-    attributesForm.addEventListener("submit", event => {
-      event.preventDefault()
-      this.$root.navigateToPreview()
-    })
-
-    this.attributeList = new AttributeList({$root: this.$root})
-
-    this.replaceElement(attributeListMount, this.attributeList.render())
-
     return this.element
   }
 
-  parseInput() {
+  parseInput(value) {
     this.$root.entities = {}
 
-    const {embedCodeInput} = this.$root.refs
-    const {picker, embedCodeLocationContainer} = this.refs
+    const {element} = this
     const serializer = createElement("div", {
-      innerHTML: highlight("html", embedCodeInput.value).value
+      innerHTML: hljs.highlightAuto(value, ["html", "javascript"]).value
     })
 
     if (!serializer.querySelector($$.ENTITY_QUERY)) {
-      picker.classList.add("empty")
-      picker.innerHTML = `
+      element.classList.add("empty")
+      element.innerHTML = `
         <p class="details">
           We couldn’t find any configurable strings or numbers in that embed code.
         </p>
 
         <p class="details">
-          Press “Back” to edit the embed code or “Preview Plugin” to continue.
+          Press “Next” to continue.
         </p>
       `
 
@@ -81,12 +54,12 @@ export default class AttributePicker extends BaseComponent {
       return
     }
 
-    picker.classList.remove("empty")
-    picker.innerHTML = serializer.innerHTML
+    element.classList.remove("empty")
+    element.innerHTML = serializer.innerHTML
 
     // Remove strings that object properties.
     Array
-      .from(picker.querySelectorAll($$.JAVASCRIPT_ENTITY_QUERY))
+      .from(element.querySelectorAll($$.JAVASCRIPT_ENTITY_QUERY))
       .forEach(entityEl => {
         const {nextSibling} = entityEl
 
@@ -99,7 +72,7 @@ export default class AttributePicker extends BaseComponent {
 
     // Group HTML attributes with their values.
     Array
-      .from(picker.querySelectorAll(".hljs-tag .hljs-string"))
+      .from(element.querySelectorAll(".hljs-tag .hljs-string"))
       .forEach(entityEl => {
         const normalized = encodeURI(normalize("string", entityEl.textContent))
 
@@ -150,7 +123,7 @@ export default class AttributePicker extends BaseComponent {
 
     // Group JS entities with their assignment name.
     Array
-      .from(picker.querySelectorAll($$.JAVASCRIPT_ENTITY_QUERY))
+      .from(element.querySelectorAll($$.JAVASCRIPT_ENTITY_QUERY))
       .forEach(entityEl => {
         const collection = [entityEl]
         let sibling = entityEl
@@ -218,7 +191,7 @@ export default class AttributePicker extends BaseComponent {
       })
 
 
-    const getEntityElements = () => Array.from(picker.querySelectorAll($$.ENTITY_QUERY))
+    const getEntityElements = () => Array.from(element.querySelectorAll($$.ENTITY_QUERY))
 
     // Parse URL components into entities.
     getEntityElements()
@@ -283,11 +256,9 @@ export default class AttributePicker extends BaseComponent {
     // Embed codes that include non script tags like iframes use a special
     // option to let the plugin user choose the location.
     this.$root.includesHTMLTags = Array
-      .from(picker.querySelectorAll(".hljs-tag .hljs-name"))
+      .from(element.querySelectorAll(".hljs-tag .hljs-name"))
       .map(element => element.textContent)
       .some(name => name !== "script")
-
-    embedCodeLocationContainer.style.display = this.$root.includesHTMLTags ? "none" : ""
 
     // Populate entities.
     entityElements.forEach((element, index) => {
@@ -328,9 +299,9 @@ export default class AttributePicker extends BaseComponent {
       element.addEventListener("click", this.toggleEntityTracking.bind(this, element))
     })
 
-    picker.addEventListener("keydown", this.handleAttributeKeyDown)
+    element.addEventListener("keydown", this.handleAttributeKeyDown)
 
-    this.attributeList.render()
+    // this.attributeList.render()
     this.$root.syncButtonState()
   }
 
@@ -346,7 +317,7 @@ export default class AttributePicker extends BaseComponent {
       element.parentNode.classList[method]("tracked")
     }
 
-    this.attributeList.render()
+    // this.attributeList.render()
     this.$root.syncButtonState()
   }
 

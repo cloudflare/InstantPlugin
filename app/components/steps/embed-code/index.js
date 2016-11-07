@@ -3,12 +3,22 @@ import template from "./embed-code.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
+import AttributePicker from "./attribute-picker"
+
 
 export default class EmbedCodeStep extends BaseComponent {
   static template = template;
 
   render() {
     const element = this.compileTemplate()
+    const {attributePickerMount, embedCodeInput} = this.refs
+
+    this.attributePicker = new AttributePicker({$root: this.$root})
+    this.replaceElement(attributePickerMount, this.attributePicker.render())
+
+    embedCodeInput.addEventListener("input", ({target: {value}}) => {
+      this.attributePicker.parseInput(value)
+    })
 
     return element
   }

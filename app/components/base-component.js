@@ -71,7 +71,7 @@ export default class BaseComponent {
     this.element = this.serialize(template, templateVars)
     this.updateRefs()
 
-    autosize(this.element.querySelectorAll("textarea"))
+    autosize(this.element.querySelectorAll("textarea:not(.fixed-height)"))
 
     return this.element
   }

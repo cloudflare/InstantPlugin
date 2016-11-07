@@ -42,7 +42,8 @@ export default class Application extends BaseComponent {
       stepsContainer.appendChild(step.render())
     })
 
-    this.$activeStep = "intro"
+    // this.$activeStep = "intro"
+    this.$activeStep = "embedCode"
 
     this.replaceElement(mountPoint, element)
   }
@@ -80,5 +81,9 @@ export default class Application extends BaseComponent {
 
       navigationContainer.appendChild(button)
     })
+  }
+
+  syncButtonState() {
+    // TODO: flesh out
   }
 }

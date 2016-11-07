@@ -1,2 +1,48 @@
 section.step(data-step="embedCode" data-flow="column")
-  p foo
+  header.column-details
+    .column(data-flow="column")
+      h1.headline
+        .step-number 1
+        .label Paste embed code.
+
+      p
+        | This is the embed code your users add to their website to install your tool or service.
+        | Don’t worry if it requires some user customization, you’ll be able to set that up in the next step.
+
+      .input-container(data-flow="column")
+        //
+          .demos
+            span Or try a demo:
+
+            button.demo.button.secondary(
+              data-ref="navigationButtons[]"
+              data-step="demo"
+              data-demo="emojiReact"
+              tabindex="0")  Emoji React 🎉
+
+            button.demo.button.secondary(
+              data-ref="navigationButtons[]"
+              data-step="demo"
+              data-demo="forecastIO"
+              tabindex="0")  Forecast.io ☀️
+
+    .column(data-flow="column")
+      h1.headline
+        .step-number 2
+        .label Choose your options.
+
+      p Click parts of your embed code to turn them into options for the user.
+
+  .content
+    .column(data-flow="column")
+      textarea.embed-code-input(
+        autocapitalize="off"
+        autocomplete="off"
+        autocorrect="off"
+        autofocus
+        data-ref="embedCodeInput"
+        placeholder="<script>, <iframe>, etc..."
+        spellcheck="false")
+
+    .column(data-flow="column")
+      .picker(data-ref="attributePickerMount")

@@ -15,6 +15,8 @@ stepsProgression = "intro", "embedCode", "schema", "details", "preview",  "creat
   .steps-container
     flex 1 0 auto
     transition transform .3s ease-in-out
+    transform translate3d(0, 0, 0)
+    will-change visibility, transform, opacity
     position absolute
     top 0
     right 0
@@ -22,11 +24,34 @@ stepsProgression = "intro", "embedCode", "schema", "details", "preview",  "creat
     left 0
 
   .step
-    width 100vw
     flex 0 0 auto
+    overflow scroll
+    transition visibility .4s linear
+    width 100vw
 
-  // .step[data-step]
-    // visibility hidden
+    .headline
+      align-items center
+      color lighterGray
+      display flex
+      font-size 1.3em
+      font-weight 300
+      margin 1em 0
+
+      .step-number
+        align-items center
+        border 2px solid gray
+        border-radius 0.4em
+        display flex
+        height 2em
+        justify-content center
+        padding 1em
+        width 2em
+
+        + .label
+          margin-left 1em
+
+  .step[data-step]
+    visibility hidden
 
   for step, index in stepsProgression
     &[data-active-step={step}] .steps-container
