@@ -1,0 +1,13 @@
+if lastButton
+  button.button.primary
+    span.label=label
+    span.icon
+      include ../../assets/right-arrow.svg
+else if firstButton
+  button.button.secondary
+    span.icon
+      include ../../assets/left-arrow.svg
+    span.label=label
+else
+  button.button.with-icon
+    span.label=label

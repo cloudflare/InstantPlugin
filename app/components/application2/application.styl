@@ -52,9 +52,31 @@ stepsProgression = "intro", "embedCode", "schema", "details", "preview",  "creat
         + .mode-label
           margin-left 1em
 
+        path
+          fill white
+
     .actions
       flex 1 1 auto
       justify-content flex-end
 
-      .button + .button
-        margin-left 1em
+      .button
+        align-items center
+        display flex
+
+        + .button
+          margin-left 1em
+
+        .icon
+          display inline-block
+
+        svg
+          display inline-block
+          fill currentColor
+          height 1em
+          width 1em
+
+        .icon + .label
+          margin-left .5em
+
+        .label + .icon
+          margin-left .5em

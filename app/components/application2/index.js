@@ -1,5 +1,6 @@
 import "./application.styl"
 import template from "./application.pug"
+import navigationButtonTemplate from "./navigation-button.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
@@ -69,9 +70,10 @@ export default class Application extends BaseComponent {
     navigationContainer.innerHTML = ""
 
     navigationButtons.forEach(({label, handler}, index) => {
-      const button = createElement("button", {
-        textContent: label,
-        className: `button ${index === navigationButtons.length - 1 ? "primary" : "secondary"}`
+      const button = this.serialize(navigationButtonTemplate, {
+        label,
+        firstButton: index === 0,
+        lastButton: index === navigationButtons.length - 1
       })
 
       button.addEventListener("click", handler)
