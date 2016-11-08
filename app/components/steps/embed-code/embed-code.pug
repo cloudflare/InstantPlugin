@@ -7,31 +7,29 @@ section.step(data-step="embedCode" data-flow="column")
 
       p
         | This is the embed code your users add to their website to install your tool or service.
-        | Don’t worry if it requires some user customization, you’ll be able to set that up in the next step.
 
       .input-container(data-flow="column")
-        //
-          .demos
-            span Or try a demo:
+        .demos
+          span Or try a demo:
 
-            button.demo.button.secondary(
-              data-ref="navigationButtons[]"
-              data-step="demo"
-              data-demo="emojiReact"
-              tabindex="0")  Emoji React 🎉
+          button.demo.button.primary(
+            data-ref="demoButtons[]"
+            data-demo="emojiReact"
+            tabindex="0")  Emoji React 🎉
 
-            button.demo.button.secondary(
-              data-ref="navigationButtons[]"
-              data-step="demo"
-              data-demo="forecastIO"
-              tabindex="0")  Forecast.io ☀️
+          button.demo.button.primary(
+            data-ref="demoButtons[]"
+            data-demo="forecastIO"
+            tabindex="0")  Forecast.io ☀️
 
     .column(data-flow="column")
       h1.headline
         .step-number 2
         .label Choose your options.
 
-      p Click parts of your embed code to turn them into options for the user.
+      p
+        | Click parts of your embed code to turn them into options for the user.
+        | Don’t worry if it requires some user customization, you’ll be able to set that up in the next step.
 
   .content
     .column(data-flow="column")

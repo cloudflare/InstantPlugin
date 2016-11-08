@@ -27,16 +27,18 @@ const script = String.raw`<script type="text/javascript">
 </script>`
 
 export default function runDemo(app) {
-  const {attributePicker} = app
-  const {embedCodeInput, pluginDetailsForm} = app.refs
-  const {locationSelect} = attributePicker.refs
+  const embedCodeStep = app.steps.embedCode
+  const {attributePicker} = embedCodeStep
+  const {embedCodeInput} = embedCodeStep.refs
+  const {pluginDetailsForm} = app.refs
+  // const {locationSelect} = attributePicker.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   autosize.update(embedCodeInput)
-  attributePicker.parseInput()
+  attributePicker.parseInput(embedCodeInput.value)
 
-  locationSelect.value = "body"
+  // locationSelect.value = "body"
 
   const {option_2, option_3} = app.entities
 

@@ -4,14 +4,16 @@ import template from "./embed-code.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import AttributePicker from "./attribute-picker"
-
+import * as demos from "../../application2/demos"
 
 export default class EmbedCodeStep extends BaseComponent {
   static template = template;
 
   render() {
     const element = this.compileTemplate()
-    const {attributePickerMount, embedCodeInput} = this.refs
+    const {attributePickerMount, embedCodeInput, demoButtons} = this.refs
+
+    demoButtons.forEach(demoButton => demoButton.addEventListener("click", this.navigateDemo))
 
     this.attributePicker = new AttributePicker({$root: this.$root})
     this.replaceElement(attributePickerMount, this.attributePicker.render())
@@ -38,5 +40,10 @@ export default class EmbedCodeStep extends BaseComponent {
   @autobind
   navigateNext() {
     this.$root.$activeStep = "schema"
+  }
+
+  @autobind
+  navigateDemo({target}) {
+    demos[target.getAttribute("data-demo")](this.$root)
   }
 }
