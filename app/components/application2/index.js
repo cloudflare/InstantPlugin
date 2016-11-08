@@ -17,7 +17,11 @@ const MODE_LABELS = {
 const STEPS_PROGRESSION = [
   "intro",
   "embedCode",
-  "schema"
+  "schema",
+  "preview",
+  "details",
+  "creating",
+  "download"
 ]
 
 export default class Application extends BaseComponent {

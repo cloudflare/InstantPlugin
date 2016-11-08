@@ -1,10 +1,10 @@
-import "./schema.styl"
-import template from "./schema.pug"
+import "./preview.styl"
+import template from "./preview.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 
-export default class SchemaStep extends BaseComponent {
+export default class PreviewStep extends BaseComponent {
   static template = template;
 
   render() {
@@ -16,17 +16,17 @@ export default class SchemaStep extends BaseComponent {
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
-      {label: "Next", handler: this.navigateNext}
+      {label: "Preview Plugin", handler: this.navigateNext}
     ]
   }
 
   @autobind
   navigatePrevious() {
-    this.$root.$activeStep = "embedCode"
+    this.$root.$activeStep = "schema"
   }
 
   @autobind
   navigateNext() {
-    this.$root.$activeStep = "preview"
+    this.$root.$activeStep = "details"
   }
 }
