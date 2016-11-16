@@ -31,6 +31,7 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
+      entities: {},
       mode: "wordpress",
       steps: {}
     })
@@ -57,8 +58,11 @@ export default class Application extends BaseComponent {
   }
 
   set $activeStep(value) {
-    this.element.dataset.activeStep = value
+    const {onActive = () => {}} = this.steps[value]
 
+    onActive(value)
+
+    this.element.dataset.activeStep = value
     this.renderNavigation()
 
     return this.element.dataset.activeStep
@@ -66,6 +70,15 @@ export default class Application extends BaseComponent {
 
   get $modeLabel() {
     return MODE_LABELS[this.mode]
+  }
+
+  @autobind
+  getTrackedEntityIDs() {
+    const $ = this.entities
+
+    return Object.keys($)
+      .filter(key => $[key].tracked)
+      .sort((keyA, keyB) => $[keyA].order - $[keyB].order)
   }
 
   renderNavigation() {

@@ -50,15 +50,15 @@ export default function runDemo(app) {
   attributePicker.toggleEntityTracking(option_3.element)
 
 
-  const fields = {
-    "[name='app[title]']": "Emoji React",
-    "[name='app[description]']": "React with your favorite Emojis!",
-    "[name='email']": "demo@instantwordpressplugin.com"
-  }
+  // const fields = {
+  //   "[name='app[title]']": "Emoji React",
+  //   "[name='app[description]']": "React with your favorite Emojis!",
+  //   "[name='email']": "demo@instantwordpressplugin.com"
+  // }
 
-  Object
-    .keys(fields)
-    .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
+  // Object
+  //   .keys(fields)
+  //   .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
 
-  app.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
+  // app.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
 }

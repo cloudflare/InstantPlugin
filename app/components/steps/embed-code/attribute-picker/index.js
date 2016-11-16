@@ -24,12 +24,6 @@ const normalize = (type, text) => getDelimiter(type, text) ? text.substring(1, t
 export default class AttributePicker extends BaseComponent {
   static template = template;
 
-  render() {
-    this.compileTemplate()
-
-    return this.element
-  }
-
   parseInput(value) {
     this.$root.entities = {}
 
@@ -301,7 +295,7 @@ export default class AttributePicker extends BaseComponent {
 
     element.addEventListener("keydown", this.handleAttributeKeyDown)
 
-    // this.attributeList.render()
+    this.$root.steps.schema.updateRender()
     this.$root.syncButtonState()
   }
 
@@ -317,7 +311,7 @@ export default class AttributePicker extends BaseComponent {
       element.parentNode.classList[method]("tracked")
     }
 
-    // this.attributeList.render()
+    this.$root.steps.schema.updateRender()
     this.$root.syncButtonState()
   }
 

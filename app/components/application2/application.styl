@@ -20,6 +20,12 @@ stepsProgression = \
     overflow hidden
     width 100vw
 
+  .box
+    background #fff
+    color containedTextColor
+    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+    position relative
+
   .steps-container
     flex 1 0 auto
     transition transform .3s ease-in-out
@@ -36,6 +42,9 @@ stepsProgression = \
     overflow scroll
     transition visibility .4s linear
     width 100vw
+
+    &.padded
+      padding 0 2em
 
     .headline
       align-items center
