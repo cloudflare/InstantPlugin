@@ -10,21 +10,37 @@ export default class SchemaStep extends BaseComponent {
 
   updateRender() {
     const {element} = this
-    const {propertyList} = this.refs
     const IDs = this.$root.getTrackedEntityIDs()
     const {entities} = this.$root
     const entityCount = Object.keys(entities).length
+    const {
+      propertyList,
+      stepLabel,
+      locationSelect,
+      customLocationContainer,
+      customLocationInput
+    } = this.refs
 
-    // if (IDs.length) {
-    //   const tense = IDs.length === 1 ? "this dynamic option" : "these dynamic options"
+    if (IDs.length) {
+      const tense = IDs.length === 1 ? "this dynamic option" : "these dynamic options"
 
-    //   element.innerHTML = `<p class="divider">
-    //     Customize ${tense}:
-    //   </p>
-    //   ${element.innerHTML}
-    //   `
-    // }
-    //
+      stepLabel.textContent = `Customize ${tense}.`
+    }
+    else {
+      stepLabel.textContent = "Customize location."
+    }
+
+    locationSelect.addEventListener("change", ({target: {value}}) => {
+      if (value === "custom") {
+        customLocationContainer.style.display = ""
+        customLocationInput.required = true
+      }
+      else {
+        customLocationContainer.style.display = "none"
+        customLocationInput.required = false
+      }
+    })
+
     propertyList.innerHTML = ""
 
     IDs.forEach((id, index) => {
@@ -49,7 +65,7 @@ export default class SchemaStep extends BaseComponent {
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
-      {label: "Next", handler: this.navigateNext}
+      {label: "Preview Plugin", handler: this.navigateNext}
     ]
   }
 

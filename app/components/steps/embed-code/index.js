@@ -44,6 +44,6 @@ export default class EmbedCodeStep extends BaseComponent {
 
   @autobind
   navigateDemo({target}) {
-    demos[target.getAttribute("data-demo")](this.$root)
+    demos[target.dataset.demo](this.$root)
   }
 }

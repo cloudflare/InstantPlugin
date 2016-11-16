@@ -2,24 +2,29 @@
 @import "./styl/fonts"
 @import "./styl/font-smoothing"
 .step[data-step="schema"]
-  .step-details
+  .step-details,
+  .property-list,
+  .embed-code-location-container
     flex 0 0 auto
-
-  .property-list
-    flex 0 0 auto
-
-  .form
-    flex 1 1 auto
-
-    .standard
-      flex 1 0 auto
-      width 100%
 
   .entity
     padding 1.25em
 
     + .entity
       margin-top 1em
+
+    &:last-of-type
+      margin-bottom 1em
+
+    .form
+      flex 1 1 auto
+
+      .standard
+        flex 1 0 auto
+        width 100%
+
+  .embed-code-location
+    width 100%
 
   .details
     width 27%

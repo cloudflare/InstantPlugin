@@ -16,7 +16,7 @@ export default class PreviewStep extends BaseComponent {
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
-      {label: "Preview Plugin", handler: this.navigateNext}
+      {label: "Next", handler: this.navigateNext}
     ]
   }
 

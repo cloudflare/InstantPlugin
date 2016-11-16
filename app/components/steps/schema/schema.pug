@@ -1,10 +1,33 @@
 section.step.padded(data-step="schema" data-flow="column")
   header.step-details(data-flow="column")
     h1.headline
-      .step-number 2
-      .label Customize these dynamic options.
+      .step-number 3
+      .label(data-ref="stepLabel")
 
-    p
-      | This is the embed code your users add to their website to install your tool or service.
+  form.content(data-flow="column")
+    .property-list(data-ref="propertyList" data-flow="column")
 
-  .property-list(data-ref="propertyList" data-flow="column")
+    .embed-code-location-container(data-ref="embedCodeLocationContainer")
+      .entity.box.embed-code-location
+        .form(data-flow="column")
+          .input
+            label.label(for="embed-code-location")
+              span Embed Code Location
+              .help-text Where should the embed code be inserted?
+
+            select.standard(data-ref="locationSelect" name="location" required)
+              option(value="head") Head
+              option(value="body") Body
+              option(value="custom") A specific location in the body
+
+          .input(data-ref="customLocationContainer" style="display: none;")
+            label
+              span.required Custom Location
+              .help-text
+                | Enter a CSS selector for an element inside which the embed will be placed.
+
+            input.standard.code(
+              data-ref="customLocationInput"
+              name="customLocation"
+              placeholder="body"
+              type="text")
