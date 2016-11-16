@@ -16,10 +16,5 @@ export default {
   PRENORMALIZED: "data-prenormalized",
   SELECTABLE_TYPES: ["path", "param-value"],
   STRING_CLASS,
-  TRANSITION_DELAY: 700,
-
-  PREVIEW_URL: [
-    EAGER_BASE,
-    "/developer/app-tester?remoteInstall&embed&siteId=preview&cmsName=appTester&initialUrl=typical.design"
-  ].join("")
+  TRANSITION_DELAY: 700
 }

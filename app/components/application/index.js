@@ -293,14 +293,6 @@ export default class Application extends BaseComponent {
     }, "*")
   }
 
-  sendPreviewStyleOverrides() {
-    const {previewIframe} = this.refs
-
-    previewIframe.contentWindow.postMessage({
-      styleContent: previewOverrides,
-      type: "eager:app-tester:set-style"
-    }, "*")
-  }
 
   @autobind
   handleEntry() {
