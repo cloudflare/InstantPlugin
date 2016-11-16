@@ -4,7 +4,13 @@ section.step.padded(data-step="schema" data-flow="column")
       .step-number 3
       .label(data-ref="stepLabel")
 
-  form.content(data-flow="column")
+  form.content(data-ref="schemaForm" data-flow="column")
+    input(
+      data-ref="schemaFormSubmit"
+      style="display: none;"
+      type="submit"
+      value="Submit")
+
     .property-list(data-ref="propertyList" data-flow="column")
 
     .embed-code-location-container(data-ref="embedCodeLocationContainer")

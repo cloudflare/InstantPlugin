@@ -5,8 +5,6 @@ import navigationButtonTemplate from "./navigation-button.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import * as stepComponents from "components/steps"
-import $$ from "lib/constants"
-import createElement from "lib/create-element"
 
 const MODE_LABELS = {
   drupal: "Drupal",
@@ -48,7 +46,8 @@ export default class Application extends BaseComponent {
     })
 
     // this.$activeStep = "intro"
-    this.$activeStep = "embedCode"
+    this.$activeStep = "schema"
+    element.querySelector("[data-demo='emojiReact']").click()
 
     this.replaceElement(mountPoint, element)
   }
@@ -58,6 +57,7 @@ export default class Application extends BaseComponent {
   }
 
   set $activeStep(value) {
+    const previousStepEl = this.$activeStepEl
     const {onActive = () => {}} = this.steps[value]
 
     onActive(value)
@@ -65,7 +65,17 @@ export default class Application extends BaseComponent {
     this.element.dataset.activeStep = value
     this.renderNavigation()
 
+    if (previousStepEl) {
+      setTimeout(() => {
+        previousStepEl.element.scrollTop = 0
+      }, 350)
+    }
+
     return this.element.dataset.activeStep
+  }
+
+  get $activeStepEl() {
+    return this.steps[this.$activeStep]
   }
 
   get $modeLabel() {
@@ -83,7 +93,7 @@ export default class Application extends BaseComponent {
 
   renderNavigation() {
     const {navigationContainer} = this.refs
-    const {navigationButtons = []} = this.steps[this.$activeStep]
+    const {navigationButtons = []} = this.$activeStepEl
 
     navigationContainer.innerHTML = ""
 

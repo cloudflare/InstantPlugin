@@ -14,11 +14,12 @@ export default class SchemaStep extends BaseComponent {
     const {entities} = this.$root
     const entityCount = Object.keys(entities).length
     const {
-      propertyList,
-      stepLabel,
-      locationSelect,
       customLocationContainer,
-      customLocationInput
+      customLocationInput,
+      locationSelect,
+      propertyList,
+      schemaForm,
+      stepLabel
     } = this.refs
 
     if (IDs.length) {
@@ -29,6 +30,11 @@ export default class SchemaStep extends BaseComponent {
     else {
       stepLabel.textContent = "Customize location."
     }
+
+    schemaForm.addEventListener("submit", event => {
+      event.preventDefault()
+      this.$root.$activeStep = "preview"
+    })
 
     locationSelect.addEventListener("change", ({target: {value}}) => {
       if (value === "custom") {
@@ -76,6 +82,8 @@ export default class SchemaStep extends BaseComponent {
 
   @autobind
   navigateNext() {
-    this.$root.$activeStep = "preview"
+    const {schemaFormSubmit} = this.refs
+
+    schemaFormSubmit.click()
   }
 }

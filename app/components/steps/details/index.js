@@ -16,7 +16,7 @@ export default class DetailsStep extends BaseComponent {
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
-      {label: "Preview Plugin", handler: this.navigateNext}
+      {label: "Download Plugin", handler: this.navigateNext}
     ]
   }
 
