@@ -29,7 +29,7 @@ stepsProgression = \
     position relative
 
   .steps-container
-    flex 1 0 auto
+    flex 0 0 auto
     transition transform .3s ease-in-out
     transform translate3d(0, 0, 0)
     will-change visibility, transform, opacity
@@ -104,12 +104,12 @@ stepsProgression = \
   .app-footer
     align-items center
     background-color offBlack
-    flex 0 1 auto
+    flex 0 0 auto
     padding 1.5em
 
     .logo
       align-items center
-      flex 0 1 auto
+      flex 0 0 auto
 
       svg
         height 3em
@@ -122,7 +122,7 @@ stepsProgression = \
           fill white
 
     .actions
-      flex 1 1 auto
+      flex 1 0 auto
       justify-content flex-end
 
       .button
@@ -138,7 +138,7 @@ stepsProgression = \
         svg
           display inline-block
           fill currentColor
-          height 1em
+          height auto
           width 1em
 
         .icon + .label
