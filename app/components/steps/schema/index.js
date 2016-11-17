@@ -93,7 +93,7 @@ export default class SchemaStep extends BaseComponent {
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
-      {label: "Preview Plugin", handler: this.navigateNext}
+      {label: "Preview", handler: this.navigateNext}
     ]
   }
 

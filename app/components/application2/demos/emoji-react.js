@@ -31,15 +31,15 @@ export default function runDemo(app) {
   const schemaStep = app.steps.schema
   const {attributePicker} = schemaStep
   const {embedCodeInput} = embedCodeStep.refs
+  const {locationSelect} = schemaStep.refs
   // const {pluginDetailsForm} = app.refs
-  // const {locationSelect} = attributePicker.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
   app.$embedCode = embedCodeInput.value
   autosize.update(embedCodeInput)
 
-  // locationSelect.value = "body"
+  locationSelect.value = "body"
 
   const {option_2, option_3} = app.entities
 

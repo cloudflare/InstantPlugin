@@ -89,7 +89,7 @@ export default class Application extends BaseComponent {
   get $embedCode() {
     const {attributePicker} = this.steps.schema
 
-    return attributePicker.refs.picker
+    return attributePicker.element
   }
 
   set $embedCode(value) {
@@ -121,12 +121,12 @@ export default class Application extends BaseComponent {
       current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
     })
 
-    const {attributesForm} = this.attributePicker.refs
+    const {schemaForm} = this.steps.schema.refs
 
     return createEagerSchema({
-      options: formSerialize(attributesForm, {hash: true}),
+      options: formSerialize(schemaForm, {hash: true}),
       embedCode: embedCodeDOM.textContent,
-      properties: this.$properties
+      properties
     })
   }
 

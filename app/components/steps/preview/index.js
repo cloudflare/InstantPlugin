@@ -38,6 +38,16 @@ export default class PreviewStep extends BaseComponent {
   }
 
   @autobind
+  onActive() {
+    const {previewIframe} = this.refs
+
+    previewIframe.contentWindow.postMessage({
+      installJSON: this.$root.$installJSON,
+      type: "eager:app-tester:upload-app"
+    }, "*")
+  }
+
+  @autobind
   createPreviewIframe(next = () => {}) {
     this.deferredIframeCallback = next
 
