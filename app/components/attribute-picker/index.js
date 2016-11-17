@@ -247,13 +247,6 @@ export default class AttributePicker extends BaseComponent {
       .from(this.element.querySelectorAll("[tabindex]"))
       .forEach((tabableEl, index) => tabableEl.tabIndex = entityCount + index + 1)
 
-    // Embed codes that include non script tags like iframes use a special
-    // option to let the plugin user choose the location.
-    this.$root.includesHTMLTags = Array
-      .from(element.querySelectorAll(".hljs-tag .hljs-name"))
-      .map(element => element.textContent)
-      .some(name => name !== "script")
-
     // Populate entities.
     entityElements.forEach((element, index) => {
       const text = element.textContent
@@ -294,6 +287,24 @@ export default class AttributePicker extends BaseComponent {
     })
 
     element.addEventListener("keydown", this.handleAttributeKeyDown)
+
+    // Embed codes that include non script tags like iframes use a special
+    // option to let the plugin user choose the location.
+    const includesHTMLTags = Array
+      .from(element.querySelectorAll(".hljs-tag .hljs-name"))
+      .map(element => element.textContent)
+      .some(name => name !== "script")
+
+    if (includesHTMLTags) {
+      this.$root.entities.embedLocation = {
+        format: "element",
+        normalized: {selector: "body", method: "prepend"},
+        order: entityCount,
+        title: "Location",
+        tracked: true,
+        type: "object"
+      }
+    }
 
     this.$root.steps.schema.updateRender()
     this.$root.syncButtonState()

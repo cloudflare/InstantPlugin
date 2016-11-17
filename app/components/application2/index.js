@@ -5,6 +5,9 @@ import navigationButtonTemplate from "./navigation-button.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import * as stepComponents from "components/steps"
+import formSerialize from "form-serialize"
+import createEagerSchema from "lib/create-eager-schema"
+import $$ from "lib/constants"
 
 const MODE_LABELS = {
   drupal: "Drupal",
@@ -29,6 +32,7 @@ export default class Application extends BaseComponent {
     super(options)
 
     Object.assign(this, {
+      _embedCode: "",
       entities: {},
       mode: "wordpress",
       steps: {}
@@ -80,6 +84,50 @@ export default class Application extends BaseComponent {
 
   get $modeLabel() {
     return MODE_LABELS[this.mode]
+  }
+
+  get $embedCode() {
+    const {attributePicker} = this.steps.schema
+
+    return attributePicker.refs.picker
+  }
+
+  set $embedCode(value) {
+    const {attributePicker} = this.steps.schema
+
+    attributePicker.parseInput(value)
+
+    return attributePicker.refs.picker
+  }
+
+  get $installJSON() {
+    const IDs = this.getTrackedEntityIDs()
+    const embedCodeDOM = this.$embedCode.cloneNode(true)
+    const properties = {}
+
+    IDs.forEach((id, index) => {
+      const {delimiter, identifier, format, normalized, placeholder, title, type} = this.entities[id]
+      const current = embedCodeDOM.querySelector(`[${$$.ENTITY_ID}="${id}"]`)
+
+      properties[id] = {
+        format,
+        order: index + 1,
+        placeholder,
+        default: normalized,
+        title: title || identifier || `Option ${index + 1}`,
+        type
+      }
+
+      current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
+    })
+
+    const {attributesForm} = this.attributePicker.refs
+
+    return createEagerSchema({
+      options: formSerialize(attributesForm, {hash: true}),
+      embedCode: embedCodeDOM.textContent,
+      properties: this.$properties
+    })
   }
 
   @autobind

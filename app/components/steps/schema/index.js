@@ -4,32 +4,59 @@ import entityTemplate from "./entity.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
+import AttributePicker from "components/attribute-picker"
 
 export default class SchemaStep extends BaseComponent {
   static template = template;
+
+  render() {
+    this.compileTemplate()
+
+    const {attributePickerMount} = this.refs
+
+    this.attributePicker = new AttributePicker({$root: this.$root})
+    this.replaceElement(attributePickerMount, this.attributePicker.render())
+
+    return this.element
+  }
+
+  get $customLocationVisible() {
+    return this.refs.customLocationContainer.style.display === ""
+  }
+
+  set $customLocationVisible(value) {
+    const {customLocationContainer, customLocationInput} = this.refs
+
+    if (value) {
+      customLocationContainer.style.display = ""
+      customLocationInput.required = true
+    }
+    else {
+      customLocationContainer.style.display = "none"
+      customLocationInput.required = false
+    }
+  }
 
   updateRender() {
     const {element} = this
     const IDs = this.$root.getTrackedEntityIDs()
     const {entities} = this.$root
+    const includesLocationEntity = !!entities.embedLocation
     const entityCount = Object.keys(entities).length
     const {
-      customLocationContainer,
-      customLocationInput,
+      embedCodeLocationContainer,
       locationSelect,
       propertyList,
       schemaForm,
       stepLabel
     } = this.refs
 
-    if (IDs.length) {
-      const tense = IDs.length === 1 ? "this dynamic option" : "these dynamic options"
+    embedCodeLocationContainer.style.display = includesLocationEntity ? "none" : ""
 
-      stepLabel.textContent = `Customize ${tense}.`
-    }
-    else {
-      stepLabel.textContent = "Customize location."
-    }
+    const visibleOptionCount = IDs.length + (includesLocationEntity ? 0 : 1)
+    const tense = visibleOptionCount === 1 ? "this dynamic option" : "these dynamic options"
+
+    stepLabel.textContent = `Customize ${tense}.`
 
     schemaForm.addEventListener("submit", event => {
       event.preventDefault()
@@ -37,14 +64,7 @@ export default class SchemaStep extends BaseComponent {
     })
 
     locationSelect.addEventListener("change", ({target: {value}}) => {
-      if (value === "custom") {
-        customLocationContainer.style.display = ""
-        customLocationInput.required = true
-      }
-      else {
-        customLocationContainer.style.display = "none"
-        customLocationInput.required = false
-      }
+      this.$customLocationVisible = value === "custom"
     })
 
     propertyList.innerHTML = ""
@@ -59,8 +79,10 @@ export default class SchemaStep extends BaseComponent {
 
       const formatSelect = entityEl.querySelector("[name='schema-format']")
 
-      formatSelect.value = entity.format
-      formatSelect.addEventListener("change", ({target: {value}}) => entities[id].format = value)
+      if (formatSelect) {
+        formatSelect.value = entity.format
+        formatSelect.addEventListener("change", ({target: {value}}) => entities[id].format = value)
+      }
 
       propertyList.appendChild(entityEl)
     })

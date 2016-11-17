@@ -15,7 +15,7 @@ export default class PreviewStep extends BaseComponent {
   static template = template;
 
   constructor() {
-    super(arguments)
+    super(...arguments)
 
     window.addEventListener("message", ({data}) => {
       if (data.type !== "eager:app-tester:upload-listener-ready") return

@@ -1,39 +1,58 @@
 section.step.padded(data-step="schema" data-flow="column")
-  header.step-details(data-flow="column")
-    h1.headline
-      .step-number 3
-      .label(data-ref="stepLabel")
+  header.step-details
+    .column(data-flow="column")
+      h1.headline
+        .step-number 2
+        .label Choose your options.
 
-  form.content(data-ref="schemaForm" data-flow="column")
-    input(
-      data-ref="schemaFormSubmit"
-      style="display: none;"
-      type="submit"
-      value="Submit")
+      .secondary-details
+        p
+          | Click parts of your embed code to turn them into options for the user.
 
-    .property-list(data-ref="propertyList" data-flow="column")
+    .column.schema-column(data-flow="column")
+      h1.headline
+        .step-number 3
+        .label(data-ref="stepLabel")
 
-    .embed-code-location-container(data-ref="embedCodeLocationContainer")
-      .entity.box.embed-code-location
-        .form(data-flow="column")
-          .input
-            label.label(for="embed-code-location")
-              span Embed Code Location
-              .help-text Where should the embed code be inserted?
+      .secondary-details
+        p
+          | Configure how these options will appear.
 
-            select.standard(data-ref="locationSelect" name="location" required)
-              option(value="head") Head
-              option(value="body") Body
-              option(value="custom") A specific location in the body
+  .content
+    .column(data-flow="column")
+      .attribute-picker-mount(data-ref="attributePickerMount")
 
-          .input(data-ref="customLocationContainer" style="display: none;")
-            label
-              span.required Custom Location
-              .help-text
-                | Enter a CSS selector for an element inside which the embed will be placed.
+    .column.schema-column(data-flow="column")
+      form.schema-form(data-ref="schemaForm" data-flow="column")
+        input(
+          data-ref="schemaFormSubmit"
+          style="display: none;"
+          type="submit"
+          value="Submit")
 
-            input.standard.code(
-              data-ref="customLocationInput"
-              name="customLocation"
-              placeholder="body"
-              type="text")
+        .property-list(data-ref="propertyList" data-flow="column")
+
+        .embed-code-location-container(data-ref="embedCodeLocationContainer")
+          .entity.box.embed-code-location
+            .form(data-flow="column")
+              .input
+                label.label(for="embed-code-location")
+                  span Embed Code Location
+                  .help-text Where should the embed code be inserted?
+
+                select.standard(data-ref="locationSelect" name="location" required)
+                  option(value="head") Head
+                  option(value="body") Body
+                  option(value="custom") A specific location in the body
+
+              .input(data-ref="customLocationContainer" style="display: none;")
+                label
+                  span.required Custom Location
+                  .help-text
+                    | Enter a CSS selector for an element inside which the embed will be placed.
+
+                input.standard.code(
+                  data-ref="customLocationInput"
+                  name="customLocation"
+                  placeholder="body"
+                  type="text")

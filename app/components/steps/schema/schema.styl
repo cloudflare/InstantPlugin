@@ -3,10 +3,19 @@
 @import "./styl/font-smoothing"
 
 .step[data-step="schema"]
-  .step-details,
+  .column
+    flex 1 1 auto
+    width 50%
+
+  > .content
+    flex 1 0 auto
+
   .property-list,
   .embed-code-location-container
     flex 0 0 auto
+
+  .schema-column
+    margin-left 1em
 
   .entity
     padding 1.25em

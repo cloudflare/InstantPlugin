@@ -1,4 +1,6 @@
 @import "~styl/colors"
+@import "~styl/fonts"
+@import "~styl/font-smoothing"
 
 stepsProgression = \
   "intro", \
@@ -44,7 +46,7 @@ stepsProgression = \
     width 100vw
 
     &.padded
-      padding 0 2em
+      padding 0 2em 1em
 
     .headline
       align-items center
@@ -67,6 +69,17 @@ stepsProgression = \
         + .label
           margin-left 1em
 
+    .step-details
+      flex 0 0 auto
+
+      .secondary-details
+        align-items center
+        justify-content space-between
+        margin 0 0 0.5em
+
+        > p
+          margin 0
+
   .step[data-step]
     visibility hidden
 
@@ -76,6 +89,17 @@ stepsProgression = \
 
     &[data-active-step={step}] [data-step={step}]
       visibility visible
+
+  .code-input
+    antialiasedFonts()
+    border 0
+    font-family monospaceFonts
+    line-height 1.6
+    height 100%
+    padding .8em 1.125em
+    position relative
+    resize none
+    width 100%
 
   .app-footer
     align-items center

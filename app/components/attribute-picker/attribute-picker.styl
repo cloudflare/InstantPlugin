@@ -30,6 +30,17 @@
     background #fff
     color containedTextColor
 
+    &::after
+      content ""
+      display block
+      position absolute
+      border-radius 2em
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+
     &:focus
       outline none
       box-shadow 0 0 2px 1px saturation(brandOrangeDark, 75%)
@@ -72,3 +83,25 @@
   [data-chunk-type="attribute-group"].tracked
     .hljs-attr
       color brandOrange
+
+@keyframes highlight-entity
+  0%
+    box-shadow 0 0 0 1px rgba(brandOrange, 0)
+    animation-timing-function ease-in
+
+  50%
+    box-shadow 0 0 0 3px rgba(brandOrange, .5)
+    animation-timing-function ease-out
+
+  100%
+    box-shadow 0 0 0 5px rgba(brandOrange, 0)
+    animation-timing-function ease-out
+
+
+[data-component="application"][data-active-step="schema"]
+  [data-component="attribute-picker"] [data-entity-id]
+    for i in (0..20)
+      &[data-entity-order={'"' + i + '"'}]::after
+        animation highlight-entity 1s ease-in-out
+        animation-fill-mode forwards
+        animation-delay .15s * i

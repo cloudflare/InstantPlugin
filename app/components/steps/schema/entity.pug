@@ -1,7 +1,10 @@
 .entity.box
   .details(data-flow="column")
-    code.identifier= entity.identifier
-    code.token= entity.original
+    if id === "embedLocation"
+      .title Embed Code Location
+    else
+      code.identifier= entity.identifier
+      code.token= entity.original
 
   .form(data-flow="column")
     .input

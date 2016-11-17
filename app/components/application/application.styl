@@ -35,26 +35,6 @@ stepProgressions = {
     &[data-active-step={next}] .step[data-step={previous}]
       transform translate3d(-5em, 0, 0)
 
-  &[data-active-step="attributePicker"] [data-entity-id]
-    display inline-block
-
-    &::after
-      content ""
-      display block
-      position absolute
-      border-radius 2em
-      top 0
-      right 0
-      bottom 0
-      left 0
-      pointer-events none
-
-    for i in (0..20)
-      &[data-entity-order={'"' + i + '"'}]::after
-        animation highlight-entity 1s ease-in-out
-        animation-fill-mode forwards
-        animation-delay .15s * i
-
   > .header
     position relative
     align-items center
@@ -240,16 +220,3 @@ stepProgressions = {
 
   &[data-active-step="intro"] > a.made-by.button
     transition-delay 1s
-
-@keyframes highlight-entity
-  0%
-    box-shadow 0 0 0 1px rgba(brandOrange, 0)
-    animation-timing-function ease-in
-
-  50%
-    box-shadow 0 0 0 3px rgba(brandOrange, .5)
-    animation-timing-function ease-out
-
-  100%
-    box-shadow 0 0 0 5px rgba(brandOrange, 0)
-    animation-timing-function ease-out
