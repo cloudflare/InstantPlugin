@@ -1,8 +1,8 @@
 const STRING_CLASS = "hljs-string"
 
 export default {
-  // ACTIVE_STEP: "data-active-step",
   CHUNK_TYPE: "data-chunk-type",
+  DEFAULT_PLUGIN_ICON: `${ASSET_BASE}/default-plugin-logo.png`,
   ENTITY_ID: "data-entity-id",
   ENTITY_IDENTIFIER: "data-identifier",
   ENTITY_ORDER: "data-entity-order",

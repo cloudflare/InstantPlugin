@@ -4,8 +4,7 @@ import template from "./details.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import ImageUploader from "components/image-uploader"
-
-const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
+import $$ from "lib/constants"
 
 export default class DetailsStep extends BaseComponent {
   static template = template;
@@ -50,6 +49,6 @@ export default class DetailsStep extends BaseComponent {
     const {detailsForm} = this.refs
 
     detailsForm.reset()
-    this.imageUploader.imageURL = DEFAULT_PLUGIN_ICON
+    this.imageUploader.imageURL = $$.DEFAULT_PLUGIN_ICON
   }
 }
