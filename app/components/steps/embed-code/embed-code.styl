@@ -2,6 +2,9 @@
 @import "~styl/font-smoothing"
 
 .step[data-step="embedCode"]
+  .step-details .secondary-details
+    justify-content space-between
+
   .column
     flex 1 1 auto
     width 50%
@@ -13,11 +16,9 @@
     background #fff
     flex 1 0 auto
 
-  .input-container
-    position relative
-
   .demos
     display block
+    margin-left 2em
 
     > *
       display inline-block

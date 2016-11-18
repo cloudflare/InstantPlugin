@@ -3,12 +3,25 @@ import template from "./details.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
+import ImageUploader from "components/image-uploader"
+
+const DEFAULT_PLUGIN_ICON = `${ASSET_BASE}/default-plugin-logo.png`
 
 export default class DetailsStep extends BaseComponent {
   static template = template;
 
   render() {
     const element = this.compileTemplate()
+    const {detailsForm, imageUploadMount} = this.refs
+
+    this.imageUploader = new ImageUploader({name: "app[icon]"})
+    this.replaceElement(imageUploadMount, this.imageUploader.render())
+    this.imageUploader.imageURL = DEFAULT_PLUGIN_ICON
+
+    detailsForm.addEventListener("submit", event => {
+      event.preventDefault()
+      this.$root.$activeStep = "creating"
+    })
 
     return element
   }
@@ -27,6 +40,8 @@ export default class DetailsStep extends BaseComponent {
 
   @autobind
   navigateNext() {
-    this.$root.$activeStep = "creating"
+    const {detailsFormSubmit} = this.refs
+
+    detailsFormSubmit.click()
   }
 }

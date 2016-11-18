@@ -1,2 +1,65 @@
-section.step(data-step="details" data-flow="column")
-  p details
+section.step.padded(data-step="details" data-flow="column")
+  header.step-details(data-flow="column")
+    h1.headline
+      .step-number 5
+      .label Describe your plugin.
+
+    .secondary-details
+      p
+        | This will appear in the WordPress Plugin Directory.
+
+  form(data-ref="detailsForm").content
+    input(
+      data-ref="detailsFormSubmit"
+      style="display: none;"
+      type="submit"
+      value="Submit")
+
+    .box.form(data-flow="column")
+      aside.legend
+        span.accent *&nbsp;
+        span Required
+
+      .input
+        label.required Plugin Title
+        input.standard(name="app[title]" placeholder="Plugin Title" required type="text")
+
+      .input
+        label.required Creator Email
+        input.standard(name="email" placeholder="Creator Email" required type="email")
+
+      .input
+        label
+          span.required Short Description
+          .help-text
+            | A short description of the app.
+
+        input.standard(maxlength="150" name="app[description]" placeholder="Description" required type="text")
+
+      .input
+        label Full Description
+          .help-text
+            | A long description for the WordPress Plugin page. No length limit.
+
+        textarea.standard(name="app[metadata][description]" placeholder="Full description")
+
+      .input
+        label Instructions
+          .help-text
+            | Installation instructions for the WordPress user.
+
+        textarea.standard(name="app[metadata][instructions]" placeholder="Instructions")
+
+      .input
+        label FAQ
+          .help-text
+            | Frequently asked questions about the plugin.
+
+        textarea.standard(name="app[metadata][targets][wordpress][faq]" placeholder="FAQ")
+
+      .input
+        label Icon
+          .help-text
+            | A 256×256 PNG, or SVG file.
+
+          section(data-ref="imageUploadMount")

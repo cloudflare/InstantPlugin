@@ -46,7 +46,7 @@ stepsProgression = \
     width 100vw
 
     &.padded
-      padding 0 2em 1em
+      padding 0 1em 1em
 
     .headline
       align-items center
@@ -54,6 +54,7 @@ stepsProgression = \
       display flex
       font-size 1.3em
       font-weight 300
+      justify-content center
       margin 1em 0
 
       .step-number
@@ -74,11 +75,24 @@ stepsProgression = \
 
       .secondary-details
         align-items center
-        justify-content space-between
+        justify-content center
         margin 0 0 0.5em
 
         > p
           margin 0
+
+    .column
+      flex-flow column
+
+      + .column
+        margin-left 1em
+
+      .headline
+        justify-content flex-start
+
+      .secondary-details
+        justify-content space-between
+
 
   .step[data-step]
     visibility hidden

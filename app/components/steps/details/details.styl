@@ -1,2 +1,16 @@
+@import "./styl/colors"
+@import "./styl/fonts"
+@import "./styl/font-smoothing"
+
 .step[data-step="details"]
-  color red
+  .column
+    flex 1 1 auto
+    width 50%
+
+  > .content
+    display flex
+    flex 1 0 auto
+    justify-content center
+
+  .schema-column
+    margin-left 1em

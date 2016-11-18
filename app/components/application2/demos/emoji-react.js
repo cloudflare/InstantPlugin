@@ -27,12 +27,11 @@ const script = String.raw`<script type="text/javascript">
 </script>`
 
 export default function runDemo(app) {
-  const embedCodeStep = app.steps.embedCode
-  const schemaStep = app.steps.schema
-  const {attributePicker} = schemaStep
-  const {embedCodeInput} = embedCodeStep.refs
-  const {locationSelect} = schemaStep.refs
-  // const {pluginDetailsForm} = app.refs
+  const {steps} = app
+  const {attributePicker} = steps.schema
+  const {locationSelect} = steps.schema.refs
+  const {embedCodeInput} = steps.embedCode.refs
+  const {detailsForm} = steps.details.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
@@ -51,15 +50,15 @@ export default function runDemo(app) {
   attributePicker.toggleEntityTracking(option_3.element)
 
 
-  // const fields = {
-  //   "[name='app[title]']": "Emoji React",
-  //   "[name='app[description]']": "React with your favorite Emojis!",
-  //   "[name='email']": "demo@instantwordpressplugin.com"
-  // }
+  const fields = {
+    "[name='app[title]']": "Emoji React",
+    "[name='app[description]']": "React with your favorite Emojis!",
+    "[name='email']": "demo@instantwordpressplugin.com"
+  }
 
-  // Object
-  //   .keys(fields)
-  //   .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
+  Object
+    .keys(fields)
+    .forEach(name => detailsForm.querySelector(name).value = fields[name])
 
-  // app.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
+  steps.details.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
 }

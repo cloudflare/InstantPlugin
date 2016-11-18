@@ -12,10 +12,15 @@ export default class SchemaStep extends BaseComponent {
   render() {
     this.compileTemplate()
 
-    const {attributePickerMount} = this.refs
+    const {attributePickerMount, schemaForm} = this.refs
 
     this.attributePicker = new AttributePicker({$root: this.$root})
     this.replaceElement(attributePickerMount, this.attributePicker.render())
+
+    schemaForm.addEventListener("submit", event => {
+      event.preventDefault()
+      this.$root.$activeStep = "preview"
+    })
 
     return this.element
   }
@@ -47,7 +52,6 @@ export default class SchemaStep extends BaseComponent {
       embedCodeLocationContainer,
       locationSelect,
       propertyList,
-      schemaForm,
       stepLabel
     } = this.refs
 
@@ -57,11 +61,6 @@ export default class SchemaStep extends BaseComponent {
     const tense = visibleOptionCount === 1 ? "this dynamic option" : "these dynamic options"
 
     stepLabel.textContent = `Customize ${tense}.`
-
-    schemaForm.addEventListener("submit", event => {
-      event.preventDefault()
-      this.$root.$activeStep = "preview"
-    })
 
     locationSelect.addEventListener("change", ({target: {value}}) => {
       this.$customLocationVisible = value === "custom"

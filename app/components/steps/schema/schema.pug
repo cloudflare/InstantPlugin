@@ -1,6 +1,6 @@
 section.step.padded(data-step="schema" data-flow="column")
   header.step-details
-    .column(data-flow="column")
+    .column
       h1.headline
         .step-number 2
         .label Choose your options.
@@ -9,7 +9,7 @@ section.step.padded(data-step="schema" data-flow="column")
         p
           | Click parts of your embed code to turn them into options for the user.
 
-    .column.schema-column(data-flow="column")
+    .column
       h1.headline
         .step-number 3
         .label(data-ref="stepLabel")
@@ -19,10 +19,10 @@ section.step.padded(data-step="schema" data-flow="column")
           | Configure how these options will appear.
 
   .content
-    .column(data-flow="column")
+    .column
       .attribute-picker-mount(data-ref="attributePickerMount")
 
-    .column.schema-column(data-flow="column")
+    .column
       form.schema-form(data-ref="schemaForm" data-flow="column")
         input(
           data-ref="schemaFormSubmit"
