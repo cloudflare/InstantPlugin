@@ -16,6 +16,8 @@ export default class EmbedCodeStep extends BaseComponent {
 
     embedCodeInput.addEventListener("input", ({target: {value}}) => {
       this.$root.$embedCode = value
+
+      this.syncButtonState()
     })
 
     return element
@@ -41,5 +43,12 @@ export default class EmbedCodeStep extends BaseComponent {
   @autobind
   navigateDemo({target}) {
     demos[target.dataset.demo](this.$root)
+  }
+
+  syncButtonState() {
+    const {embedCodeInput} = this.refs
+    const {navigationNextButton} = this.$root.refs
+
+    navigationNextButton.disabled = embedCodeInput.value.length === 0
   }
 }

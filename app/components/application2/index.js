@@ -96,8 +96,9 @@ export default class Application extends BaseComponent {
     const {attributePicker} = this.steps.schema
 
     attributePicker.parseInput(value)
+    this.steps.schema.updateRender()
 
-    return attributePicker.refs.picker
+    return attributePicker.element
   }
 
   get $installJSON() {
@@ -156,9 +157,19 @@ export default class Application extends BaseComponent {
 
       navigationContainer.appendChild(button)
     })
+
+    this.updateRefs()
   }
 
-  syncButtonState() {
-    // TODO: flesh out
+  restart() {
+    const {steps} = this
+
+    steps.embedCode.refs.embedCodeInput.value = ""
+    this.$embedCode = ""
+    steps.schema.updateRender()
+    this.$activeStep = "embedCode"
+    steps.embedCode.syncButtonState()
+
+    steps.details.resetFields()
   }
 }

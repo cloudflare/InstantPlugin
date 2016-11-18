@@ -21,6 +21,6 @@ export default class DownloadStep extends BaseComponent {
 
   @autobind
   navigateNext() {
-    this.$root.$activeStep = "embedCode"
+    this.$root.restart()
   }
 }

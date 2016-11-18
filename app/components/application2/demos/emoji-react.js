@@ -37,6 +37,7 @@ export default function runDemo(app) {
   embedCodeInput.value = script
   app.$embedCode = embedCodeInput.value
   autosize.update(embedCodeInput)
+  steps.embedCode.syncButtonState()
 
   locationSelect.value = "body"
 

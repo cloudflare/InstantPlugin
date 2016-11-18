@@ -16,12 +16,13 @@ export default class DetailsStep extends BaseComponent {
 
     this.imageUploader = new ImageUploader({name: "app[icon]"})
     this.replaceElement(imageUploadMount, this.imageUploader.render())
-    this.imageUploader.imageURL = DEFAULT_PLUGIN_ICON
 
     detailsForm.addEventListener("submit", event => {
       event.preventDefault()
       this.$root.$activeStep = "creating"
     })
+
+    this.resetFields()
 
     return element
   }
@@ -43,5 +44,12 @@ export default class DetailsStep extends BaseComponent {
     const {detailsFormSubmit} = this.refs
 
     detailsFormSubmit.click()
+  }
+
+  resetFields() {
+    const {detailsForm} = this.refs
+
+    detailsForm.reset()
+    this.imageUploader.imageURL = DEFAULT_PLUGIN_ICON
   }
 }

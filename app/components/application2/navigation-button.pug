@@ -1,10 +1,10 @@
 if lastButton
-  button.button.primary
+  button.button.primary(data-ref="navigationNextButton")
     span.label=label
     span.icon
       include ../../assets/right-arrow.svg
 else if firstButton
-  button.button.secondary
+  button.button.secondary(data-ref="navigationPreviousButton")
     span.icon
       include ../../assets/left-arrow.svg
     span.label=label
