@@ -32,19 +32,32 @@ export default class AttributePicker extends BaseComponent {
       innerHTML: hljs.highlightAuto(value, ["html", "javascript"]).value
     })
 
+    // Embed codes that include non script tags like iframes use a special
+    // option to let the plugin user choose the location.
+    const includesHTMLTags = Array
+      .from(serializer.querySelectorAll(".hljs-tag .hljs-name"))
+      .map(element => element.textContent)
+      .some(name => name !== "script")
+
+    if (includesHTMLTags) {
+      this.$root.entities.embedLocation = {
+        format: "element",
+        normalized: {selector: "body", method: "prepend"},
+        order: 0,
+        title: "Location",
+        tracked: true,
+        type: "object"
+      }
+    }
+
     if (!serializer.querySelector($$.ENTITY_QUERY)) {
       element.classList.add("empty")
       element.innerHTML = `
         <p class="details">
           We couldn’t find any configurable strings or numbers in that embed code.
         </p>
-
-        <p class="details">
-          Press “Next” to continue.
-        </p>
       `
 
-      this.$root.syncButtonState()
       return
     }
 
@@ -288,26 +301,11 @@ export default class AttributePicker extends BaseComponent {
 
     element.addEventListener("keydown", this.handleAttributeKeyDown)
 
-    // Embed codes that include non script tags like iframes use a special
-    // option to let the plugin user choose the location.
-    const includesHTMLTags = Array
-      .from(element.querySelectorAll(".hljs-tag .hljs-name"))
-      .map(element => element.textContent)
-      .some(name => name !== "script")
-
     if (includesHTMLTags) {
-      this.$root.entities.embedLocation = {
-        format: "element",
-        normalized: {selector: "body", method: "prepend"},
-        order: entityCount,
-        title: "Location",
-        tracked: true,
-        type: "object"
-      }
+      this.$root.entities.embedLocation.order = entityCount
     }
 
     this.$root.steps.schema.updateRender()
-    this.$root.syncButtonState()
   }
 
   toggleEntityTracking(element) {
@@ -323,7 +321,6 @@ export default class AttributePicker extends BaseComponent {
     }
 
     this.$root.steps.schema.updateRender()
-    this.$root.syncButtonState()
   }
 
 
