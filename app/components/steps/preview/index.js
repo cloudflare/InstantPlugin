@@ -27,6 +27,8 @@ export default class PreviewStep extends BaseComponent {
     })
   }
 
+  title = "Preview your options.";
+
   render() {
     const element = this.compileTemplate()
 
@@ -38,7 +40,7 @@ export default class PreviewStep extends BaseComponent {
   }
 
   @autobind
-  onActive() {
+  onEnter() {
     const {previewIframe} = this.refs
 
     previewIframe.contentWindow.postMessage({

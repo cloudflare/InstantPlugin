@@ -8,6 +8,8 @@ import * as demos from "../../application2/demos"
 export default class EmbedCodeStep extends BaseComponent {
   static template = template;
 
+  title = "Paste your embed code below.";
+
   render() {
     const element = this.compileTemplate()
     const {embedCodeInput, demoButtons} = this.refs
@@ -48,6 +50,8 @@ export default class EmbedCodeStep extends BaseComponent {
   syncButtonState() {
     const {embedCodeInput} = this.refs
     const {navigationNextButton} = this.$root.refs
+
+    if (!navigationNextButton) return
 
     navigationNextButton.disabled = embedCodeInput.value.length === 0
   }

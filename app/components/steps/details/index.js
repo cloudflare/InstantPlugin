@@ -9,6 +9,8 @@ import $$ from "lib/constants"
 export default class DetailsStep extends BaseComponent {
   static template = template;
 
+  title = "Describe your plugin.";
+
   render() {
     const element = this.compileTemplate()
     const {detailsForm, imageUploadMount} = this.refs

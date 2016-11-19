@@ -49,9 +49,7 @@ export default class Application extends BaseComponent {
       stepsContainer.appendChild(step.render())
     })
 
-    // this.$activeStep = "intro"
-    this.$activeStep = "schema"
-    element.querySelector("[data-demo='emojiReact']").click()
+    this.$activeStep = "intro"
 
     this.replaceElement(mountPoint, element)
   }
@@ -61,24 +59,32 @@ export default class Application extends BaseComponent {
   }
 
   set $activeStep(value) {
-    const previousStepEl = this.$activeStepEl
-    const {onActive = () => {}} = this.steps[value]
-
-    onActive(value)
+    const previousStep = this.$activeStep
+    const previousStepComponent = this.$activeStepComponent
+    const {onEnter = () => {}} = this.steps[value]
 
     this.element.dataset.activeStep = value
+
+    this.renderTitle()
     this.renderNavigation()
 
-    if (previousStepEl) {
+    requestAnimationFrame(() => onEnter(value))
+
+    if (previousStepComponent) {
+      const {onExit = () => {}} = previousStepComponent
+
+      this.element.dataset.previousStep = previousStep
+      requestAnimationFrame(() => onExit(value))
+
       setTimeout(() => {
-        previousStepEl.element.scrollTop = 0
+        previousStepComponent.element.scrollTop = 0
       }, 350)
     }
 
     return this.element.dataset.activeStep
   }
 
-  get $activeStepEl() {
+  get $activeStepComponent() {
     return this.steps[this.$activeStep]
   }
 
@@ -142,23 +148,36 @@ export default class Application extends BaseComponent {
 
   renderNavigation() {
     const {navigationContainer} = this.refs
-    const {navigationButtons = []} = this.$activeStepEl
+    const {navigationButtons = []} = this.$activeStepComponent
 
     navigationContainer.innerHTML = ""
 
-    navigationButtons.forEach(({label, handler}, index) => {
+    navigationButtons.forEach(({className, label, handler, href}, index) => {
       const button = this.serialize(navigationButtonTemplate, {
+        className,
+        href,
         label,
         firstButton: index === 0,
         lastButton: index === navigationButtons.length - 1
       })
 
-      button.addEventListener("click", handler)
+      if (handler) button.addEventListener("click", handler)
 
       navigationContainer.appendChild(button)
     })
 
     this.updateRefs()
+  }
+
+  renderTitle() {
+    const {title} = this.refs
+
+    if (this.$activeStepComponent.title) {
+      title.textContent = this.$activeStepComponent.title
+    }
+    else {
+      title.textContent = `Instant ${MODE_LABELS[this.mode]} Plugin`
+    }
   }
 
   restart() {
@@ -171,5 +190,7 @@ export default class Application extends BaseComponent {
     steps.embedCode.syncButtonState()
 
     steps.details.resetFields()
+
+    steps.preview.render()
   }
 }

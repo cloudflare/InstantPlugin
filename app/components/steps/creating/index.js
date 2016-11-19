@@ -11,7 +11,7 @@ export default class CreatingStep extends BaseComponent {
   static template = template;
 
   @autobind
-  onActive() {
+  onEnter() {
     const {$root} = this
     const onComplete = ({downloadURL}) => {
       $root.downloadURL = downloadURL

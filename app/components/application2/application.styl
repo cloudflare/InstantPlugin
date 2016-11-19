@@ -16,6 +16,10 @@ stepsProgression = \
   height 100vh
   width 100vw
 
+  &[data-previous-step]
+    .app-header .content
+      transition .3s transform ease-in-out
+
   .app-content
     flex 1 1 auto
     position relative
@@ -48,38 +52,14 @@ stepsProgression = \
     &.padded
       padding 0 1em 1em
 
-    .headline
-      align-items center
-      color lighterGray
-      display flex
-      font-size 1.3em
-      font-weight 300
-      justify-content center
-      margin 1em 0
-
-      .step-number
-        align-items center
-        border 2px solid gray
-        border-radius 0.4em
-        display flex
-        height 2em
-        justify-content center
-        padding 1em
-        width 2em
-
-        + .label
-          margin-left 1em
-
     .step-details
       flex 0 0 auto
+      align-items center
+      justify-content center
+      margin 1.5em 0 0.5em
 
-      .secondary-details
-        align-items center
-        justify-content center
-        margin 0 0 0.5em
-
-        > p
-          margin 0
+      p
+        margin 0
 
     .column
       flex-flow column
@@ -115,48 +95,81 @@ stepsProgression = \
     resize none
     width 100%
 
-  .app-footer
+  .app-header
     align-items center
-    background-color offBlack
+    background-color lighterGray
     flex 0 0 auto
     padding 1.5em
+    position relative
+    height 5.5em
 
-    .logo
+    .headline
       align-items center
-      flex 0 0 auto
+      display flex
+      font-size 1.3em
+      font-weight 300
+      justify-content center
+      margin 0
 
-      svg
-        height 3em
-        width @height
-
-        + .mode-label
-          margin-left 1em
-
-        path
-          fill white
-
-    .actions
-      flex 1 0 auto
-      justify-content flex-end
-
-      .button
+      .step-number
         align-items center
+        border 2px solid brandOrangeDark
+        border-radius 0.4em
         display flex
+        height 2em
+        justify-content center
+        padding 1em
+        width 2em
 
-        + .button
+        + .label
           margin-left 1em
 
-        .icon
-          display inline-block
+    .content-container
+      justify-content flex-start
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      width 100%
+      padding 0 1em
+
+      .content
+        align-items center
+        flex 0 0 auto
 
         svg
-          display inline-block
-          fill currentColor
-          height auto
-          width 1em
+          height 3em
+          width @height
 
-        .icon + .label
-          margin-left .5em
+          + .headline
+            margin-left .5em
 
-        .label + .icon
-          margin-left .5em
+          path
+            fill brandOrange
+
+  .navigation-actions
+    flex 1 0 auto
+    justify-content flex-end
+
+    .button
+      align-items center
+      display flex
+
+      + .button
+        margin-left 1em
+
+      .icon
+        display inline-block
+
+      svg
+        display inline-block
+        fill currentColor
+        height auto
+        width 1em
+
+      .icon + .label
+        margin-left .5em
+
+      .label + .icon
+        margin-left .5em

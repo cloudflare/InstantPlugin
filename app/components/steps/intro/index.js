@@ -8,15 +8,28 @@ export default class IntroStep extends BaseComponent {
   static template = template;
 
   render() {
-    const element = this.compileTemplate()
+    this.compileTemplate()
 
-    return element
+    const {startButton} = this.refs
+
+    startButton.addEventListener("click", () => this.$root.$activeStep = "embedCode")
+
+    return this.element
   }
 
-  get navigationButtons() {
-    return [
-      {label: "Start", handler: this.navigateNext}
-    ]
+  @autobind
+  onEnter() {
+    const {appHeader, appHeaderContent} = this.$root.refs
+    const translation = (appHeader.clientWidth - appHeaderContent.clientWidth) / 2
+
+    appHeaderContent.style.transform = `translate3d(${translation}px, 0, 0)`
+  }
+
+  @autobind
+  onExit() {
+    const {appHeaderContent} = this.$root.refs
+
+    appHeaderContent.style.transform = ""
   }
 
   @autobind

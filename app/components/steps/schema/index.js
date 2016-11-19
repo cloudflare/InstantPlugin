@@ -9,6 +9,8 @@ import AttributePicker from "components/attribute-picker"
 export default class SchemaStep extends BaseComponent {
   static template = template;
 
+  title = "Choose your options.";
+
   render() {
     this.compileTemplate()
 
@@ -51,16 +53,11 @@ export default class SchemaStep extends BaseComponent {
     const {
       embedCodeLocationContainer,
       locationSelect,
-      propertyList,
-      stepLabel
+      propertyList
     } = this.refs
 
     embedCodeLocationContainer.style.display = includesLocationEntity ? "none" : ""
 
-    const visibleOptionCount = IDs.length + (includesLocationEntity ? 0 : 1)
-    const tense = visibleOptionCount === 1 ? "this dynamic option" : "these dynamic options"
-
-    stepLabel.textContent = `Customize ${tense}.`
 
     locationSelect.addEventListener("change", ({target: {value}}) => {
       this.$customLocationVisible = value === "custom"

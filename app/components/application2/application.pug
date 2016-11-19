@@ -1,10 +1,11 @@
 main(data-component="application" data-flow="column")
+  header.app-header
+    .content-container(data-ref="appHeader")
+      .content(data-ref="appHeaderContent")
+        != require("../../assets/logo.svg")
+        h1.headline(data-ref="title")
+
+    .navigation-actions(data-ref="navigationContainer")
+
   .app-content
     .steps-container(data-ref="stepsContainer")
-
-  footer.app-footer
-    .logo
-      != require("../../assets/logo.svg")
-      .mode-label Instant #{this.$modeLabel} Plugin
-
-    .actions(data-ref="navigationContainer")
