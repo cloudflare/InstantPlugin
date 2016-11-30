@@ -25,6 +25,11 @@ export default class EmbedCodeStep extends BaseComponent {
     return element
   }
 
+  @autobind
+  onEnter() {
+    this.syncButtonState()
+  }
+
   get navigationButtons() {
     return [
       {label: "Back", handler: this.navigatePrevious},
