@@ -1,6 +1,6 @@
 {
   "name": "instant-plugin",
-  "version": "1.0.0-rc1",
+  "version": "2.0.0",
   "description": "Convert an embed code to a plugin.",
   "main": "index.js",
   "scripts": {
