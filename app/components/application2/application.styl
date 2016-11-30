@@ -11,6 +11,8 @@ stepsProgression = \
   "creating", \
   "download"
 
+headerHeight = 5.5em
+
 [data-component="application"]
   line-height 1.5
   height 100vh
@@ -51,6 +53,9 @@ stepsProgression = \
 
     &.padded
       padding 0 1em 1em
+
+    &.with-header-offset
+      margin-top -(headerHeight)
 
     .step-details
       flex 0 0 auto
@@ -98,10 +103,19 @@ stepsProgression = \
   .app-header
     align-items center
     background-color lighterGray
+    box-shadow 0 .1875em .375em -0.19em rgba(#000, .325)
     flex 0 0 auto
-    padding 1.5em
+    padding 1em
     position relative
-    height 5.5em
+    height headerHeight
+    z-index 1
+
+    .navigation-actions .button
+      &, &:hover
+        box-shadow 0 0.1875em 0.375em -0.2875em rgba(0,0,0,0.325)
+
+      .primary
+        min-width 10em // Fix button width jumping.
 
     .headline
       align-items center
@@ -132,7 +146,7 @@ stepsProgression = \
       bottom 0
       left 0
       width 100%
-      padding 0 1em
+      padding-left 1em
 
       .content
         align-items center
@@ -154,13 +168,16 @@ stepsProgression = \
 
     .button
       align-items center
+      justify-content center
       display flex
 
       + .button
         margin-left 1em
 
       .icon
-        display inline-block
+        display flex
+        flex 0 0 auto
+        height 1em
 
       svg
         display inline-block
