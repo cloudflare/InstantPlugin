@@ -32,11 +32,16 @@ export default class PreviewStep extends BaseComponent {
   render() {
     const element = this.compileTemplate()
 
+    this.updateRender()
+
+    return element
+  }
+
+  @autobind
+  updateRender() {
     this.createPreviewIframe(() => {
       this.sendPreviewStyleOverrides()
     })
-
-    return element
   }
 
   @autobind
@@ -54,15 +59,14 @@ export default class PreviewStep extends BaseComponent {
     this.deferredIframeCallback = next
 
     const {previewContainer} = this.refs
-    const previewIframe = createElement("iframe", {
+
+    this.refs.previewIframe = createElement("iframe", {
       sandbox: "allow-forms allow-scripts allow-same-origin allow-popups",
       src: PREVIEW_URL
     })
 
-    this.refs.previewIframe = previewIframe
-
     previewContainer.innerHTML = ""
-    previewContainer.appendChild(previewIframe)
+    previewContainer.appendChild(this.refs.previewIframe)
   }
 
   sendPreviewStyleOverrides() {

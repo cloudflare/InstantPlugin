@@ -193,6 +193,7 @@ export default class Application extends BaseComponent {
 
     steps.details.resetFields()
 
-    steps.preview.render()
+    // Delay iframe render to prevent UI stutter during transition.
+    setTimeout(steps.preview.updateRender, $$.TRANSITION_DELAY)
   }
 }
