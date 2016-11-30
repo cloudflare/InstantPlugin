@@ -1,7 +1,6 @@
 import "./index.styl"
 
-// import Application from "components/application"
-import Application from "components/application2"
+import Application from "components/application"
 import elementDatasetPolyfill from "element-dataset"
 
 document.addEventListener("DOMContentLoaded", () => {

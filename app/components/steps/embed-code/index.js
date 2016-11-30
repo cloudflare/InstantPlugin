@@ -3,7 +3,7 @@ import template from "./embed-code.pug"
 
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
-import * as demos from "../../application2/demos"
+import * as demos from "../../application/demos"
 
 export default class EmbedCodeStep extends BaseComponent {
   static template = template;
