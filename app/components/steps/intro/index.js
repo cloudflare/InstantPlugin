@@ -19,8 +19,8 @@ export default class IntroStep extends BaseComponent {
 
   @autobind
   onEnter() {
-    const {appHeader, appHeaderContent} = this.$root.refs
-    const translation = (appHeader.clientWidth - appHeaderContent.clientWidth) / 2
+    const {appHeader, appHeaderContent, appLogo} = this.$root.refs
+    const translation = (appHeader.clientWidth - appHeaderContent.clientWidth - appLogo.clientWidth) / 2
 
     appHeaderContent.style.transform = `translate3d(${translation}px, 0, 0)`
   }
