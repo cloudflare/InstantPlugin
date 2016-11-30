@@ -14,15 +14,26 @@ export default class IntroStep extends BaseComponent {
 
     startButton.addEventListener("click", () => this.$root.$activeStep = "embedCode")
 
+    window.addEventListener("resize", () => {
+      if (this.$root.$activeStep !== "intro") return
+
+      this.alignLogo()
+    })
+
     return this.element
   }
 
   @autobind
-  onEnter() {
+  alignLogo() {
     const {appHeader, appHeaderContent, appLogo} = this.$root.refs
     const translation = (appHeader.clientWidth - appHeaderContent.clientWidth - appLogo.clientWidth) / 2
 
     appHeaderContent.style.transform = `translate3d(${translation}px, 0, 0)`
+  }
+
+  @autobind
+  onEnter() {
+    this.alignLogo()
   }
 
   @autobind

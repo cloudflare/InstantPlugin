@@ -1,16 +1,26 @@
 section.step.padded(data-step="intro" data-flow="column")
-  .content
-    :marked
-       # Your JavaScript embed code, now accessible to 74.6 million users.
+  header.header(data-flow="column")
+    .content
+      :marked
+         # Your JavaScript embed code, now accessible to 74.6 million users.
 
-      Many WordPress users may find that pasting a `<script>` tag is too technical.
-      WordPress plugins allow these non-technical users to use more tools with a few clicks.
+        Many WordPress users may find that pasting a `<script>` tag is too technical.
+        WordPress plugins allow these non-technical users to use more tools with a few clicks.
 
-      But creating a plugin by hand can be time consuming.
-      IWP wraps your embed code and creates a plugin that is ready for the WordPress Plugin Directory.
+        But creating a plugin by hand can be time consuming.
+        IWP wraps your embed code and creates a plugin that is ready for the WordPress Plugin Directory.
 
-  .navigation-actions
-    button.button.primary(data-ref="startButton")
-      span.label Start
-      span.icon
-        include ../../../assets/right-arrow.svg
+    .navigation-actions
+      button.button.primary(data-ref="startButton")
+        span.label Start
+        span.icon
+          include ../../../assets/right-arrow.svg
+
+  footer.footer
+    a.made-by.button.secondary(
+      href="https://github.com/EagerIO/InstantPlugin"
+      tabindex="-1"
+      target="_blank")
+      span.label Made by
+      include ../../../assets/eager-logo.svg
+

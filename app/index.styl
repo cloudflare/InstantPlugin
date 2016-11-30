@@ -52,3 +52,37 @@ div, footer, header, main, section
   visibility hidden
   width 1px
   height 1px
+
+
+a.made-by.button
+  display block
+  width 6em
+  max-width 100%
+  padding 1.1em
+  text-align center
+  opacity 1
+  transform translate3d(0, 0, 0)
+  transition opacity .3s ease
+  will-change opacity
+  background #ccc
+  box-shadow none
+
+  > *
+    opacity .7
+
+  .label
+    display block
+    font-size .7em
+    font-weight 100
+    text-transform uppercase
+    letter-spacing .1em
+    text-indent @letter-spacing
+    margin-bottom 1em
+
+  svg
+    display block
+    width 100%
+    height auto
+
+    path
+      fill currentColor
