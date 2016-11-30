@@ -40,7 +40,7 @@ export default class AttributePicker extends BaseComponent {
       .some(name => name !== "script")
 
     if (includesHTMLTags) {
-      this.$root.entities.embedLocation = {
+      this.$root.entities[$$.EMBED_LOCATION] = {
         format: "element",
         normalized: {selector: "body", method: "prepend"},
         order: 0,
@@ -302,7 +302,7 @@ export default class AttributePicker extends BaseComponent {
     element.addEventListener("keydown", this.handleAttributeKeyDown)
 
     if (includesHTMLTags) {
-      this.$root.entities.embedLocation.order = entityCount
+      this.$root.entities[$$.EMBED_LOCATION].order = entityCount
     }
 
     this.$root.steps.schema.updateRender()

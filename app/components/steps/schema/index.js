@@ -5,6 +5,7 @@ import entityTemplate from "./entity.pug"
 import autobind from "autobind-decorator"
 import BaseComponent from "components/base-component"
 import AttributePicker from "components/attribute-picker"
+import $$ from "lib/constants"
 
 export default class SchemaStep extends BaseComponent {
   static template = template;
@@ -48,7 +49,7 @@ export default class SchemaStep extends BaseComponent {
     const {element} = this
     const IDs = this.$root.getTrackedEntityIDs()
     const {entities} = this.$root
-    const includesLocationEntity = !!entities.embedLocation
+    const locationDefinedInEntity = $$.EMBED_LOCATION in entities
     const entityCount = Object.keys(entities).length
     const {
       embedCodeLocationContainer,
@@ -56,8 +57,7 @@ export default class SchemaStep extends BaseComponent {
       propertyList
     } = this.refs
 
-    embedCodeLocationContainer.style.display = includesLocationEntity ? "none" : ""
-
+    embedCodeLocationContainer.style.display = locationDefinedInEntity ? "none" : ""
 
     locationSelect.addEventListener("change", ({target: {value}}) => {
       this.$customLocationVisible = value === "custom"
@@ -82,6 +82,8 @@ export default class SchemaStep extends BaseComponent {
 
       propertyList.appendChild(entityEl)
     })
+
+    propertyList.dataset.propertyCount = entityCount
 
     return element
   }

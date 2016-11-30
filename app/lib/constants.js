@@ -3,6 +3,7 @@ const STRING_CLASS = "hljs-string"
 export default {
   CHUNK_TYPE: "data-chunk-type",
   DEFAULT_PLUGIN_ICON: `${ASSET_BASE}/default-plugin-logo.png`,
+  EMBED_LOCATION: "embedLocation",
   ENTITY_ID: "data-entity-id",
   ENTITY_IDENTIFIER: "data-identifier",
   ENTITY_ORDER: "data-entity-order",

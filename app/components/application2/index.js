@@ -113,8 +113,8 @@ export default class Application extends BaseComponent {
     const properties = {}
 
     IDs.forEach((id, index) => {
-      const {delimiter, identifier, format, normalized, placeholder, title, type} = this.entities[id]
       const current = embedCodeDOM.querySelector(`[${$$.ENTITY_ID}="${id}"]`)
+      const {delimiter, identifier, format, normalized, placeholder, title, type} = this.entities[id]
 
       properties[id] = {
         format,
@@ -125,7 +125,9 @@ export default class Application extends BaseComponent {
         type
       }
 
-      current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
+      if (id !== $$.EMBED_LOCATION) {
+        current.textContent = `${delimiter}TRACKED_ENTITY[${id}]${delimiter}`
+      }
     })
 
     const {schemaForm} = this.steps.schema.refs
