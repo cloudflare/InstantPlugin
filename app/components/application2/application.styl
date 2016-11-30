@@ -31,8 +31,10 @@ headerHeight = 5.5em
   .box
     background #fff
     color containedTextColor
-    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+    border-radius 0.1875em
     position relative
+    box-shadow 0 .1875em .375em -0.215em rgba(#000, .325)
+    border-radius 0.1875em
 
   .steps-container
     flex 0 0 auto
@@ -62,6 +64,7 @@ headerHeight = 5.5em
       align-items center
       justify-content center
       margin 1.5em 0 0.5em
+      min-height 2em
 
       p
         margin 0
@@ -91,7 +94,7 @@ headerHeight = 5.5em
 
   .code-input
     antialiasedFonts()
-    border 0
+    border 1px solid transparent
     font-family monospaceFonts
     line-height 1.6
     height 100%
@@ -99,6 +102,11 @@ headerHeight = 5.5em
     position relative
     resize none
     width 100%
+    transition .3s border-color linear
+
+    &:focus
+      outline none
+      border-color alpha(brandOrange, 0.2)
 
   .app-header
     align-items center

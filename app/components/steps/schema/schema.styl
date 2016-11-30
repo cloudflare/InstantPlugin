@@ -3,6 +3,8 @@
 @import "./styl/font-smoothing"
 
 .step[data-step="schema"]
+  entityMargin = 1em
+
   .column
     flex 1 1 auto
     width 50%
@@ -14,14 +16,14 @@
   .embed-code-location-container
     flex 0 0 auto
 
+  .property-list:not([data-property-count="0"]) + .embed-code-location-container
+    margin-top entityMargin
+
   .entity
     padding 1.25em
 
     + .entity
-      margin-top 1em
-
-    &:last-of-type
-      margin-bottom 1em
+      margin-top entityMargin
 
     .form
       flex 1 1 auto
@@ -31,7 +33,7 @@
         width 100%
 
     .details
-      width 27%
+      width 28%
       margin-right 5%
       padding-top 0.15em
 
