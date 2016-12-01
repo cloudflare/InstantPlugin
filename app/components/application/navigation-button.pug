@@ -1,0 +1,16 @@
+if href
+  a.button(class=className href=href target="_blank")!=label
+
+if lastButton
+  button.button.primary(data-ref="navigationNextButton")
+    span.label=label
+    span.icon
+      include ../../assets/right-arrow.svg
+else if firstButton
+  button.button.secondary(data-ref="navigationPreviousButton")
+    span.icon
+      include ../../assets/left-arrow.svg
+    span.label=label
+else
+  button.button.with-icon
+    span.label=label

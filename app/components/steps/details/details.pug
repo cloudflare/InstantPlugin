@@ -1,17 +1,27 @@
-.step(data-ref="steps[]" data-step="details")
-  form(data-ref="pluginDetailsForm")
-    .box.form
+section.step.padded(data-step="details" data-flow="column")
+  header.step-details
+    p
+      | This will appear in the WordPress Plugin Directory.
+
+  form(data-ref="detailsForm").content
+    input(
+      data-ref="detailsFormSubmit"
+      style="display: none;"
+      type="submit"
+      value="Submit")
+
+    .box.form(data-flow="column")
       aside.legend
         span.accent *&nbsp;
         span Required
 
       .input
-        label.required Email
-        input.standard(name="email" placeholder="Email" required type="email")
+        label.required Plugin Title
+        input.standard(name="app[title]" placeholder="Plugin Title" required type="text")
 
       .input
-        label.required Title
-        input.standard(name="app[title]" placeholder="Title" required type="text")
+        label.required Creator Email
+        input.standard(name="email" placeholder="Creator Email" required type="email")
 
       .input
         label
@@ -31,14 +41,14 @@
       .input
         label Instructions
           .help-text
-            | Installation instructions for the WordPress installer.
+            | Installation instructions for the WordPress user.
 
         textarea.standard(name="app[metadata][instructions]" placeholder="Instructions")
 
       .input
         label FAQ
           .help-text
-            | Frequently asked questions about the app.
+            | Frequently asked questions about the plugin.
 
         textarea.standard(name="app[metadata][targets][wordpress][faq]" placeholder="FAQ")
 
@@ -47,11 +57,4 @@
           .help-text
             | A 256×256 PNG, or SVG file.
 
-        section(data-ref="imageUploadMount")
-
-    .actions
-      button.button.secondary.transparent(
-        data-ref="navigationButtons[]"
-        data-step="preview"
-        type="button") Back
-      input.button.primary.next(type="submit" value="Download Plugin")
+          section(data-ref="imageUploadMount")

@@ -1,0 +1,48 @@
+section.step.padded(data-step="schema" data-flow="column")
+  header.step-details
+    .column
+      p
+        | Click parts of your embed code to turn them into options for the user.
+
+    .column
+      p
+        | Then choose how these options will appear.
+
+  .content
+    .column
+      .attribute-picker-mount(data-ref="attributePickerMount")
+
+    .column
+      form.schema-form(data-ref="schemaForm" data-flow="column")
+        input(
+          data-ref="schemaFormSubmit"
+          style="display: none;"
+          type="submit"
+          value="Submit")
+
+        .property-list(data-ref="propertyList" data-flow="column")
+
+        .embed-code-location-container(data-ref="embedCodeLocationContainer")
+          .entity.box.embed-code-location
+            .form(data-flow="column")
+              .input
+                label.label(for="embed-code-location")
+                  span Embed Code Location
+                  .help-text Where should the embed code be inserted?
+
+                select.standard(data-ref="locationSelect" name="location" required)
+                  option(value="head") Head
+                  option(value="body") Body
+                  option(value="custom") A specific location in the body
+
+              .input(data-ref="customLocationContainer" style="display: none;")
+                label
+                  span.required Custom Location
+                  .help-text
+                    | Enter a CSS selector for an element inside which the embed will be placed.
+
+                input.standard.code(
+                  data-ref="customLocationInput"
+                  name="customLocation"
+                  placeholder="body"
+                  type="text")

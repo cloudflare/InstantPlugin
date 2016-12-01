@@ -1,0 +1,28 @@
+.step[data-step="preview"]
+  .content
+    flex 1 1 auto
+    margin-top 1em
+
+  .preview-container
+    flex 1 0 auto
+    position relative
+    transform translate3d(0, 0, 0)
+    overflow hidden
+
+    &:after
+      content ""
+      display block
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+      border 1px solid rgba(#000, .21)
+      box-shadow 0 0 0 .25em #fff
+
+    > iframe
+      flex 1 0 auto
+      display block
+      border none
+      width 100%

@@ -1,6 +1,6 @@
 {
   "name": "instant-plugin",
-  "version": "1.0.0-rc1",
+  "version": "2.0.0",
   "description": "Convert an embed code to a plugin.",
   "main": "index.js",
   "scripts": {
@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "autosize": "3.0.17",
+    "element-dataset": "1.3.0",
     "filepicker-js": "2.4.18",
     "form-serialize": "0.7.1",
     "highlight.js": "9.7.0",

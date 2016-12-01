@@ -1,0 +1,16 @@
+section.step.with-header-offset(data-step="download" data-flow="column")
+  header.header(data-flow="column")
+    img.icon(data-ref="icon")
+
+    h1 Your plugin is downloading...
+
+    a.download-link.more(data-ref="downloadLink" download)
+      | Download immediately
+
+  footer.footer
+    a.made-by.button.secondary(
+      href="https://github.com/EagerIO/InstantPlugin"
+      tabindex="-1"
+      target="_blank")
+      span.label Made by
+      include ../../../assets/eager-logo.svg

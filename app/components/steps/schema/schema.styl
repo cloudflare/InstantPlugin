@@ -1,0 +1,56 @@
+@import "./styl/colors"
+@import "./styl/fonts"
+@import "./styl/font-smoothing"
+
+.step[data-step="schema"]
+  entityMargin = 1em
+
+  .column
+    flex 1 1 auto
+    width 50%
+
+  > .content
+    flex 1 0 auto
+
+  .property-list,
+  .embed-code-location-container
+    flex 0 0 auto
+
+  .property-list:not([data-property-count="0"]) + .embed-code-location-container
+    margin-top entityMargin
+
+  .entity
+    padding 1.25em
+
+    + .entity
+      margin-top entityMargin
+
+    .form
+      flex 1 1 auto
+
+      .standard
+        flex 1 0 auto
+        width 100%
+
+    .details
+      width 28%
+      margin-right 5%
+      padding-top 0.15em
+
+      .identifier, .token
+        antialiasedFonts()
+        font-family monospaceFonts
+        line-height 1.6
+
+      .token
+        color subtleText
+        display inline-block
+        overflow hidden
+        text-overflow ellipsis
+        white-space nowrap
+
+    .label
+      display block
+
+  .embed-code-location
+    width 100%

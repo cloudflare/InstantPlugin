@@ -1,0 +1,27 @@
+section.step.padded(data-step="embedCode" data-flow="column")
+  header.step-details
+    p
+      | This is the embed code your users add to their website to install your tool or service.
+
+    .demos
+      span Or try a demo:
+
+      button.demo.button.secondary(
+        data-ref="demoButtons[]"
+        data-demo="emojiReact"
+        tabindex="0") Emoji React 🎉
+
+      button.demo.button.secondary(
+        data-ref="demoButtons[]"
+        data-demo="forecastIO"
+        tabindex="0") Forecast.io ☀️
+
+  .content(data-flow="column")
+    textarea.box.code-input(
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      autofocus
+      data-ref="embedCodeInput"
+      placeholder="<script>, <iframe>, etc..."
+      spellcheck="false")

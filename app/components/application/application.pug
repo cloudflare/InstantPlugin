@@ -1,19 +1,11 @@
-main(data-component="application" data-flow="column" data-active-step="embedCode")
-  header.header(data-flow="column")
-    a.logo-link
-      != require("../../assets/logo.svg")
+main(data-component="application" data-flow="column")
+  header.app-header
+    .content-container(data-ref="appHeader")
+      .content(data-ref="appHeaderContent")
+        != require("../../assets/logo.svg")
+        h1.headline(data-ref="title")
 
-    h1 Instant WordPress Plugin
+    .navigation-actions(data-ref="navigationContainer")
 
-  .steps(data-ref="stepsContainer")
-    include ./steps/intro.pug
-    include ./steps/embed-code.pug
-    include ./steps/attributes.pug
-    include ./steps/preview.pug
-    include ./steps/details.pug
-    include ./steps/creating.pug
-    include ./steps/download.pug
-
-  a.made-by.button.secondary(href="https://github.com/EagerIO/InstantPlugin" tabindex="-1")
-    span.label Made by
-    != require("../../assets/eager-logo.svg")
+  .app-content
+    .steps-container(data-ref="stepsContainer")

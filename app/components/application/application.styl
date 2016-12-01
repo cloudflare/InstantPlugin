@@ -1,317 +1,200 @@
 @import "~styl/colors"
 @import "~styl/fonts"
 @import "~styl/font-smoothing"
-@import "~styl/media-query-variables"
 
-stepProgressions = {
-  "intro": "embedCode",
-  "embedCode": "attributes",
-  "attributes": "preview",
-  "preview": "details",
-  "details": "creating"
-  "creating": "download"
-}
+stepsProgression = \
+  "intro", \
+  "embedCode", \
+  "schema", \
+  "preview", \
+  "details", \
+  "creating", \
+  "download"
+
+headerHeight = 5.5em
 
 [data-component="application"]
-  width 100%
-  overflow hidden
-  position relative
-  z-index 2
-  align-items center
-  flex-flow column nowrap
-  justify-content center
-  padding-top 2em
-  padding-bottom 2em
   line-height 1.5
+  height 100vh
+  width 100vw
 
-  @media largeDesktopMinHeightQuery
-    padding-top 4em
-    padding-bottom 4em
+  &[data-previous-step]
+    .app-header .content
+      transition .3s transform ease-in-out
 
-  for previous, next in stepProgressions
-    &[data-active-step={previous}] .step[data-step={next}]
-      transform translate3d(5em, 0, 0)
-
-    &[data-active-step={next}] .step[data-step={previous}]
-      transform translate3d(-5em, 0, 0)
-
-  &[data-active-step="attributes"] [data-entity-id]
-    display inline-block
-
-    &::after
-      content ""
-      display block
-      position absolute
-      border-radius 2em
-      top 0
-      right 0
-      bottom 0
-      left 0
-      pointer-events none
-
-    for i in (0..20)
-      &[data-entity-order={'"' + i + '"'}]::after
-        animation highlight-entity 1s ease-in-out
-        animation-fill-mode forwards
-        animation-delay .15s * i
-
-  > .header
+  .app-content
+    flex 1 1 auto
     position relative
-    align-items center
-    text-align center
-    height 10em
-    margin-bottom -7em
-    transition height .6s cubic-bezier(.6, 0, .4, 1), transform .6s cubic-bezier(.6, 0, .4, 1)
-    will-change transform
     overflow hidden
-
-    .logo-link, h1
-      transition transform .6s cubic-bezier(.6, 0, .4, 1)
-      will-change transform
-
-    .logo-link
-      position relative
-      display inline-block
-      max-width 100%
-      width 75px
-
-      > svg
-        display block
-        width 100%
-        height 100%
-
-    h1
-      position relative
-      font-size 1.6em
-      color brandOrange
-      margin .3em 0
-
-  &:not([data-active-step="intro"]) > .header
-    transform translate3d(0, -1.4em, 0)
-
-    @media largeDesktopMinHeightQuery
-      transform translate3d(0, -2.3em, 0)
-
-    .logo-link
-      transform translate3d(-8em, -1.1em, 0) scale(.5)
-
-    h1
-      transform translate3d(1em, -3.75em, 0) scale(.75)
+    width 100vw
 
   .box
-    display block
-    border-radius .75em
     background #fff
-    box-shadow 0 .1875em .375em -.1875em rgba(#000, .325)
+    color containedTextColor
+    border-radius 0.1875em
     position relative
+    box-shadow 0 .1875em .375em -0.215em rgba(#000, .325)
+    border-radius 0.1875em
 
-  .embed-code-input, .attribute-picker
-    antialiasedFonts()
-    font-family monospaceFonts
-    border 0
-    padding .8em 1.125em
-    resize none
-    min-height 17.3em
-    line-height 1.6
-    width 100%
-
-  .preview-container-wrapper
-    padding 1.5em
-
-  .preview-container
-    position relative
+  .steps-container
+    flex 0 0 auto
+    transition transform .3s ease-in-out
     transform translate3d(0, 0, 0)
-    overflow hidden
+    will-change visibility, transform, opacity
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
 
-    &:after
-      content ""
-      display block
-      position absolute
-      top 0
-      right 0
-      bottom 0
-      left 0
-      pointer-events none
-      border 1px solid rgba(#000, .21)
-      box-shadow 0 0 0 .25em #fff
-      border-radius .3125em
+  .step
+    flex 0 0 auto
+    overflow scroll
+    transition visibility .4s linear
+    width 100vw
 
-    > iframe
-      display block
-      border none
-      min-height 28em
-      height 80vh
-      width 100%
+    &.padded
+      padding 0 1em 1em
 
-  .embed-code-input
-    color inherit
+    &.with-header-offset
+      margin-top -(headerHeight)
+
+    .step-details
+      flex 0 0 auto
+      align-items center
+      justify-content center
+      margin 1.5em 0 0.5em
+      min-height 2em
+
+      p
+        margin 0
+
+    .column
+      flex-flow column
+
+      + .column
+        margin-left 1em
+
+      .headline
+        justify-content flex-start
+
+      .secondary-details
+        justify-content space-between
+
+
+  .step[data-step]
+    visibility hidden
+
+  for step, index in stepsProgression
+    &[data-active-step={step}] .steps-container
+      transform translate3d((-100vw * index), 0, 0)
+
+    &[data-active-step={step}] [data-step={step}]
+      visibility visible
+
+  .code-input
+    antialiasedFonts()
+    border 1px solid transparent
+    font-family monospaceFonts
+    line-height 1.6
+    height 100%
+    padding .8em 1.125em
+    position relative
+    resize none
+    width 100%
+    transition .3s border-color linear
 
     &:focus
       outline none
+      border-color alpha(brandOrange, 0.2)
 
-  .attribute-picker
-    color mutedTextColor
-
-    .hljs-string, .hljs-number
-      color textColor
-
-    .details
-      color darken(mutedTextColor, 20%)
-      font-family sansSerifFonts
-      font-size 1.2em
-      margin 0
-      text-align center
-      white-space normal
-      padding-left 6.5em
-      padding-right @padding-left
-
-      + .details
-        margin-top -2.8em
-
-  @import "./steps/step"
-  @import "./steps/intro"
-  @import "./steps/embed-code"
-  @import "./steps/details"
-  @import "./steps/attributes"
-  @import "./steps/creating"
-  @import "./steps/download"
-
-  .steps
-    width 80em
-    max-width 100vw
-    justify-content center
+  .app-header
+    align-items center
+    background-color lighterGray
+    box-shadow 0 .1875em .375em -0.19em rgba(#000, .325)
+    flex 0 0 auto
+    padding 1em
     position relative
-    padding 0 1em 1em
-    transition height .6s cubic-bezier(.6, 0, .4, 1)
-    will-change height
+    height headerHeight
+    z-index 1
 
-    .step
-      position relative
-      display block
-      flex-flow column nowrap
-      width 40em
-      max-width calc(100vw - 2em)
-      margin auto
-      margin-top 0
-      transition visibility .7s, transform .6s cubic-bezier(.6, 0, .4, 1), opacity .6s cubic-bezier(.6, 0, .4, 1)
-      transform translate3d(0, 0, 0)
-      will-change visibility, transform, opacity
-      opacity 1
-      visibility visible
+    .navigation-actions .button
+      &, &:hover
+        box-shadow 0 0.1875em 0.375em -0.2875em rgba(0,0,0,0.325)
 
-      &[data-step="preview"]
-        width 100%
+      &.primary
+        min-width 10em // Fix button width jumping.
 
-      &:not(.active)
-        pointer-events none
-        position absolute
-        opacity 0
-        visibility hidden
+    .headline
+      align-items center
+      display flex
+      font-size 1.3em
+      font-weight 300
+      justify-content center
+      margin 0
 
-  .attribute-picker
-    cursor default
-    overflow-wrap break-word
-    user-select none
-    white-space pre-wrap
-    word-break break-word
-    word-wrap break-word
-    // Fix animation artifacts.
-    background #fff
-    subpixelAntialiasedFonts()
+      .step-number
+        align-items center
+        border 2px solid brandOrangeDark
+        border-radius 0.4em
+        display flex
+        height 2em
+        justify-content center
+        padding 1em
+        width 2em
 
-    [data-entity-id]
-      display inline-block
-      position relative
-      border-radius 2em
-      padding 0 .5em
-      line-height 1.3
-      font-family inherit
-      cursor pointer
-      box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
-      background #eee
+        + .label
+          margin-left 1em
 
-      &:focus
-        outline none
-        box-shadow 0 0 2px 1px saturation(brandOrangeDark, 75%)
-
-      &:not(.tracked)
-        &:hover
-          box-shadow 0 0 0 1px rgba(textColor, .8)
-
-      &.tracked
-        background #fff
-        box-shadow 0 0 0 2px brandOrange
-
-        &:focus
-          box-shadow 0 0 2px 2px brandOrangeDark
-
-    [data-chunk-type="param-group"]
-      [data-chunk-type="param-key"]
-        color darkGray
-
-      &.tracked [data-chunk-type="param-key"]
-        color brandOrange
-
-    [data-chunk-type="entity-group"].tracked
-      .hljs-attr, .entity-identifier
-        color brandOrange
-
-    [data-chunk-type="attribute-group"].tracked
-      .hljs-attr
-        color brandOrange
-
-  a.made-by.button
-    display block
-    width 6em
-    max-width 100%
-    margin-left auto
-    margin-right auto
-    margin-top 4em
-    padding 1.1em
-    text-align center
-    opacity 1
-    transform translate3d(0, 0, 0)
-    transition opacity .3s ease
-    will-change opacity
-    background #ccc
-    box-shadow none
-
-    > *
-      opacity .7
-
-    .label
-      display block
-      font-size .7em
-      font-weight 100
-      text-transform uppercase
-      letter-spacing .1em
-      text-indent @letter-spacing
-      margin-bottom 1em
-
-    svg
-      display block
+    .content-container
+      justify-content flex-start
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
       width 100%
-      height auto
+      padding-left 1em
 
-      path
+      .content
+        align-items center
+        flex 0 0 auto
+
+        svg
+          height 3em
+          width @height
+
+          + .headline
+            margin-left .5em
+
+          path
+            fill brandOrange
+
+  .navigation-actions
+    flex 1 0 auto
+    justify-content flex-end
+
+    .button
+      align-items center
+      justify-content center
+      display flex
+
+      + .button
+        margin-left 1em
+
+      .icon
+        display flex
+        flex 0 0 auto
+        height 1em
+
+      svg
+        display inline-block
         fill currentColor
+        height auto
+        width 1em
 
-  &:not([data-active-step="intro"]) > a.made-by.button
-    opacity 0
-    pointer-events none
+      .icon + .label
+        margin-left .5em
 
-  &[data-active-step="intro"] > a.made-by.button
-    transition-delay 1s
-
-@keyframes highlight-entity
-  0%
-    box-shadow 0 0 0 1px rgba(brandOrange, 0)
-    animation-timing-function ease-in
-
-  50%
-    box-shadow 0 0 0 3px rgba(brandOrange, .5)
-    animation-timing-function ease-out
-
-  100%
-    box-shadow 0 0 0 5px rgba(brandOrange, 0)
-    animation-timing-function ease-out
+      .label + .icon
+        margin-left .5em

@@ -1,4 +1,4 @@
-<svg viewBox="0 0 116 158" version="1.1">
+<svg data-ref="appLogo" viewBox="0 0 116 158" version="1.1">
   <defs>
     <linearGradient x1="40%" y1="170%" x2="60%" y2="5%" id="gradient">
       <stop stop-color="#fed666" offset="0%"></stop>

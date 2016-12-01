@@ -27,23 +27,28 @@ const script = String.raw`<script type="text/javascript">
 </script>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
+  const {steps} = app
+  const {attributePicker} = steps.schema
+  const {locationSelect} = steps.schema.refs
+  const {embedCodeInput} = steps.embedCode.refs
+  const {detailsForm} = steps.details.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
+  app.$embedCode = embedCodeInput.value
   autosize.update(embedCodeInput)
-  app.parseInput()
+  steps.embedCode.syncButtonState()
 
   locationSelect.value = "body"
 
   const {option_2, option_3} = app.entities
 
   option_2.title = "Comma separated list of emoji names"
-  app.toggleEntityTracking(option_2.element)
+  attributePicker.toggleEntityTracking(option_2.element)
 
   option_3.title = "Location"
   option_3.format = "selector"
-  app.toggleEntityTracking(option_3.element)
+  attributePicker.toggleEntityTracking(option_3.element)
 
 
   const fields = {
@@ -54,7 +59,7 @@ export default function runDemo(app) {
 
   Object
     .keys(fields)
-    .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
+    .forEach(name => detailsForm.querySelector(name).value = fields[name])
 
-  app.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
+  steps.details.imageUploader.imageURL = `${ASSET_BASE}/tada.png`
 }

@@ -1,0 +1,107 @@
+@import "~styl/colors"
+@import "~styl/fonts"
+
+[data-component="attribute-picker"]
+
+  background-color #fff
+  color mutedTextColor
+  cursor default
+  display block
+  overflow-wrap break-word
+  user-select none
+  white-space pre-wrap
+  word-break break-word
+  word-wrap break-word
+  // Fix animation artifacts.
+  subpixelAntialiasedFonts()
+
+  span
+    subpixelAntialiasedFonts()
+
+  [data-entity-id]
+    display inline-block
+    position relative
+    border-radius 2em
+    padding 0 .5em
+    line-height 1.3
+    font-family inherit
+    cursor pointer
+    box-shadow 0 0 0 1px rgba(mutedTextColor, .5)
+    background #fff
+    color containedTextColor
+
+    &::after
+      content ""
+      display block
+      position absolute
+      border-radius 2em
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+
+    &:focus
+      outline none
+      box-shadow 0 0 2px 1px saturation(brandOrangeDark, 75%)
+
+    &:not(.tracked)
+      &:hover
+        box-shadow 0 0 0 1px rgba(containedTextColor, .8)
+
+    &.tracked
+      background #fff
+      box-shadow 0 0 0 2px brandOrange
+
+      &:focus
+        box-shadow 0 0 2px 2px brandOrangeDark
+
+  .details
+    color darken(mutedTextColor, 20%)
+    font-family sansSerifFonts
+    font-size 1.2em
+    margin 0
+    text-align center
+    white-space normal
+    padding-left 6.5em
+    padding-right @padding-left
+
+    + .details
+      margin-top -2.8em
+
+  [data-chunk-type="param-group"]
+    [data-chunk-type="param-key"]
+      color darkGray
+
+    &.tracked [data-chunk-type="param-key"]
+      color brandOrange
+
+  [data-chunk-type="entity-group"].tracked
+    .hljs-attr, .entity-identifier
+      color brandOrange
+
+  [data-chunk-type="attribute-group"].tracked
+    .hljs-attr
+      color brandOrange
+
+@keyframes highlight-entity
+  0%
+    box-shadow 0 0 0 1px rgba(brandOrange, 0)
+    animation-timing-function ease-in
+
+  50%
+    box-shadow 0 0 0 3px rgba(brandOrange, .5)
+    animation-timing-function ease-out
+
+  100%
+    box-shadow 0 0 0 5px rgba(brandOrange, 0)
+    animation-timing-function ease-out
+
+
+[data-component="application"][data-active-step="schema"]
+  [data-component="attribute-picker"] [data-entity-id]
+    for i in (0..20)
+      &[data-entity-order={'"' + i + '"'}]::after
+        animation highlight-entity 1s ease-in-out
+        animation-fill-mode forwards
+        animation-delay .15s * i

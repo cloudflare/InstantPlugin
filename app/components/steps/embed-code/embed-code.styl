@@ -1,0 +1,37 @@
+@import "~styl/fonts"
+@import "~styl/font-smoothing"
+
+.step[data-step="embedCode"]
+  .step-details
+    justify-content space-between
+
+  .column
+    flex 1 1 auto
+    width 50%
+
+  > .content
+    flex 1 0 auto
+
+  .code-input
+    background #fff
+    flex 1 0 auto
+
+  .demos
+    display block
+    margin-left 2em
+    flex 0 0 auto
+
+    > *
+      display inline-block
+      vertical-align middle
+      font-size .75em
+
+    > span
+      margin-right 1em
+
+  .demo.button
+    padding-left 1em
+    padding-right @padding-left
+
+    + .demo
+      margin-left 1em

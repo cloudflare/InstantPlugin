@@ -4,24 +4,30 @@ const script = String.raw`<iframe id="forecast_embed" type="text/html" framebord
 </iframe>`
 
 export default function runDemo(app) {
-  const {embedCodeInput, locationSelect, pluginDetailsForm} = app.refs
+  const {steps} = app
+  const {attributePicker} = steps.schema
+  const {locationSelect} = steps.schema.refs
+  const {embedCodeInput} = steps.embedCode.refs
+  const {detailsForm} = steps.details.refs
 
   embedCodeInput.autofocus = false
   embedCodeInput.value = script
+  app.$embedCode = embedCodeInput.value
   autosize.update(embedCodeInput)
-  app.parseInput()
+  steps.embedCode.syncButtonState()
 
   locationSelect.value = "body"
 
   const {option_7, option_8, option_9} = app.entities
 
   option_7.title = "Latitude"
-  option_8.title = "Longitude"
-  option_9.title = "Description"
+  attributePicker.toggleEntityTracking(option_7.element)
 
-  app.toggleEntityTracking(option_7.element)
-  app.toggleEntityTracking(option_8.element)
-  app.toggleEntityTracking(option_9.element)
+  option_8.title = "Longitude"
+  attributePicker.toggleEntityTracking(option_8.element)
+
+  option_9.title = "Description"
+  attributePicker.toggleEntityTracking(option_9.element)
 
   const fields = {
     "[name='app[title]']": "Forecast.io",
@@ -31,7 +37,7 @@ export default function runDemo(app) {
 
   Object
     .keys(fields)
-    .forEach(name => pluginDetailsForm.querySelector(name).value = fields[name])
+    .forEach(name => detailsForm.querySelector(name).value = fields[name])
 
-  app.imageUploader.imageURL = `${ASSET_BASE}/forecast.png`
+  steps.details.imageUploader.imageURL = `${ASSET_BASE}/forecast.png`
 }
