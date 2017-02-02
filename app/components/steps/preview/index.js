@@ -18,7 +18,7 @@ export default class PreviewStep extends BaseComponent {
     super(...arguments)
 
     window.addEventListener("message", ({data}) => {
-      if (data.type !== "eager:app-tester:upload-listener-ready") return
+      if (data.type !== "cloudflare-apps:app-creator:upload-listener-ready") return
 
       if (this.deferredIframeCallback) {
         this.deferredIframeCallback()
@@ -50,7 +50,7 @@ export default class PreviewStep extends BaseComponent {
 
     previewIframe.contentWindow.postMessage({
       installJSON: this.$root.$installJSON,
-      type: "eager:app-tester:upload-app"
+      type: "cloudflare-apps:app-creator:upload-app"
     }, "*")
   }
 
@@ -74,7 +74,7 @@ export default class PreviewStep extends BaseComponent {
 
     previewIframe.contentWindow.postMessage({
       styleContent: previewOverrides,
-      type: "eager:app-tester:set-style"
+      type: "cloudflare-apps:app-creator:set-style"
     }, "*")
   }
 
