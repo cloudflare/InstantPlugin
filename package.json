@@ -43,7 +43,7 @@
     "html-loader": "0.4.4",
     "html-webpack-plugin": "2.22.0",
     "jstransformer-marked": "1.0.1",
-    "marked": "0.3.6",
+    "marked": "4.0.10",
     "postcss-loader": "0.13.0",
     "pug": "2.0.0-beta6",
     "pug-loader": "2.3.0",
